@@ -1,2 +1,10 @@
-# 4signalserver
-socket.io server for webrtc signaling
+# classvideo-server
+
+## Install
+```
+npm install -g cnpm
+cnpm install -g typescript
+cnpm install -g ts-node
+cnpm install
+```
+
