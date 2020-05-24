@@ -282,7 +282,7 @@ const getLocalIp = (eth: string) => {
 	const eths= os.networkInterfaces()[eth];
 
 	let localIp = '';
-	eths.forEach(e => {
+	eths && eths.forEach(e => {
 		if(e.family === 'IPv4') {
 			localIp = e.address;
 		}

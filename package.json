@@ -2,7 +2,7 @@
   "name": "classvideo-server",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc; cp start.sh dist/",
     "pack": "webpack"
   },
   "private": true,
