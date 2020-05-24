@@ -1,4 +1,4 @@
-process.title = 'classvideo-server';
+process.title = 'wise-server';
 
 import * as fs from 'fs';
 import * as os from 'os';
@@ -29,7 +29,7 @@ const morgan = require('morgan');
 const logger = new Logger();
 
 yargs.usage('Usage: $0 --cert [file] --key [file] --eth [ethname] --publicIp [ipAdress]')
-.version('classvideo 1.0')
+.version('wise-server 1.0')
 .demandOption(['cert', 'key'])
 .option('cert', {describe : 'ssl certificate file'})
 .option('key', {describe: 'ssl certificate key file'})

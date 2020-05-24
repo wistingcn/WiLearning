@@ -1,8 +1,8 @@
 const debug = require('debug');
-// debug.enable('classvideo-server:* mediasoup:*');
-debug.enable('classvideo-server:*');
+// debug.enable('wise-server:* mediasoup:*');
+debug.enable('wise-server:*');
 
-const APP_NAME = 'classvideo-server';
+const APP_NAME = 'wise-server';
 
 export class Logger
 {
