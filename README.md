@@ -1,4 +1,4 @@
-# classvideo-server
+# wise-server
 
 ## 安装
 ```
