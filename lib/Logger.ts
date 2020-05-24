@@ -1,8 +1,8 @@
 const debug = require('debug');
-// debug.enable('wise-server:* mediasoup:*');
-debug.enable('wise-server:*');
+// debug.enable('wiser-server:* mediasoup:*');
+debug.enable('wiser-server:*');
 
-const APP_NAME = 'wise-server';
+const APP_NAME = 'wiser-server';
 
 export class Logger
 {
