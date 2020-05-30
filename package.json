@@ -1,14 +1,14 @@
 {
-  "name": "classvideo-server",
+  "name": "wiser-server",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc; cp start.sh dist/",
     "pack": "webpack"
   },
   "private": true,
-  "description": "classvideo server",
-  "author": "liwei",
-  "license": "MIT",
+  "description": "Wiser server,Wiser is a dedicated cloud for telecommuting and video conferencing, born for privacy and security.",
+  "author": "liwei<bjliwei@qq.com>",
+  "license": "AGPL",
   "main": "server.ts",
   "dependencies": {
     "base-64": "^0.1.0",
