@@ -1,4 +1,4 @@
-# wise-server
+# wiser-server
 
 ## 安装
 ```
