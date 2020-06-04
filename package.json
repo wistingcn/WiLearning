@@ -2,6 +2,7 @@
   "name": "wiser-server",
   "version": "1.0.0",
   "scripts": {
+		"start": "ts-node server.ts --cert ./certs/rtc.liweix.com.pem --key ./certs/rtc.liweix.com.key",
     "build": "tsc; cp start.sh dist/",
     "pack": "webpack"
   },

@@ -260,14 +260,18 @@ const getIps = async () => {
 	let announcedIp = publicIp;
 
 	if ( !announcedIp ) {
-		const url = 'http://ip.taobao.com/service/getIpInfo.php?ip=myip';
+		const url = 'https://api.ipify.org?format=json';
 		try {
 			const resp = await got(url).json() as any;
-			announcedIp = resp.data.ip;
+			announcedIp = resp.ip;
 		} catch(e) {
-			logger.error('get public ip error! e.message');
-			process.exit(-1);
+			logger.error('get public ip error!', e.message);
 		}
+	}
+
+	if ( !announcedIp ) {
+		logger.error('Got public ip error! exit now!');
+		process.exit(-1);
 	}
 
 	logger.info('localIp: %s, publicIp: %s', localIp, announcedIp);
