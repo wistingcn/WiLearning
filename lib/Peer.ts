@@ -1,7 +1,9 @@
 import { EventEmitter } from 'events';
 import * as socketio from 'socket.io';
-import { Logger } from './Logger';
-const logger = new Logger('Peer');
+
+import { getLogger } from 'log4js';
+const logger = getLogger('Peer');
+
 import { ROLE } from './defines';
 import {types as mediasoupTypes} from 'mediasoup';
 import {Room} from './Room';

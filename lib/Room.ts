@@ -4,8 +4,8 @@ import {lConfig} from '../config/config'
 import {types as mediasoupTypes} from 'mediasoup';
 import { RoomStatus } from './defines';
 
-import { Logger } from './Logger';
-const logger = new Logger('Room');
+import { getLogger } from 'log4js';
+const logger = getLogger('Room');
 
 const audioCodecs: mediasoupTypes.RtpCodecCapability = {
 	kind: 'audio',

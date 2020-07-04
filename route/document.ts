@@ -1,7 +1,9 @@
 const multer = require('multer');
 import express from 'express';
-import {Logger} from '../lib/Logger';
-const logger = new Logger('uploadRouter');
+
+import { getLogger } from 'log4js';
+const logger = getLogger('route/document');
+
 import fs from 'fs';
 import { ClaDocPages, ClaRoom, ClaDocs } from '../model/model';
 import crypto from 'crypto';

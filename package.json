@@ -1,13 +1,13 @@
 {
-  "name": "wiser-server",
+  "name": "wisting-meeting",
   "version": "1.0.0",
   "scripts": {
-		"start": "ts-node server.ts --cert ./certs/rtc.liweix.com.pem --key ./certs/rtc.liweix.com.key",
+    "start": "ts-node server.ts --cert ./certs/rtc.liweix.com.pem --key ./certs/rtc.liweix.com.key",
     "build": "tsc; cp start.sh dist/",
     "pack": "webpack"
   },
   "private": true,
-  "description": "Wiser server,Wiser is a dedicated cloud for telecommuting and video conferencing, born for privacy and security.",
+  "description": "Wisting-meeting is a dedicated cloud for telecommuting and video conferencing, born for privacy and security.",
   "author": "liwei<bjliwei@qq.com>",
   "license": "AGPL",
   "main": "server.ts",
@@ -24,6 +24,7 @@
     "express-session": "^1.17.0",
     "got": "^10.5.5",
     "helmet": "^3.21.2",
+    "log4js": "^6.3.0",
     "mediasoup": "^3.0.12",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",

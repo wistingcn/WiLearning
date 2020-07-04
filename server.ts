@@ -1,4 +1,4 @@
-process.title = 'wiser-server';
+process.title = 'wisting-meeting';
 
 import * as fs from 'fs';
 import * as os from 'os';
@@ -11,7 +11,11 @@ import { Peer } from './lib/Peer';
 import { createConnection } from 'typeorm';
 import * as socketio from 'socket.io';
 import yargs from 'yargs';
-import { Logger } from './lib/Logger';
+
+import { getLogger, configure } from 'log4js';
+configure('./log4js.json');
+const logger = getLogger('Server');
+
 import { docRouter } from './route/document';
 import { avatarRouter } from './route/avatar';
 import { roomRouter } from './route/room';
@@ -26,10 +30,9 @@ const mediasoup = require("mediasoup");
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const morgan = require('morgan');
-const logger = new Logger();
 
 yargs.usage('Usage: $0 --cert [file] --key [file] --eth [ethname] --publicIp [ipAdress]')
-.version('wiser-server 1.0')
+.version('Wisting-meeting v1.0')
 .demandOption(['cert', 'key'])
 .option('cert', {describe : 'ssl certificate file'})
 .option('key', {describe: 'ssl certificate key file'})

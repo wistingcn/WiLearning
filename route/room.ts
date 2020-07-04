@@ -1,6 +1,7 @@
 import express from 'express';
-import {Logger} from '../lib/Logger';
-const logger = new Logger('roomRouter');
+import { getLogger } from 'log4js';
+const logger = getLogger('route/room');
+
 import { ClaRoom } from '../model/model';
 import { Room } from '../lib/Room';
 import * as CryptoJs from 'crypto-js';
