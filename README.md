@@ -1,4 +1,4 @@
-# wiser-server
+# WiMeeting
 
 ## 安装
 ```
@@ -20,7 +20,7 @@ npm run build
 # 生成的NodeJS文件位于dist目录
 cd dist
 
-# 运行wise-server
+# 运行server
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key
 
 # 如果获取公网IP地址失败,则可以使用--publicIp 手动提供公网IP地址

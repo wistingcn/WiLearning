@@ -1,4 +1,4 @@
-process.title = 'wisting-meeting';
+process.title = 'WiMeeting';
 
 import * as fs from 'fs';
 import * as os from 'os';
