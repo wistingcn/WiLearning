@@ -8,24 +8,16 @@ WiMeeting 服务器端使用Typescript + Nodejs + MediaSoup开发,Web端使用An
 * 独立部署 - 安装简单,对外部工具没有依赖，可以独立部署于Linux/Mac服务器上
 * 全终端支持 - 支持PC/Android/IOS平台，自动适配Pad平板电脑
 
-# 安装
+# 安装&运行
+支持Linux/Mac操作系统,要求Nodejs版本大于V12.
 ```
 npm install -g cnpm
-cnpm install
+./build-all.sh
 ```
 
-# 运行
-## 使用ts-node
+## 运行
+代码里提供了示例SSL证书,实际运行时,请提供自己的证书,证书要与访问域名一致.
 ```
-sudo npm start
-```
-
-## 或者使用NodeJs
-```
-# 生成NodeJS文件
-npm run build
-
-# 生成的NodeJS文件位于dist目录
 cd dist
 
 # 运行server
@@ -37,3 +29,12 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ./start.sh
 
 ```
+
+## 浏览器访问
+在浏览器中打开admin地址:
+```
+https://x.x.x.x/admin/
+```
+
+在Admin界面创建房间,通过Admin界面跳转到房间地址
+

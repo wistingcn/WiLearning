@@ -62,6 +62,7 @@
   },
  "exclude": [                                 // 指定一个排除列表（include的反向操作）
     "node_modules",
-		"web"
+		"web",
+		"admin"
   ]
 }
