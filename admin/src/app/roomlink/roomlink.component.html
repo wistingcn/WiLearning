@@ -1,0 +1,44 @@
+<div mat-dialog-title>
+    <h1 mat-dialog-title>{{room.name}}</h1>
+</div>
+<div mat-dialog-content>
+    <mat-card class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>
+                {{i18n.lang.speaker}}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span id="speakerUrl">
+                {{speakerUrl}}
+            </span>
+            <button color="accent" class="btn-speaker" data-clipboard-target="#speakerUrl" mat-raised-button>{{i18n.lang.copy}}</button>
+            <button color="accent" mat-raised-button (click)="openSpeakerUrl()">{{i18n.lang.open}}</button>
+        </mat-card-content>
+        <mat-card-content>
+            <span>{{i18n.lang.password}}: {{room.speakerPassword}}</span>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>
+                {{i18n.lang.attendee}}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span id="attendeeUrl">
+                {{attendeeUrl}}
+            </span>
+            <button color="accent" class="btn-attendee" data-clipboard-target="#attendeeUrl" mat-raised-button>{{i18n.lang.copy}}</button>
+            <button color="accent" mat-raised-button (click)="openAttendeeUrl()">{{i18n.lang.open}}</button>
+        </mat-card-content>
+        <mat-card-content>
+            <span>{{i18n.lang.password}}: {{room.attendeePassword}}</span>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="accent" (click)="dialogRef.close()">{{i18n.lang.close}}</button>
+</div>
+    

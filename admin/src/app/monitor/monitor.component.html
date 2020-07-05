@@ -1,0 +1,57 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span>ID</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{i18n.lang.whetherClose}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{i18n.lang.classStatus}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{i18n.lang.peersNumber}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{i18n.lang.durationTime}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{i18n.lang.lastActionTime}}</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngFor="let room of rooms$|async" (opened)="openDetail(room)">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{room.id}}
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{room.closed}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{room.status}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{room.peers.length}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{room.duration/60|number:'1.0-0'}}</span>
+            </mat-panel-title>
+            <mat-panel-title>
+                <span>{{room.lastActive/60|number: '1.0-0'}}</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-panel-description *ngFor="let peer of roomDetail">
+            <span class='peerinfo'>{{peer.displayName}}</span>
+            <span class='peerinfo'>{{peer.id}}</span>
+            <span class='peerinfo'>{{peer.roler === 1 ? 'Speaker': 'Attendee'}}</span>
+            <span class='peerinfo'>{{peer.platform}}</span>
+            <span class='peerinfo'>{{peer.address}}</span>
+            <span class='peerinfo'>{{peer.durationTime / 60 | number:'1.0-0'}}</span>
+            <span class='peerinfo'>Transport:{{peer.transports.length}}</span>
+            <span class='peerinfo'>Producer:{{peer.producers.length}}</span>
+            <span class='peerinfo'>Consmer:{{peer.consumers.length}}</span>
+        </mat-panel-description>
+    </mat-expansion-panel>
+</mat-accordion>

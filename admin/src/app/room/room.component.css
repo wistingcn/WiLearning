@@ -1,0 +1,16 @@
+:host {
+    display: block;
+    margin: 24px;
+  }
+  
+  button {
+    margin: 0 16px 16px 0;
+  }
+  
+  table {
+    width: 100%;
+  }
+
+  .mat-column-select {
+    overflow: initial;
+  }

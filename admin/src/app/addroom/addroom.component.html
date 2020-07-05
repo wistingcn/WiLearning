@@ -1,0 +1,46 @@
+<div mat-dialog-title>
+    <h1
+        *ngIf="!optUpdate"
+        mat-dialog-title>{{i18n.lang.createRoom}}</h1>
+    <h1
+        *ngIf="optUpdate"
+        mat-dialog-title>{{i18n.lang.updateRoom}}</h1>
+</div>
+<div mat-dialog-content style="height: 100%">
+    <form [formGroup]="roomForm" (ngSubmit)="create()">
+            <mat-form-field class="display-block">
+                <input type="text" [placeholder]="i18n.lang.roomName" formControlName="name" required matInput>
+            </mat-form-field>
+        
+            <mat-form-field class="display-block">
+                <input type="text" [placeholder]="i18n.lang.speakerPasswordInput" formControlName="speakerPassword" matInput>
+            </mat-form-field>
+        
+            <mat-form-field class="display-block">
+            <input type="text" [placeholder]="i18n.lang.attendeePasswordInput" formControlName="attendeePassword" matInput>
+            </mat-form-field>
+            <button #formButton type="submit" style="display: none"></button>
+    </form>
+    <div style="margin-top:20px;">
+        {{i18n.lang.roomDesc}} :
+        <quill-editor
+            [(ngModel)]="description"
+            [placeholder]="i18n.lang.roomDesc"
+            ></quill-editor>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="accent"
+        *ngIf="!optUpdate"
+        (click)="formButton.click()"
+        [disabled]="!roomForm.valid">
+        {{i18n.lang.create}}
+    </button>
+    <button mat-raised-button color="accent"
+        *ngIf="optUpdate"
+        (click)="formButton.click()"
+        [disabled]="!roomForm.valid">
+        {{i18n.lang.update}}
+    </button>
+    <button mat-raised-button color="accent" (click)="dialogRef.close()">{{i18n.lang.close}}</button>
+</div>
