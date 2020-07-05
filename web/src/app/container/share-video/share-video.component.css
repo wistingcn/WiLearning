@@ -1,0 +1,12 @@
+.video-view{
+  height: 70vh;
+  border-bottom: 1px solid;
+  margin-bottom: 5px;
+  background-color: white;
+  width: 70vw;
+}
+
+video {
+  height: 100%;
+  width: 100%
+}

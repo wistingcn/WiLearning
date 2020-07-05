@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>{{stream.peer.displayName}} {{source}}</h1>
+<div mat-dialog-content>
+  <div>
+    <div>
+      <label>Video Codec: </label><span>{{videoCodec}}</span>
+    </div>
+    <div>
+      <label>Video Resolution: </label><span>{{videoWidth}}*{{videoHeight}}</span>
+    </div>
+    <div>
+      <label>Video FrameRate: </label><span>{{videoFrameRate}}</span>
+    </div>
+    <div>
+      <label>Video Recv: </label><span>{{videoKbpsRecv}} kbps</span>
+    </div>
+    <div *ngIf="outboundRtpVideoStream">
+      <label>Video Send: </label><span>{{videoKbpsSent}} kbps</span>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <div>
+      <label>Audio Codec: </label><span>{{audioCodec}}</span>
+    </div>
+    <div>
+      <label>Audio Recv: </label><span>{{audioKbpsRecv}} kbps</span>
+    </div>
+    <div *ngIf="outboundRtpAudioStream">
+      <label>Audio Send : </label><span>{{audioKbpsSent}} kbps</span>
+    </div>
+  </div>
+  <canvas id="myChart" width="250" height="180"></canvas>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <span></span>
+  <button fxFlexAlign="end" mat-raised-button color="accent" (click)="close()">{{i18n.lang.close}}</button>
+</div>

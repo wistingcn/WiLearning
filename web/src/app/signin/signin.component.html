@@ -1,0 +1,45 @@
+<div class="sigin-container" fxLayout="row" fxLayoutAlign="center center">
+  <div class="signin-cover" fxFlex="50" fxFlex.gt-xs="60">
+      <img src="/web/assets/images/signin.svg" alt="">
+  </div>
+  <div class="signin-content mat-elevation-z12" fxFlex="40" fxFlex.gt-xs="30">
+    <mat-card-title>{{i18n.lang.userLogin}}</mat-card-title>
+
+    <form [formGroup]="userForm" (ngSubmit)="login()">
+      <mat-form-field class="display-block" *ngIf="!username">
+        <input type="text" [placeholder]="i18n.lang.inputUsername" formControlName="user" required matInput>
+      </mat-form-field>
+
+      <mat-form-field class="display-block" *ngIf="!password">
+        <input type="password" [placeholder]="i18n.lang.inputPassword" formControlName="password" required matInput>
+      </mat-form-field>
+
+      <ng-container *ngIf="!room">
+        <mat-form-field class="display-block">
+          <input type="text" [placeholder]="i18n.lang.inputRoom" formControlName="room" required matInput>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngIf="!roler">
+        <mat-form-field class="display-block">
+          <select formControlName="roles" matNativeControl [placeholder]="i18n.lang.selectRole">
+            <option [value]="1" >{{i18n.lang.roleSpeaker}}</option>
+            <option [value]="2" >{{i18n.lang.roleAttendee}}</option>
+          </select>
+        </mat-form-field>
+      </ng-container>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button fxFlex="40" mat-raised-button color="primary" type="submit"
+          [disabled]="!userForm.valid"
+          >{{i18n.lang.login}}</button>
+        <div fxFlex="30"></div>
+        <mat-select fxFlex="30" [(value)]="selectedLang"  (selectionChange)="langSelect()">
+          <mat-option value="en">English</mat-option>
+          <mat-option value="cn">中文</mat-option>
+        </mat-select>
+      </div>
+    </form>
+  </div>
+  <div fxFlex="10" ></div>
+</div>

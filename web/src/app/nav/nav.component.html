@@ -1,0 +1,72 @@
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened [disableClose]= "true" class="left-sidenav" color="primary">
+      <app-leftside></app-leftside>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav class="sidenav"
+          [(opened)]="profile.videoNav"
+          mode="side" fxLayout="column">
+          <div fxLayout="column" fxFlex class="mat-app-background">
+            <app-video></app-video>
+          <mat-tab-group mat-stretch-tabs fxFlex>
+              <mat-tab fxLayout="column">
+                <ng-template mat-tab-label>
+                  <mat-icon color="primary">chat</mat-icon>{{i18n.lang.chat}}
+                </ng-template>
+                <app-chat ></app-chat>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon color="primary">supervisor_account</mat-icon>
+                    <span
+                      [matBadge]="memberBadgeNum"
+                      matBadgeColor="warn"
+                      matBadgeOverlap="false"
+                      *ngIf="profile.privilege.classControl &&  memberBadgeNum">
+                      {{i18n.lang.member}}({{peer.peersInfo.length}})
+                    </span>
+                    <span *ngIf="!memberBadgeNum">
+                      {{i18n.lang.member}}({{peer.peersInfo.length}})
+                    </span>
+                </ng-template>
+                <app-member></app-member>
+              </mat-tab>
+          </mat-tab-group>
+          </div>
+        </mat-sidenav>
+        <mat-sidenav-content fxLayout="column" fxFlexAlign="start stretch">
+          <app-top-video *ngIf="peer.peerStreams.length"></app-top-video>
+          <ng-container *ngIf="profile.privilege.draw">
+              <app-drawtool></app-drawtool>
+          </ng-container>
+          <mat-tab-group headerPosition='below' fxFlex
+            (selectedIndexChange)="tabIndexChange($event)"
+            [selectedIndex]="eventbus.selectedTab.value">
+              <mat-tab *ngFor="let tab of tabs">
+                <ng-template mat-tab-label>
+                  <mat-icon color="primary">book</mat-icon>
+                  <span contenteditable="true"
+                    [id]="getTabId(tab.index)"
+                    (blur)="tabHeaderChange(tab.index, $event)"
+                    (keydown.enter)="$event.target.blur()"
+                    >{{tab.header}}</span>
+                </ng-template>
+                <app-document fxFlex [tab]="tab" (newTabDoc)="newTabDoc(tab.index, $event)"></app-document>
+              </mat-tab>
+              <mat-tab [disabled]="true" *ngIf="profile.privilege.draw">
+                <ng-template mat-tab-label>
+                  <button mat-icon-button
+                    color="accent"
+                    [matTooltip]="i18n.lang.addNewTab"
+                    (click)="addNavTab()">
+                    <mat-icon class="material-icons md-36 md-dark">add</mat-icon>
+                  </button>
+                </ng-template>
+              </mat-tab>
+          </mat-tab-group>
+
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

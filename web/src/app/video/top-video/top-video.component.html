@@ -1,0 +1,28 @@
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
+  <ng-container *ngFor="let stream of peer.peerStreams">
+    <div class="video-wrapper">
+        <video
+          [srcObject]="stream"
+          *ngIf="stream.peer.enableCam"
+          autoplay></video>
+        <div class="videoCover"
+          *ngIf="!stream.peer.enableCam"
+          fxLayout="column" fxLayoutAlign="center center" >
+          <mat-icon class="md-48 md-light">videocam_off</mat-icon>
+        </div>
+
+        <div class="video-description" fxLayout="row" fxLayoutAlign="space-between center">
+          <span style="color: white">{{stream.peer.displayName}}</span>
+          <mat-icon
+            *ngIf="stream.peer.enableMic && stream.audioConsumer"
+            [ngClass]="{'md-light': stream.volume>10}"
+            >mic</mat-icon>
+          <mat-icon
+            *ngIf="!stream.peer.enableMic && stream.audioConsumer"
+            class="md-light"
+            >mic_off</mat-icon>
+        </div>
+        <div class="volume" [ngStyle]="{'height.%': stream.volume}"></div>
+    </div>
+  </ng-container>
+</div>

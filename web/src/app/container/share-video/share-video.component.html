@@ -1,0 +1,29 @@
+<div fxLayout="column" fxLayoutAlign="start center" class="mat-app-background" cdkDrag>
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="height: 50px">
+    <span>{{shareVideoFile?.name}}</span>
+    <button mat-icon-button (click)="close()" color="warn">
+      <mat-icon class="md-36">close</mat-icon>
+    </button>
+  </div>
+
+  <div class="video-view" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <input ngfSelect type='file'
+      #input
+      hidden
+      ngf [(file)]="shareVideoFile"
+      accept='video/mp4'
+      (filesChange)="selectFile(shareVideoFile)"/>
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <ng-container *ngIf="!shareVideoFile">
+        <button mat-icon-button (click)="input.click()" color="accent">
+          <mat-icon class="md-36">add</mat-icon>
+        </button>
+        <span>{{i18n.lang.addMp4File}}</span>
+      </ng-container>
+    </div>
+    <ng-container *ngIf="bShareObjSrc">
+      <video #exportvideo loop autoplay controls></video>
+    </ng-container>
+  </div>
+</div>

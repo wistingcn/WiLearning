@@ -1,0 +1,47 @@
+<div fxLayout="column" class="doc-item-container">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button color="accent" mat-icon-button [matTooltip]="i18n.lang.addNewFile" (click)="input.click()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <perfect-scrollbar #scrollbar>
+    <div class="doc-item"
+      [class.doc-item-selected]="doc.id === docSelected?.id"
+      fxLayout="row"
+      fxLayoutAlign="start start"
+      fxLayoutGap="30px"
+      *ngFor="let doc of docList"
+      (click)="docSelect(doc)">
+        <mat-icon color="primary" matListIcon>folder</mat-icon>
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <span>{{doc.fileName}}</span>
+          <span class="doc-item-time">{{doc.uploadTime|date}}</span>
+        </div>
+    </div>
+  </perfect-scrollbar>
+
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <input ngfSelect type='file'
+      #input
+      hidden
+      ngf [(file)]="pdfFile"
+      accept='application/pdf'
+      (filesChange)="addFile(pdfFile)"/>
+
+    <ng-container *ngIf="transStart">
+      <mat-spinner diameter="30"></mat-spinner>
+      <span>{{message}}</span>
+    </ng-container>
+
+    <span fxFlex></span>
+    <button color="accent" mat-raised-button (click)="docOpen()" [disabled]="!docSelected">
+      {{i18n.lang.open}}
+    </button>
+
+    <button color="accent" mat-raised-button (click)=onClose()>
+      {{i18n.lang.close}}
+    </button>
+  </div>
+</div>

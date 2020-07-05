@@ -1,0 +1,105 @@
+<mat-toolbar class="toolbar" color="primary"  fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="start center" >
+    <button color="accent"  mat-icon-button
+      [matTooltip]="i18n.lang.addOrOpenDoc"
+      (click)="openFileDialog()">
+      <mat-icon>folder_open</mat-icon>
+    </button>
+    <button color="accent"  mat-icon-button (click)="drawtool.document.viewDocList()">
+      <mat-icon>view_list</mat-icon>
+    </button>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" >
+    <button color="accent" mat-icon-button (click)="prevPage()" [disabled]="pageButtonValid">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <span>{{drawtool.document?.pageNum||0}} / {{drawtool.document?.numPages||0}}</span>
+    <button color="accent" mat-icon-button (click)="nextPage()" [disabled]="pageButtonValid">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" >
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" >
+    <button color="accent"  mat-icon-button [matMenuTriggerFor]="menuColor">
+      <div class="drawtool-color" [ngStyle]="{'background-color': drawtool.color}"></div>
+    </button>
+    <mat-menu #menuColor="matMenu">
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('black')">
+        <div class="drawtool-color" style="background-color: black"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('red')">
+        <div class="drawtool-color" style="background-color: red"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('blue')">
+        <div class="drawtool-color" style="background-color: blue"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('green')">
+        <div class="drawtool-color" style="background-color: green"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('yellow')">
+        <div class="drawtool-color" style="background-color: yellow"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('purple')">
+        <div class="drawtool-color" style="background-color: purple"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="colorSelect('plum')">
+        <div class="drawtool-color" style="background-color:plum"></div>
+      </button>
+    </mat-menu>
+    <button color="accent"  mat-icon-button [matMenuTriggerFor]="menuLineWeight">
+      <div class="drawtool-line-weight" [ngStyle]="{'height': drawtool.lineWeight + 'px'}"></div>
+    </button>
+    <mat-menu #menuLineWeight="matMenu">
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="lineWeightSelect(1)">
+        <div class="drawtool-line-weight" style="height: 1px;"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="lineWeightSelect(2)">
+        <div class="drawtool-line-weight" style="height: 2px;"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="lineWeightSelect(4)">
+        <div class="drawtool-line-weight" style="height: 4px;"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="lineWeightSelect(8)">
+        <div class="drawtool-line-weight" style="height: 8px;"></div>
+      </button>
+      <button color="accent"  class="drawtool-button" mat-menu-item (click)="lineWeightSelect(12)">
+        <div class="drawtool-line-weight" style="height: 12px;"></div>
+      </button>
+    </mat-menu>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" >
+    <button color="accent"  mat-icon-button
+      [class.drawtool-selected]="drawtool.selectedTool === 'select'"
+      (click)="drawtool.setDrawSelect()">
+      <img src="/web/assets/images/cursor.png" style="height: 70%; width:70%"/>
+    </button>
+    <button color="accent"  mat-icon-button
+      [class.drawtool-selected]="drawtool.selectedTool === 'rect'"
+      (click)="drawtool.setDrawRect()">
+      <mat-icon>crop_5_4</mat-icon>
+    </button>
+    <button color="accent"  mat-icon-button
+      [class.drawtool-selected]="drawtool.selectedTool === 'line'"
+      (click)="drawtool.setDrawLine()">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button color="accent"  mat-icon-button
+      [class.drawtool-selected]="drawtool.selectedTool === 'text'"
+      (click)="drawtool.setDrawText()">
+      <mat-icon>text_fields</mat-icon>
+    </button>
+    <button color="accent"  mat-icon-button
+      [class.drawtool-selected]="drawtool.selectedTool === 'free'"
+      (click)="drawtool.setDrawFree()">
+      <mat-icon>gesture</mat-icon>
+    </button>
+
+    <button color="accent"  mat-icon-button
+      (click)="drawtool.delObject()">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+    </div>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,49 @@
+<div>
+  <ng-container *ngIf="profile.started">
+      <div *ngFor="let stream of peer.speakerStreams"  class="video-wrapper" cdkDrag>
+        <video [srcObject]="stream"
+          controls
+          autoplay
+          [ngClass]="{'video-filter': profile.room.videoFilter}"
+          *ngIf="stream.peer.enableCam">
+        </video>
+
+        <div class="videoCover" *ngIf="!stream.peer.enableCam" fxLayout="column" fxLayoutAlign="center center" >
+          <mat-icon class="md-48 md-light">videocam_off</mat-icon>
+        </div>
+
+        <img class="video-logo"
+          [src]="profile.room.logoUrl"
+          *ngIf="profile.room.logoUrl">
+
+        <div class="video-description" fxLayout="row" fxLayoutAlign="space-between center">
+          <span style="color: white">{{stream.peer.displayName}}</span>
+          <button mat-icon-button color="accent"
+            (click)="streamInfoDialog(stream)"
+            >
+            <mat-icon>info</mat-icon>
+          </button>
+          <mat-icon
+            *ngIf="stream.peer.enableMic && stream.audioConsumer"
+            [ngClass]="{'md-light': stream.volume>10}"
+            >mic</mat-icon>
+          <mat-icon
+            *ngIf="!stream.peer.enableMic && stream.audioConsumer"
+            class="md-light"
+            >mic_off</mat-icon>
+        </div>
+
+        <div class="volume" [ngStyle]="{'height.%': stream.volume}"></div>
+      </div>
+  </ng-container>
+  <video [srcObject]="peer.localStream"
+    controls
+    autoplay
+    [ngClass]="{'video-filter': profile.room.videoFilter}"
+    *ngIf="!profile.started && profile.privilege.classControl">
+  </video>
+  <div class="videoCover" fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="!profile.started && !profile.privilege.classControl">
+    <div>{{i18n.lang.waitForStart}}</div>
+  </div>
+</div>

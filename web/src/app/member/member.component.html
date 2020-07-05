@@ -1,0 +1,49 @@
+<div *ngFor="let member of peer.peersInfo">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap='20px'>
+    <div>
+      <img class="member-avatar" [src]="member.picture" />
+      <span>{{member.displayName}}</span>
+    </div>
+    <mat-icon color="primary" *ngIf="member.roler===1">record_voice_over</mat-icon>
+
+    <button mat-icon-button
+      color="accent"
+      [matTooltip]="i18n.lang.acceptConnectVideo"
+      *ngIf="member.connectVideoStatus === 'requested' && profile.privilege.classControl"
+      (click)="connectApproval(member.id, 1)">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-icon-button
+      color="accent"
+      [matTooltip]="i18n.lang.refuseConnectVideo"
+      *ngIf="member.connectVideoStatus === 'requested' && profile.privilege.classControl"
+      (click)="connectApproval(member.id, 0)">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button mat-icon-button
+      color="accent"
+      [matTooltip]="i18n.lang.disconnectVideo"
+      *ngIf="profile.privilege.classControl && member.connectVideoStatus === 'connected' && member.id !== profile.me.id"
+      (click)="disconnectVideo(member.id)">
+      <mat-icon>cancel</mat-icon>
+    </button>
+
+    <mat-icon color="primary" *ngIf="member.connectVideoStatus==='connected'">videocam</mat-icon>
+
+    <mat-icon color="primary"
+      [matTooltip]="member.id"
+      *ngIf="member.platform==='chrome'">laptop_chromebook</mat-icon>
+    <mat-icon color="primary"
+      [matTooltip]="member.id"
+      *ngIf="member.platform==='mac'">laptop_mac</mat-icon>
+    <mat-icon color="primary"
+      [matTooltip]="member.id"
+      *ngIf="member.platform==='pc'">computer</mat-icon>
+    <mat-icon color="primary"
+      [matTooltip]="member.id"
+      *ngIf="member.platform==='android'">phone_android</mat-icon>
+    <mat-icon color="primary"
+      [matTooltip]="member.id"
+      *ngIf="member.platform==='ios'">phone_iphone</mat-icon>
+  </div>
+</div>

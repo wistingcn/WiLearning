@@ -1,0 +1,46 @@
+#can {
+  display: block;
+}
+
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 180px;
+}
+
+img:hover {
+  -moz-box-shadow: 0 0 10px #ccc;
+  -webkit-box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 10px #ccc;
+  border: 1px solid blue;
+}
+
+.img-selected {
+  -moz-box-shadow: 0 0 10px #ccc;
+  -webkit-box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 10px #ccc;
+  border: 1px solid blue;
+}
+
+.docoment-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.announcement {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: gray;
+  color: white;
+  z-index: 9999;
+  opacity: 0.8;
+}
+.scroller {
+  position: relative;
+  height: 100%;
+}
