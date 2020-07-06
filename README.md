@@ -15,7 +15,12 @@ WiMeeting是一个开源、免费的在线学习及视频会议系统。WiMeetin
 支持Linux/Mac操作系统,要求Nodejs版本大于V12.
 ```
 npm install -g cnpm
-./build-all.sh
+
+# 构建所有
+./build.sh all
+
+# 只构建Web端，支持单独构建server/web/admin
+./build.sh web
 ```
 
 ## 运行
@@ -23,14 +28,14 @@ npm install -g cnpm
 ```
 cd dist
 
-# 运行server
+# 方法一： 运行server
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key
 
 # 如果获取公网IP地址失败,则可以使用--publicIp 手动提供公网IP地址
+node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --publicIp x.x.x.x
 
-## 也可以直接运行start.sh
+# 方法二： 直接运行start.sh(使用默认证书)
 ./start.sh
-
 ```
 
 ## 浏览器访问
@@ -42,12 +47,11 @@ https://x.x.x.x/admin/
 
 在Admin界面创建房间,通过Admin界面跳转到房间地址，多人登录到同一个房间即可开始视频会议。
 
-# 参与开发
-您可以通过以下方式参与WiMeeting的开发：
+# 支持WiMeeting
+毫无疑问，WiMeeting的成长需要你的支持，你可以通过以下方式支持WiMeeting：
 * 使用WiMeeting，提Bug以及改进建议
-* 提您的需求。我们不一定会接受所有需求，但所有需求都会认真分析并给予回复
-* 贡献您的代码
-* 加入WiMeeting团队，如果您具备Angular或者Nodejs技能，对WebRTC技术感兴趣，欢迎加入我们。请给linewei@gmail.com发邮件。
+* 提需求。我们不一定会接受所有需求，但所有需求都会认真分析并给予回复
+* 将WiMeeting推荐给你的同事或老板，并为WiMeeting加颗星
 
 # Roadmap
 Wisting的愿景是打造一个面向未来的远程办公、远程教学私有云系统，它应该具备以下特性：
@@ -55,3 +59,10 @@ Wisting的愿景是打造一个面向未来的远程办公、远程教学私有�
 * 高质量音视频通话，能够兼容多种网络
 * 提供一套适用于远程办公的协同工具
 * 在实时音视频中整合VR/AR，提供超出现实的视觉效果
+
+# 合作
+* 定制化需求，我们接受与特定业务相关的定制化需求，但是要收取少量费用
+* 投资Wisting，Wisting团队正在寻求天使投资
+如果你有上述合作意向，请发邮件到 linewei@gmail.com
+
+# 技术交流

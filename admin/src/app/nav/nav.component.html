@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Classvideo Admin</mat-toolbar>
+    <mat-toolbar>WiMeeting Admin</mat-toolbar>
     <mat-nav-list>
         <a mat-list-item routerLink="/nav/room" [class.active]="redirectedUrl === '/nav/room'">
           <mat-icon matListIcon>home</mat-icon>
