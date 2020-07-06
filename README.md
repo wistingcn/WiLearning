@@ -38,8 +38,8 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 # 方法二： 直接运行start.sh(使用默认证书)
 ./start.sh
 ```
-![image](https://github.com/wistingcn/WiMeeting/blob/master/res/admin.png)
-![image](https://github.com/wistingcn/WiMeeting/blob/master/res/web.png)
+![Admin 截图](res/admin.png?raw=true)
+![Web 截图](res/web.png?raw=true)
 
 ## 浏览器访问
 WiMeeting支持Chrome、FireFox浏览器，推荐使用最新版本的Chrome浏览器。
