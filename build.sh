@@ -73,7 +73,7 @@ case "$1" in
 		build_admin
 	;;
 	web)
-		rm -rf dist/admin
+		rm -rf dist/web
 		build_web
 	;;
 	*)
