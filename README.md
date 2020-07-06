@@ -1,5 +1,5 @@
 # WiMeeting
-WiMeeting是一个在线学习及视频会议系统。WiMeeting核心是使用了WebRTC技术，服务器端使用Typescript + Nodejs开发,Web端使用Angular + Angular Material，目前具备以下功能：
+WiMeeting是一个开源、免费的在线学习及视频会议系统。WiMeeting音视频模块使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaSoup开发,Web端使用Angular + Angular Material，目前具备以下功能：
 * 多人视频会议 - 进行多人实时音视频及文字互动
 * 共享桌面 - 共享自己的桌面内容
 * 共享媒体 - 共享自己电脑上的音频或视频
@@ -34,6 +34,7 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ```
 
 ## 浏览器访问
+WiMeeting支持Chrome、FireFox浏览器，推荐使用最新版本的Chrome浏览器。
 在浏览器中打开admin地址:
 ```
 https://x.x.x.x/admin/
