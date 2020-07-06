@@ -111,7 +111,7 @@ export class PdfService {
     canvas.height = viewport.height;
     canvas.width = viewport.width;
 
-    await page.render({ canvasContext: context, viewport });
+    await page.render({ canvasContext: context, viewport }).promise;
     const blob: Blob = await new Promise(resolve => canvas.toBlob(resolve));
 
     const pageName = fileName + '-' + pageNum.toString();
