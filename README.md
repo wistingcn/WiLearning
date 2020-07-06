@@ -12,7 +12,7 @@ WiMeeting是一个开源、免费的在线学习及视频会议系统。WiMeetin
 * 独立部署 - 安装简单,对外部工具没有依赖，可以独立部署于Linux/Mac服务器上
 * 全终端支持 - 支持PC/Android/IOS平台，自动适配Pad平板电脑
 
-# 安装&运行
+# 安装
 支持Linux/Mac操作系统,要求Nodejs版本大于V12.
 ```
 npm install -g cnpm
@@ -24,7 +24,7 @@ npm install -g cnpm
 ./build.sh web
 ```
 
-## 运行
+# 运行
 代码里提供了示例SSL证书,实际运行时,请提供自己的证书,证书要与访问域名一致.
 ```
 cd dist
@@ -38,6 +38,8 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 # 方法二： 直接运行start.sh(使用默认证书)
 ./start.sh
 ```
+![image](https://github.com/wistingcn/WiMeeting/blob/master/res/admin.png)
+![image](https://github.com/wistingcn/WiMeeting/blob/master/res/web.png)
 
 ## 浏览器访问
 WiMeeting支持Chrome、FireFox浏览器，推荐使用最新版本的Chrome浏览器。
