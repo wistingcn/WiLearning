@@ -150,7 +150,7 @@ export class Room extends EventEmitter {
 		const lastActive = (Date.now() - this.activeTime) / 1000; // seconds
 		if ( lastActive > 2 * 60 * 60 ) { // 2 hours not active
 			logger.warn('room %s too long no active!, now close it, lastActive: %s', this.id, lastActive);
-			//this.close();
+			this.close();
 		}
 	}
 
