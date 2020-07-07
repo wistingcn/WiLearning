@@ -1,5 +1,5 @@
-# WiMeeting
-WiMeeting Web 客户端，使用最新版本的Angular + Angular Material构建。
+# WiLearning
+WiLearning Web 客户端，使用最新版本的Angular + Angular Material构建。
 
 # 编译
 安装依赖包：

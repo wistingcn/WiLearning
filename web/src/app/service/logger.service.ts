@@ -15,8 +15,8 @@
 import { Injectable } from '@angular/core';
 import debug from 'debug';
 
-const APP_NAME = 'WiMeeting';
-localStorage.debug = 'mediasoup-client:* WiMeeting:*';
+const APP_NAME = 'WiLearning';
+localStorage.debug = 'mediasoup-client:* WiLearning:*';
 
 @Injectable({
   providedIn: 'root'

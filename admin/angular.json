@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "wimeeting-admin": {
+    "WiLearning-admin": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "wimeeting-admin:build"
+            "browserTarget": "WiLearning-admin:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "wimeeting-admin:build:production"
+              "browserTarget": "WiLearning-admin:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "wimeeting-admin:build"
+            "browserTarget": "WiLearning-admin:build"
           }
         },
         "test": {
@@ -112,16 +112,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "wimeeting-admin:serve"
+            "devServerTarget": "WiLearning-admin:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "wimeeting-admin:serve:production"
+              "devServerTarget": "WiLearning-admin:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "wimeeting-admin"
+  "defaultProject": "WiLearning-admin"
 }

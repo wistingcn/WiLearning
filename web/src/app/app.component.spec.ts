@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'WiMeeting'`, () => {
+  it(`should have as title 'WiLearning'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('WiMeeting');
+    expect(app.title).toEqual('WiLearning');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('WiMeeting app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('WiLearning app is running!');
   });
 });

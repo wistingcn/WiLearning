@@ -139,8 +139,8 @@ export class SettingComponent implements OnInit, AfterViewInit {
       ) {
       this.profile.mainVideoDeviceId = this.selectedVideoDevice;
       this.profile.mainVideoResolution = this.selectedVideoResolution;
-      localStorage.setItem('WiMeeting.device.mainvideo.id', this.selectedVideoDevice);
-      localStorage.setItem('WiMeeting.device.mainvideoresolution.index', this.selectedVideoResolution.toString());
+      localStorage.setItem('WiLearning.device.mainvideo.id', this.selectedVideoDevice);
+      localStorage.setItem('WiLearning.device.mainvideoresolution.index', this.selectedVideoResolution.toString());
 
       if ( this.profile.privilege.pubCamera ) {
         await this.peer.getLocalCamera();
@@ -149,7 +149,7 @@ export class SettingComponent implements OnInit, AfterViewInit {
 
     if ( this.profile.mainAudioDeviceId !== this.selectedAudioDevice ) {
       this.profile.mainAudioDeviceId = this.selectedAudioDevice;
-      localStorage.setItem('WiMeeting.device.mainaudio.id', this.selectedAudioDevice);
+      localStorage.setItem('WiLearning.device.mainaudio.id', this.selectedAudioDevice);
 
       if ( this.profile.privilege.pubCamera ) {
         await this.peer.getLocalCamera();

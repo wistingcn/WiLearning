@@ -74,9 +74,9 @@ export class ProfileService {
     this.me.id = this.genPeerId();
     this.logger.debug('peerId: %s', this.me.id);
 
-    this.mainVideoDeviceId = localStorage.getItem('WiMeeting.device.mainvideo.id');
-    this.mainAudioDeviceId = localStorage.getItem('WiMeeting.device.mainaudio.id');
-    this.mainVideoResolution = +localStorage.getItem('WiMeeting.device.mainvideoresolution.index');
+    this.mainVideoDeviceId = localStorage.getItem('WiLearning.device.mainvideo.id');
+    this.mainAudioDeviceId = localStorage.getItem('WiLearning.device.mainaudio.id');
+    this.mainVideoResolution = +localStorage.getItem('WiLearning.device.mainvideoresolution.index');
 
     if ( this.platform.ANDROID) {
       this.me.platform = 'android';
@@ -96,10 +96,10 @@ export class ProfileService {
   }
 
   genPeerId() {
-    let peerId = sessionStorage.getItem('WiMeeting.peerId');
+    let peerId = sessionStorage.getItem('WiLearning.peerId');
     if ( !peerId ) {
       peerId = makeRandomString(8);
-      sessionStorage.setItem('WiMeeting.peerId', peerId);
+      sessionStorage.setItem('WiLearning.peerId', peerId);
     }
 
     return peerId;

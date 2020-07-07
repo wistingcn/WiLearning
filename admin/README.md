@@ -1,2 +1,2 @@
-# WiMeeting Admin
-the web admin of WiMeeting. build by Angular + Material
+# WiLearning Admin
+the web admin of WiLearning. build by Angular + Material
