@@ -200,7 +200,7 @@ export class DocumentComponent implements AfterViewInit {
   }
 
   async docSelect(doc) {
-    this.docUrl = new URL(DocImagesUrl + '/' + this.profile.roomId + '/' + doc.id);
+    this.docUrl = new URL(DocImagesUrl + '/' + this.profile.roomId + '/' + doc.id, window.location.origin);
     this.selectedPages = await this.clahttp.http.get(this.docUrl.href).toPromise();
     this.logger.debug('docSelect pages %s', JSON.stringify(this.selectedPages));
 

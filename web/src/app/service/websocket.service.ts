@@ -62,7 +62,7 @@ export class WebsocketService {
 
   connect() {
     const socketUrl =
-      `wss://${MediaServer.address}:${MediaServer.port}/?roomId=${this.profile.roomId}&peerId=${this.profile.me.id}`;
+      `${MediaServer.address}/?roomId=${this.profile.roomId}&peerId=${this.profile.me.id}`;
 
     this.logger.debug('socketUrl : %s', socketUrl);
 

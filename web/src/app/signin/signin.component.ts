@@ -23,7 +23,6 @@ import { WebsocketService } from '../service/websocket.service';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { PeerService } from '../service/peer.service';
 import { ROLE, ClaRoom, RoomStatus } from '../defines';
-import { MediaServer} from '../config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -115,9 +114,7 @@ export class SigninComponent implements OnInit {
       this.profile.me.displayName = user;
       this.profile.me.roler = +roler;
 
-      const protocol = MediaServer.port === 443 ? 'https' : 'http';
-      this.profile.me.picture =
-        `${protocol}://${MediaServer.address}/avatar/${this.profile.me.displayName}.svg`;
+      this.profile.me.picture = `/avatar/${this.profile.me.displayName}.svg`;
 
       this.socket.connect();
     }
