@@ -44,8 +44,7 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ```
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --publicIp x.x.x.x
 ```
-
-# Or you can run start.sh with default SSL certificate
+* Or you can run start.sh with default SSL certificate
 ```
 ./start.sh
 ```
