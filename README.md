@@ -1,3 +1,4 @@
+[English](README-en.md)
 # WiLearning
 WiLearning 是一个开源、免费的在线学习及视频会议系统。WiLearning音视频模块使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaSoup开发,Web端使用Angular + Angular Material，目前具备以下功能：
 * 多人视频会议 - 进行多人实时音视频及文字互动
@@ -19,16 +20,16 @@ WiLearning 是一个开源、免费的在线学习及视频会议系统。WiLear
 npm install -g cnpm
 ```
 
-## 构建所有子系统
+## 构建所有
 ```
 ./build.sh all
 ```
 
-## 构建子系统
+## 构建单个子系统
 ```
 ./build.sh [server/web/admin]
+# 编译后的代码位于dist目录
 ```
-## 编译后的代码位于dist目录
 
 # 运行
 代码里提供了示例SSL证书,实际运行时,请提供自己的证书,证书要与访问域名一致.
@@ -52,14 +53,13 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 
 # 浏览器访问
 WiLearning 支持Chrome、FireFox、Safari浏览器，推荐使用最新版本的Chrome浏览器。
-## 在浏览器中打开admin地址
+* 在浏览器中打开admin地址
 ```
 https://[你的公网IP地址]/admin/
 ```
-
-## 在Admin界面创建房间,在链接中找到主持人和参与人的地址,主持人可以开始/结束会议
-## 多人登录到同一个房间即可开始视频会议
-## 系统截图
+* 在Admin界面创建房间,在链接中找到主持人和参与人的地址,主持人可以开始/结束会议
+* 多人登录到同一个房间即可开始视频会议
+* 系统截图
 ![Admin 截图](res/admin.png?raw=true)
 ![Web 截图](res/web.png?raw=true)
 
