@@ -1,4 +1,4 @@
-[中文版本]()
+[中文版本](README-cn.md)
 # WiLearning
 WiLearning is an open source, free e-learning and conferencing system. WiLearning uses WebRTC technology, The server side uses Typescript + Nodejs + MediaSoup and web side uses Angular + Angular Material, WiLearning has the following functions:
 * Multi-person video conference,or text interaction
@@ -30,37 +30,35 @@ npm install -g cnpm
 # Run
 The sample SSL certificate is provided in the code. Please provide your own certificate when it is actually running.The certificate must be consistent with the domain name you visit.
 
-## enter the dist directory
+* enter the dist directory
 ```
 cd dist
 ````
 
-## Method 1: run server.js
+* Method 1: run server.js
 ```
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key
 ```
 
-WiLearning get your public ip from 'https://api.ipify.org'. Alternatively, you can specify on in command line.
+* WiLearning get your public ip from 'https://api.ipify.org'. Alternatively, you can specify on in command line.
 ```
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --publicIp x.x.x.x
 ```
 
-## Method 2: run start.sh with default SSL certificate
+# Or you can run start.sh with default SSL certificate
 ```
 ./start.sh
 ```
-![Admin screenshot](res/admin.png?raw=true)
-![Web screenshot](res/web.png?raw=true)
-
 # Access
-## You can access WiLearning admin use Chrom/FireFox/Safari:
+* Access WiLearning admin use Chrom/FireFox/Safari:
 ```
 https://[your public ip]/admin/
 ```
-
-## Create room in Admin, open the 'Link' of room
-## Now it has two roler, 'Speaker' and 'Attendee','Speaker' act as the adminstrator of room.
-## Login the same room , choose your roler, begin your conference, enjoy!
+* Create room in Admin, open the 'Link' of room
+* Now it has two roler, 'Speaker' and 'Attendee','Speaker' act as the adminstrator of room.
+* Login the same room , choose your roler, begin your conference, enjoy!
+![Admin screenshot](res/admin.png?raw=true)
+![Web screenshot](res/web.png?raw=true)
 
 # Support WiLearning
 * Use it, and report Bug!
