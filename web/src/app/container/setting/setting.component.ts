@@ -24,6 +24,7 @@ import { WebsocketService } from 'src/app/service/websocket.service';
 import { RoomLogoHeight } from '../../config';
 import { PeerService } from 'src/app/service/peer.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {videoConstrain, audioConstrain} from '../../config';
 
 
 @Component({
@@ -102,6 +103,7 @@ export class SettingComponent implements OnInit, AfterViewInit {
     this.audioDisplayStream = await navigator.mediaDevices.getUserMedia({
         audio: {
           deviceId: this.selectedAudioDevice,
+          ...audioConstrain
         },
         video: false
       }

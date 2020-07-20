@@ -25,6 +25,7 @@ import { types as mediaTypes } from 'mediasoup-client';
 import * as hark from 'hark';
 import 'webrtc-adapter';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { audioConstrain, videoConstrain } from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -586,7 +587,7 @@ export class PeerService {
 
     const source =  this.profile.me.id + '_' + src + '_' + 'video';
 
-    let params: mediaTypes.ProducerOptions = {
+    const params: mediaTypes.ProducerOptions = {
       track,
       appData: {
         source
@@ -705,9 +706,11 @@ export class PeerService {
           deviceId: this.profile.mainVideoDeviceId,
           width: VIDEORESOLUTION[this.profile.mainVideoResolution].width,
           height: VIDEORESOLUTION[this.profile.mainVideoResolution].height,
+          ...videoConstrain
         },
         audio: {
           deviceId: this.profile.mainAudioDeviceId,
+          ...audioConstrain
         }
     }) as ClaMedia;
 

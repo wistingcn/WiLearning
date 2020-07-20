@@ -21,3 +21,16 @@ export const RoomLogoHeight = 50;
 
 export const RequestTimeout = 10000;
 export const DocImagesUrl = '/docs/images';
+
+export const videoConstrain = {
+  frameRate: {
+    ideal: 18,
+    max:  25,
+    min: 12
+  },
+};
+export const audioConstrain = {
+  autoGainControl: true,
+  echoCancellation: true,
+  noiseSuppression: true
+};
