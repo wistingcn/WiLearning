@@ -20,7 +20,7 @@ import { LoggerService } from '../service/logger.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventbusService, EventType } from '../service/eventbus.service';
-import {Host} from '../define';
+import { getHost } from '../define';
 
 @Component({
   selector: 'app-addroom',
@@ -81,10 +81,10 @@ export class AddroomComponent implements OnInit, AfterViewInit {
     let postUrl = '';
     if ( this.optUpdate ) {
       roomId = this.dataRoom.id;
-      postUrl = Host + '/room/updateRoom';
+      postUrl = getHost() + '/room/updateRoom';
     } else {
       roomId = this.makeRandomString(32);
-      postUrl = Host + '/room/createRoom';
+      postUrl = getHost() + '/room/createRoom';
     }
 
     this.logger.debug('id: %s, name: %s, speakerPassword: %s, attendeePassword: %s, roomDesc: %s',

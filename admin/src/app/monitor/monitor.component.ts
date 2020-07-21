@@ -14,7 +14,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Host } from '../define';
+import { getHost } from '../define';
 import { LoggerService } from '../service/logger.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nService } from '../service/i18n.service';
@@ -42,13 +42,13 @@ export class MonitorComponent implements OnInit {
   }
 
   getActiveRooms() {
-    const url = Host + '/room/active';
+    const url = getHost() + '/room/active';
     this.rooms$ = this.http.get(url);
   }
 
   openDetail(room) {
     this.roomDetail = null;
-    const url = Host + '/room/activeDetail/' + room.id;
+    const url = getHost() + '/room/activeDetail/' + room.id;
 
     this.http.get(url).subscribe(res => {
       this.roomDetail = res;

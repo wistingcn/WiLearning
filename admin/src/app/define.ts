@@ -12,4 +12,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-export const Host = '';
+import { environment } from '../environments/environment';
+
+export function getHost() {
+    if (environment.host) {
+        return environment.host;
+    }
+
+    return '';
+}

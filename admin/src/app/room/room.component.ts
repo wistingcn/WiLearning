@@ -25,7 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventbusService, IEventType , EventType } from '../service/eventbus.service';
 import { I18nService } from '../service/i18n.service';
 import { RoomlinkComponent } from '../roomlink/roomlink.component';
-import { Host } from '../define';
+import { getHost } from '../define';
 
 export interface RoomElement {
   name: string;
@@ -67,7 +67,6 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.roomList();
-
   }
 
   addRoom() {
@@ -105,7 +104,7 @@ export class RoomComponent implements OnInit {
 
     if (confirm(message)) {
       this.selection.selected.forEach((select) => {
-        const deleteUrl = Host + '/room/delete/' + select.id;
+        const deleteUrl = getHost() + '/room/delete/' + select.id;
         this.http.get(deleteUrl).subscribe((res) => {
           this.roomList();
         }, error => {
@@ -128,6 +127,16 @@ export class RoomComponent implements OnInit {
     });
   }
 
+  roomUrl(room) {
+    return location.origin + '/web/?room=' + room.id;
+  }
+
+  copyLink(room) {
+    navigator.clipboard.writeText(this.roomUrl(room)).then(() => {
+      this.logger.debug('copy url successed!');
+    });
+  }
+
   applyFilter(value) {
     this.dataSource.filter = value.trim();
   }
@@ -145,9 +154,10 @@ export class RoomComponent implements OnInit {
   }
 
   roomList() {
-    const getUrl = Host + '/room/list';
+    const getUrl = getHost() + '/room/list';
     this.http.get(getUrl).subscribe(res => {
       this.rooms = res as any;
+
       this.dataSource = new MatTableDataSource<RoomElement>(this.rooms);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -158,12 +168,7 @@ export class RoomComponent implements OnInit {
     });
   }
 
-  roomLink(room) {
-    this.dialog.open(RoomlinkComponent, {
-      width: '40vw',
-      height: '60vh',
-      disableClose: true,
-      data: {room}
-    });
+  openLink(room) {
+    open(this.roomUrl(room));
   }
 }
