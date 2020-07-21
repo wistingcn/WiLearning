@@ -83,7 +83,7 @@ export class AddroomComponent implements OnInit, AfterViewInit {
       roomId = this.dataRoom.id;
       postUrl = getHost() + '/room/updateRoom';
     } else {
-      roomId = this.makeRandomString(32);
+      roomId = this.makeRandomString(6);
       postUrl = getHost() + '/room/createRoom';
     }
 
@@ -111,7 +111,7 @@ export class AddroomComponent implements OnInit, AfterViewInit {
 
   makeRandomString(length: number): string {
     let outString = '';
-    const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const inOptions = '0123456789';
 
     for (let i = 0; i < length; i++) {
       outString += inOptions.charAt(Math.floor(Math.random() * inOptions.length));

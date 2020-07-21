@@ -15,7 +15,7 @@
 import { environment } from '../environments/environment';
 
 export function getHost() {
-    if (environment.host) {
+    if ((environment.hasOwnProperty('host') && environment.host?.length)) {
         return environment.host;
     }
 
