@@ -50,6 +50,13 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ```
 ./start.sh
 ```
+
+# enable google bbr 
+run the follow command line in server console(linux kernel > 4.9):
+```
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+```
+
 # Access
 * Access WiLearning admin use Chrom/FireFox/Safari:
 ```

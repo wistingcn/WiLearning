@@ -53,6 +53,12 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ./start.sh
 ```
 
+# 开启BBR拥塞控制
+服务器端执行(linux kernel > 4.9):
+```
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+```
+
 # 浏览器访问
 WiLearning 支持Chrome、FireFox、Safari浏览器，推荐使用最新版本的Chrome浏览器。
 * 在浏览器中打开admin地址
