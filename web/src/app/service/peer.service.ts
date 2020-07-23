@@ -591,7 +591,8 @@ export class PeerService {
       track,
       appData: {
         source
-      }
+      },
+      codec: this.media.device.rtpCapabilities.codecs.find(codec => codec.mimeType === 'video/H264')
     };
 
     const producer = await this.media.sendTransport.produce(params);

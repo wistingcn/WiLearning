@@ -28,7 +28,7 @@
     "fabric": "^3.5.1",
     "hammerjs": "^2.0.8",
     "hark": "^1.2.3",
-    "mediasoup-client": "^3.3.5",
+    "mediasoup-client": "^3.6.12",
     "ngx-perfect-scrollbar": "^8.0.0",
     "pdfjs-dist": "^2.2.228",
     "random-string": "^0.2.0",

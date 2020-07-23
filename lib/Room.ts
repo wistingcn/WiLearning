@@ -15,30 +15,26 @@
 import { EventEmitter } from 'events';
 import {Peer} from './Peer';
 import {lConfig} from '../config/config'
-import {types as mediasoupTypes} from 'mediasoup';
+import {types as mediasoupTypes, getSupportedRtpCapabilities } from 'mediasoup';
 import { RoomStatus } from './defines';
 
 import { getLogger } from 'log4js';
 const logger = getLogger('Room');
 
-const audioCodecs: mediasoupTypes.RtpCodecCapability = {
-	kind: 'audio',
-	mimeType  : 'audio/opus',
-	clockRate : 48000,
-	channels  : 2
-};
-
-const videoCodecs: mediasoupTypes.RtpCodecCapability = {
-	kind: 'video',
-	mimeType   : 'video/vp8',
-	clockRate  : 90000,
-}
+let mediaCodecs = new Array<mediasoupTypes.RtpCodecCapability>();
+getSupportedRtpCapabilities().codecs?.forEach(codec => {
+	switch(codec.mimeType) {
+		case 'video/H264':
+		case 'video/VP9' :
+		case 'audio/opus':
+			mediaCodecs.push(codec);
+	}
+});
 
 export class Room extends EventEmitter {
 	static async create(mediasoupWorker: mediasoupTypes.Worker, roomId:string ) {
 		logger.info('create() [roomId:"%s"]', roomId);
 
-		const mediaCodecs = [audioCodecs, videoCodecs];
 		const mediasoupRouter = await mediasoupWorker.createRouter({ mediaCodecs });
 		return new Room(roomId, mediasoupRouter);
 	}
