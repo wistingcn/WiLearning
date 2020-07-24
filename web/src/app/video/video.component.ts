@@ -18,8 +18,8 @@ import { PeerService } from '../service/peer.service';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ProfileService } from '../service/profile.service';
 import { I18nService } from '../service/i18n.service';
-import { RoomLogoHeight} from '../config';
-import { ClaMedia } from '../defines';
+import { RoomLogoHeight, videoConstrain} from '../config';
+import { ClaMedia, VIDEORESOLUTION } from '../defines';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { StreaminfoComponent } from '../container/streaminfo/streaminfo.component';
 
@@ -30,6 +30,7 @@ import { StreaminfoComponent } from '../container/streaminfo/streaminfo.componen
 })
 export class VideoComponent implements OnInit, AfterViewInit {
   logoHeight = RoomLogoHeight;
+  camera;
 
   constructor(
     public profile: ProfileService,
@@ -42,6 +43,17 @@ export class VideoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.profile.privilege.classControl) {
+      navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: this.profile.mainVideoDeviceId,
+          width: VIDEORESOLUTION[this.profile.mainVideoResolution].width,
+          height: VIDEORESOLUTION[this.profile.mainVideoResolution].height,
+          ...videoConstrain
+        },
+        audio: false
+      }).then(stream => this.camera = stream);
+    }
   }
 
   ngAfterViewInit() {

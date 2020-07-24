@@ -36,7 +36,7 @@
         <div class="volume" [ngStyle]="{'height.%': stream.volume}"></div>
       </div>
   </ng-container>
-  <video [srcObject]="peer.localStream"
+  <video [srcObject]="camera"
     controls
     autoplay
     [ngClass]="{'video-filter': profile.room.videoFilter}"
