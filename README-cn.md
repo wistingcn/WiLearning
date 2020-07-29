@@ -20,6 +20,7 @@ WiLearning 是一个开源、免费的在线学习及视频会议系统。WiLear
 ## 安装依赖包
 ```
 npm install -g cnpm
+cnpm i
 ```
 
 ## 构建所有
@@ -72,6 +73,8 @@ https://[你的公网IP地址]/admin/
 ![Web 截图](res/web.png?raw=true)
 
 # 错误排查
+* Demo部署环境：Ubuntu 18.04.4 LTS, 在该环境测试通过
+* 由于依赖包的版本可能会经常更新，所以建议更新代码时，在新的目录下重新拉取源代码，重新安装依赖包。避免在原目录下使用git pull,这样会导致代码与依赖包版本不一致
 * WebRTC处于安全性考虑，要求必须使用HTTPS，当自己使用IP地址访问时会报错
 * 项目提供的是rtc.liweix.com域名的HTTPS证书，可以使用该证书进行测试，在客户端修改/etc/hosts，将该域名指向自己的服务器地址即可
 * 推荐使用自己的域名和证书，在aliyun可以申请免费证书
