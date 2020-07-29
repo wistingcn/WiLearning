@@ -25,6 +25,7 @@ let mediaCodecs = new Array<mediasoupTypes.RtpCodecCapability>();
 getSupportedRtpCapabilities().codecs?.forEach(codec => {
 	switch(codec.mimeType) {
 		case 'video/H264':
+		case 'video/VP8' :
 		case 'video/VP9' :
 		case 'audio/opus':
 			mediaCodecs.push(codec);
