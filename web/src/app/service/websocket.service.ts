@@ -136,12 +136,9 @@ export class WebsocketService {
   private setupNotificationHandler() {
     const socket = this.socket;
     socket.on('notification', async (notification) => {
-      // do not want log activeSpeaker, too noise
-      if ( notification.method !== 'activeSpeaker') {
-        this.logger.debug(
-          'notification event, method: %s,data: %o', notification.method, notification.data
-        );
-      }
+      this.logger.debug(
+        'notification event, method: %s,data: %o', notification.method, notification.data
+      );
 
       const regiMethod = pNotificationMap.get(notification.method);
       if (!regiMethod) {
@@ -162,7 +159,9 @@ export class WebsocketService {
   }
 
   @Notification()
-  private activeSpeaker(data: any) {
+  private consumerLayersChanged(data) {
+    const {consumerId, spatialLayer, temporalLayer} = data;
+    this.logger.debug(`${consumerId}, spatialLayer: ${spatialLayer}, temporalLayer:${temporalLayer}`);
   }
 
   @Notification()
