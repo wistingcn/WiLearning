@@ -586,9 +586,14 @@ export class PeerService {
     }
 
     const source =  this.profile.me.id + '_' + src + '_' + 'video';
+    const encodings = SIMULCASTENCODING;
 
     const params: mediaTypes.ProducerOptions = {
       track,
+      encodings,
+      codecOptions : {
+        videoGoogleStartBitrate : 1000
+      },
       appData: {
         source
       },

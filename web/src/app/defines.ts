@@ -115,7 +115,7 @@ export const VIDEORESOLUTION = [
   }
 ];
 
-export const SIMULCASTENCODING: RTCRtpEncodingParameters[] = [
+export const SIMULCASTENCODING = [
   {maxBitrate: 100000},
   {maxBitrate: 300000},
   {maxBitrate: 900000}
