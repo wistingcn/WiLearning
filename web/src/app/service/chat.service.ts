@@ -43,7 +43,7 @@ export class ChatService {
           'partner',
           chatMessage,
           new Date(),
-          'sended',
+          'ok',
         );
 
         this.messages = [ ...this.messages, claMessage ];
@@ -67,7 +67,7 @@ send(chatMessage: string) {
       RequestMethod.chatMessage,
       {chatMessage}
     ).then(() => {
-        claMessage.sendStatus = 'sended';
+        claMessage.sendStatus = 'ok';
     }).catch(() => {
         claMessage.sendStatus = 'failed';
       });

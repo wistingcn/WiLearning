@@ -2,11 +2,15 @@
   <ng-container *ngIf="profile.started">
       <div *ngFor="let stream of peer.speakerStreams"  class="video-wrapper" cdkDrag>
         <video [srcObject]="stream"
-          controls
+          playsinline 
           autoplay
           [ngClass]="{'video-filter': profile.room.videoFilter}"
           *ngIf="stream.peer.enableCam">
         </video>
+        <audio [srcObject]="stream"
+          autoplay
+          *ngIf="!stream.peer.enableCam">
+        </audio>
 
         <div class="videoCover" *ngIf="!stream.peer.enableCam" fxLayout="column" fxLayoutAlign="center center" >
           <mat-icon class="md-48 md-light">videocam_off</mat-icon>
@@ -37,7 +41,7 @@
       </div>
   </ng-container>
   <video [srcObject]="camera"
-    controls
+    playsinline 
     autoplay
     [ngClass]="{'video-filter': profile.room.videoFilter}"
     *ngIf="!profile.started && profile.privilege.classControl">

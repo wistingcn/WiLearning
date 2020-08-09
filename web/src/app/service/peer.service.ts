@@ -166,7 +166,7 @@ export class PeerService {
       peerInfo.enableMic = true;
     }
 
-    // do not consumer audio produced by itself
+    // do not consume audio produced by itself
     if ( stream.peer.id === this.profile.me.id && consumer.kind === 'audio') {
       this.logger.debug('disable audio , peerId: %s, consumerId: %s, kind: %s',
         stream.peer.id, consumer.id, consumer.kind);

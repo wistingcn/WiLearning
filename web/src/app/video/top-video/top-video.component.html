@@ -4,7 +4,12 @@
         <video
           [srcObject]="stream"
           *ngIf="stream.peer.enableCam"
+          playsinline
           autoplay></video>
+        <audio
+          [srcObject]="stream"
+          *ngIf="!stream.peer.enableCam"
+          autoplay></audio>
         <div class="videoCover"
           *ngIf="!stream.peer.enableCam"
           fxLayout="column" fxLayoutAlign="center center" >
