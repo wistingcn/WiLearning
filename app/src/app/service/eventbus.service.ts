@@ -35,6 +35,7 @@ export enum EventType {
   media_consumerScore,
 
   chat_message,
+  chat_emoji,
 
   overlay_shareMediaClosed,
   overlay_pdfSelectClosed,

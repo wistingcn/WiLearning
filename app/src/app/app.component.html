@@ -9,7 +9,7 @@
               <ion-label>成员：{{peer.peersInfo.length}}</ion-label>
             </ion-segment-button>
             <ion-segment-button value="chat" id="chatButton">
-              <ion-label>讨论区</ion-label>
+              <ion-label>聊天</ion-label>
             </ion-segment-button>
           </ion-segment>
         </ion-toolbar>
@@ -23,12 +23,27 @@
       <ion-footer *ngIf="menuPage==='chat'">
         <ion-toolbar>
           <ion-buttons>
-            <ion-label>
-              Input:
-            </ion-label>
-            <ion-input></ion-input>
-            <ion-button>
-              <ion-icon slot="icon-only" name="send"></ion-icon>
+            <ion-textarea #text placeholder="请输入信息，按回车发送" 
+              autofocus=true rows=4 inputmode="text" enterkeyhint="send" class="textarea" 
+              (keydown.enter)="chat.send(text.value); text.value = ''" 
+              [(ngModel)]="inputMessage"
+              ></ion-textarea>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            发送至:
+          <ion-select placeholder="所有人" cancelText="取消" okText="确定" interface="popover" (ionChange)="sendToChange($event)">
+            <ion-select-option value="all">所有人</ion-select-option>
+            <ion-select-option [value]="p.id" *ngFor="let p of peer.peersInfo">{{p.displayName}}</ion-select-option>
+          </ion-select>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="openEmoji($event)">
+              <ion-icon slot="icon-only" name="happy"></ion-icon>
+            </ion-button>
+            <ion-button (click)="chat.send(text.value); text.value = ''">
+              <ion-label>发送</ion-label>
             </ion-button>
           </ion-buttons>
         </ion-toolbar>

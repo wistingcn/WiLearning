@@ -25,6 +25,7 @@ import { ProfileService } from './profile.service';
 })
 export class ChatService {
   public messages: ClaMessage[] = [];
+  public toPeer = 'all';
 
   constructor(
     private peer: PeerService,
@@ -43,7 +44,7 @@ export class ChatService {
           'partner',
           chatMessage,
           new Date(),
-          'sended',
+          'ok',
         );
 
         this.messages = [ ...this.messages, claMessage ];
@@ -52,24 +53,30 @@ export class ChatService {
   }
 
 send(chatMessage: string) {
-    const claMessage = new ClaMessage(
-      makeRandomString(8),
-      this.profile.me,
-      'me',
-      chatMessage,
-      new Date(),
-      'padding'
-    );
+  chatMessage = chatMessage.replace(/[\r\n]/g, '');
+  chatMessage.trim();
+  if (!chatMessage.length) {
+    return;
+  }
 
-    this.messages = [ ...this.messages, claMessage ];
+  const claMessage = new ClaMessage(
+    makeRandomString(8),
+    this.profile.me,
+    'me',
+    chatMessage,
+    new Date(),
+    'padding'
+  );
 
-    this.socket.sendRequest(
-      RequestMethod.chatMessage,
-      {chatMessage}
-    ).then(() => {
-        claMessage.sendStatus = 'sended';
-    }).catch(() => {
-        claMessage.sendStatus = 'failed';
-      });
+  this.messages = [ ...this.messages, claMessage ];
+
+  this.socket.sendRequest(
+    RequestMethod.chatMessage,
+    {chatMessage}
+  ).then(() => {
+      claMessage.sendStatus = 'ok';
+  }).catch(() => {
+      claMessage.sendStatus = 'failed';
+    });
   }
 }

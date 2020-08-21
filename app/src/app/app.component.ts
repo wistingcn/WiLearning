@@ -19,6 +19,10 @@ import { MoreComponent } from './popover/more/more.component';
 import { ProfileService } from './service/profile.service';
 import { PeerService } from './service/peer.service';
 import { WebsocketService } from './service/websocket.service';
+import { LoggerService } from './service/logger.service';
+import { ChatService } from './service/chat.service';
+import { EmojiComponent } from './popover/emoji/emoji.component';
+import { EventbusService, IEventType, EventType } from './service/eventbus.service';
 
 enum BoardComp {
   video = 'video',
@@ -40,11 +44,13 @@ export class AppComponent implements OnInit {
   menuPage = 'member';
 
   boardcomp = BoardComp.welcome;
+  inputMessage = '';
 
   constructor(
     public popoverController: PopoverController,
     public profile: ProfileService,
     public peer: PeerService,
+    public chat: ChatService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
@@ -52,9 +58,9 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private storage: Storage,
     private userData: UserData,
-    private swUpdate: SwUpdate,
-    private toastCtrl: ToastController,
     private socket: WebsocketService,
+    private logger: LoggerService,
+    private eventbus: EventbusService,
   ) {
     this.initializeApp();
   }
@@ -63,31 +69,25 @@ export class AppComponent implements OnInit {
     this.checkLoginStatus();
     this.listenForLoginEvents();
 
-    this.swUpdate.available.subscribe(async res => {
-      const toast = await this.toastCtrl.create({
-        message: 'Update available!',
-        position: 'bottom',
-        buttons: [
-          {
-            role: 'cancel',
-            text: 'Reload'
-          }
-        ]
-      });
-
-      await toast.present();
-
-      toast
-        .onDidDismiss()
-        .then(() => this.swUpdate.activateUpdate())
-        .then(() => window.location.reload());
-    });
-
     window.addEventListener('event:openvideocomp', () => {
       this.boardcomp = BoardComp.video;
     });
     window.addEventListener('event:openwelcomecomp', () => {
       this.boardcomp = BoardComp.welcome;
+    });
+
+    this.eventbus.chat$.subscribe((event: IEventType) => {
+      if (event.type === EventType.chat_emoji) {
+        this.inputMessage += event.data;
+      }
+    });
+
+    this.eventbus.socket$.subscribe(async (event: IEventType) => {
+      if (event.type === EventType.socket_connected) {
+        await this.peer.init();
+        await this.peer.roomUpdate();
+        await this.peer.connectMediaServer();
+      }
     });
   }
 
@@ -95,7 +95,6 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(async () => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      await this.peer.init();
       this.socket.connect();
     });
   }
@@ -180,5 +179,23 @@ export class AppComponent implements OnInit {
   openChat() {
     this.menu.open();
     document.getElementById('chatButton').click();
+  }
+
+  sendToChange(ev) {
+    this.logger.debug(ev.detail.value);
+  }
+
+  sendMessage(message) {
+    this.logger.debug(message);
+  }
+
+  async openEmoji(ev) {
+    const popover = await this.popoverController.create({
+      component: EmojiComponent,
+      event: ev,
+      translucent: true
+    });
+    return popover.present();
+
   }
 }

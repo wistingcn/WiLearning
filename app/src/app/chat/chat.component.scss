@@ -2,3 +2,29 @@ ion-content {
     --offset-bottom: 500px;
     --offset-top: 500px;
 }
+
+.timeStyle {
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 12px;
+    text-align: center;
+    color: rgba(0,0,0,.5);
+}
+
+.messageMeStyle {
+    background: #b8f185;
+    margin-right: 12px;
+    padding: 8px;
+}
+
+.messagePartnerStyle {
+    background: #E0E0E0;
+    margin-right: 12px;
+    padding: 8px;
+}
+
+.messageMe {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

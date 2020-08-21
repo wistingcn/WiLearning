@@ -1,6 +1,27 @@
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
-    <p> hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! hello world! </p>
+<ion-list>
+    <ng-container *ngFor="let msg of chat.messages">
+        <ion-item *ngIf="msg.who==='me'" lines="none">
+            <div slot="end">
+                <div class="messageMe">
+                    <span class="timeStyle">{{timeFormat(msg.recvTime)}}</span>
+                    <span>{{msg.peer.displayName}}</span>
+                </div>
+                <div class="messageMe">
+                    <span class="messageMeStyle">{{msg.message}}</span>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="msg.who==='partner'" lines="none">
+            <div>
+                <div>
+                    <span>{{msg.peer?.displayName}}</span>
+                    <span class="timeStyle ion-padding">{{timeFormat(msg.recvTime)}}</span>
+                </div>
+                <div class="messagePartnerStyle">
+                    {{msg.message}}
+                </div>
+            </div>
+
+        </ion-item>
+    </ng-container>
+</ion-list>

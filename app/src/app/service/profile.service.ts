@@ -21,7 +21,7 @@ import {ROLE, ClaRoom, RoomStatus, BoardComp } from '../defines';
   providedIn: 'root'
 })
 export class ProfileService {
-  public roomId = '1111';
+  public roomId = '103426';
   public forceTcp = false;
   public useSimulcast = false;
   public videoNav = true;
@@ -73,7 +73,7 @@ export class ProfileService {
     private logger: LoggerService,
   ) {
     this.me.id = this.genPeerId();
-    this.me.displayName = 'fakeName';
+    this.me.displayName = this.me.id;
     this.logger.debug('peerId: %s', this.me.id);
 
     this.mainVideoDeviceId = localStorage.getItem('WiLearning.device.mainvideo.id');
