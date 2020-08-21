@@ -1,0 +1,107 @@
+<ion-app [class.dark-theme]="profile.themeDark">
+  <ion-split-pane when="sm" contentId="main-content">
+
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-header>
+        <ion-toolbar>
+          <ion-segment (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="member" id="memberButton">
+              <ion-label>成员：{{peer.peersInfo.length}}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="chat" id="chatButton">
+              <ion-label>讨论区</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <app-member *ngIf="menuPage==='member'"></app-member>
+        <app-chat *ngIf="menuPage==='chat'"></app-chat>
+      </ion-content>
+
+      <ion-footer *ngIf="menuPage==='chat'">
+        <ion-toolbar>
+          <ion-buttons>
+            <ion-label>
+              Input:
+            </ion-label>
+            <ion-input></ion-input>
+            <ion-button>
+              <ion-icon slot="icon-only" name="send"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ion-menu>
+
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title slot="start">栗伟的课堂</ion-title>
+          <ion-title slot="start">张三请求发言</ion-title>
+          <ion-title>13:50</ion-title>
+          <ion-buttons slot="end">
+            <ion-button slot="end" (click)="netstatPopover($event)">
+              <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-justify-content-center">
+        <app-mainvideo *ngIf="profile.boardComponent==='video'"></app-mainvideo>
+        <app-welcome *ngIf="profile.boardComponent==='welcome'"></app-welcome>
+        <app-document *ngIf="profile.boardComponent==='document'"></app-document>
+        <app-sharedesk *ngIf="profile.boardComponent==='sharedesk'"></app-sharedesk>
+        <app-sharemedia *ngIf="profile.boardComponent==='sharemedia'"></app-sharemedia>
+      </ion-content>
+      <ion-footer class="ion-no-border">
+        <ion-toolbar>
+          <ion-buttons class="ion-justify-content-around">
+            <ion-button>
+              <ion-icon slot="icon-only" name="videocam"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon slot="icon-only" name="mic"></ion-icon>
+            </ion-button>
+
+            <ion-button class="" (click)="sharePopover($event)">
+              <ion-icon slot="icon-only" name="share"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="openMember()">
+              <ion-icon slot="icon-only" name="people"></ion-icon>
+            </ion-button>
+            <ion-button (click)="openChat()">
+              <ion-icon  slot="icon-only" name="chatbox-ellipses"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="settingPopover()">
+              <ion-icon slot="icon-only" name="settings"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="morePopover($event)">
+              <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </ion-button>
+
+            <ion-button color="primary">
+              <ion-icon slot="icon-only" name="call"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </div>
+    <!--
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+    -->
+  </ion-split-pane>
+</ion-app>
+

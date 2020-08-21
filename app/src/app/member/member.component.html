@@ -1,0 +1,37 @@
+<ion-toolbar>
+    <ion-buttons slot="start" class="ion-padding">
+      <ion-icon size="small" slot="icon-only" name="volume-high"></ion-icon>
+      <ion-label> XXX</ion-label>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      全体禁言
+      <ion-toggle></ion-toggle>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-list lines="none">
+    <ion-menu-toggle autoHide="false">
+      <ng-container *ngFor="let p of peer.peersInfo">
+        <ion-item *ngIf="p.stream && !p.stream.toggleBoard">
+          <app-videoplayer [stream]="p.stream" ></app-videoplayer>
+        </ion-item>
+      </ng-container>
+      <ng-container *ngFor="let p of peer.peersInfo">
+        <ion-item *ngIf="!p.stream || p.stream.toggleBoard">
+          <ion-label>{{p.displayName}}</ion-label>
+          <ion-buttons>
+            <ion-button>
+              <ion-icon name="mic"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon name="mic"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon name="mic"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+
+      </ng-container>
+    </ion-menu-toggle>
+  </ion-list>

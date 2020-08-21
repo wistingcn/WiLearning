@@ -1,0 +1,16 @@
+video {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    position: relative;
+}
+
+.controlbar {
+    width: 100%;
+    height: 32px;
+    bottom: 0;
+    position: absolute;
+    z-index: 99;
+}

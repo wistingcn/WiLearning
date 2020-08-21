@@ -1,0 +1,17 @@
+<div class="container">
+  <video [srcObject]="stream" autoplay playsinline (dblclick)="click($event)"></video>
+  <div class="controlbar" *ngIf="toolbar">
+    <ion-buttons>
+      <ion-label>{{stream.peer.displayName}}</ion-label>
+      <ion-button>
+        <ion-icon name="mic"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="mic"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="mic"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+</div>
