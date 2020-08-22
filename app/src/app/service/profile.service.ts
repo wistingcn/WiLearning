@@ -86,11 +86,14 @@ export class ProfileService {
   }
 
   genPeerId() {
+    /*
     let peerId = sessionStorage.getItem('WiLearning.peerId');
     if ( !peerId ) {
       peerId = makeRandomString(8);
       sessionStorage.setItem('WiLearning.peerId', peerId);
     }
+    */
+    const peerId = makeRandomString(8);
 
     return peerId;
   }

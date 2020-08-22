@@ -26,6 +26,7 @@ import { NetstatComponent } from './popover/netstat/netstat.component';
 import { SharepopoverComponent } from './popover/sharepopover/sharepopover.component';
 import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { EmojiComponent } from './popover/emoji/emoji.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { EmojiComponent } from './popover/emoji/emoji.component';
   ],
   declarations: [
     AppComponent,
+    MainComponent,
     MemberComponent,
     ChatComponent,
 

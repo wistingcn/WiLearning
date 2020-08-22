@@ -4,12 +4,13 @@ import { CheckTutorial } from './providers/check-tutorial.service';
 import { MemberComponent } from './member/member.component';
 import { ChatComponent } from './chat/chat.component';
 import { AppComponent } from './app.component';
+import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: AppComponent
+    component: MainComponent
   },
   {
     path: 'member',

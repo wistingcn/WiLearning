@@ -53,12 +53,6 @@ export class ChatService {
   }
 
 send(chatMessage: string) {
-  chatMessage = chatMessage.replace(/[\r\n]/g, '');
-  chatMessage.trim();
-  if (!chatMessage.length) {
-    return;
-  }
-
   const claMessage = new ClaMessage(
     makeRandomString(8),
     this.profile.me,

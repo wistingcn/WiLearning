@@ -1,25 +1,21 @@
 <ion-list>
     <ng-container *ngFor="let msg of chat.messages">
         <ion-item *ngIf="msg.who==='me'" lines="none">
-            <div slot="end">
-                <div class="messageMe">
+            <div slot="end" class="messageMeStyle">
+                <div>
                     <span class="timeStyle">{{timeFormat(msg.recvTime)}}</span>
                     <span>{{msg.peer.displayName}}</span>
                 </div>
-                <div class="messageMe">
-                    <span class="messageMeStyle">{{msg.message}}</span>
-                </div>
+                <div class="messageMe">{{msg.message}}</div>
             </div>
         </ion-item>
         <ion-item *ngIf="msg.who==='partner'" lines="none">
-            <div>
+            <div slot="start">
                 <div>
                     <span>{{msg.peer?.displayName}}</span>
                     <span class="timeStyle ion-padding">{{timeFormat(msg.recvTime)}}</span>
                 </div>
-                <div class="messagePartnerStyle">
-                    {{msg.message}}
-                </div>
+                <div class="messagePartner">{{msg.message}}</div>
             </div>
 
         </ion-item>
