@@ -1,18 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController, PopoverController } from '@ionic/angular';
 
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-
-import { Storage } from '@ionic/storage';
-
 import { UserData } from '../providers/user-data';
-import { audit } from 'rxjs/operators';
 import { SharepopoverComponent } from '../popover/sharepopover/sharepopover.component';
-import { ChatComponent } from '../chat/chat.component';
 import { NetstatComponent } from '../popover/netstat/netstat.component';
 import { SettingComponent } from '../popover/setting/setting.component';
 import { MoreComponent } from '../popover/more/more.component';
@@ -23,6 +15,7 @@ import { LoggerService } from '../service/logger.service';
 import { ChatService } from '../service/chat.service';
 import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
+import { ClassroomService } from '../service/classroom.service';
 
 enum BoardComp {
   video = 'video',
@@ -46,17 +39,27 @@ export class MainComponent implements OnInit {
   boardcomp = BoardComp.welcome;
   inputMessage = '';
 
+  mediaFile: File;
+  shareScreenValid = true;
+  shareMediaValid = true;
+  requestConnectTimeout;
+  bFullscreen = false;
+  recordedChunks = [];
+  mediaRecorder;
+  recorderStart = false;
+  recorderIntervalHandler;
+  recordingIconSize = false;
+  recorderEnable = false;
+
   constructor(
     public popoverController: PopoverController,
     public profile: ProfileService,
     public peer: PeerService,
     public chat: ChatService,
+    public classromm: ClassroomService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private storage: Storage,
     private userData: UserData,
     private socket: WebsocketService,
     private logger: LoggerService,
@@ -81,20 +84,10 @@ export class MainComponent implements OnInit {
         this.inputMessage += event.data;
       }
     });
-
-    this.eventbus.socket$.subscribe(async (event: IEventType) => {
-      if (event.type === EventType.socket_connected) {
-        await this.peer.init();
-        await this.peer.roomUpdate();
-        await this.peer.connectMediaServer();
-      }
-    });
   }
 
   initializeApp() {
     this.platform.ready().then(async () => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
       this.socket.connect();
     });
   }
@@ -201,6 +194,5 @@ export class MainComponent implements OnInit {
       translucent: true
     });
     return popover.present();
-
   }
 }

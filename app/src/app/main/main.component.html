@@ -106,17 +106,19 @@
               <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
             </ion-button>
 
-            <ion-button color="primary">
-              <ion-icon slot="icon-only" name="call"></ion-icon>
+            <ion-button color="primary" 
+              (click)="classromm.startClass()" 
+              *ngIf="!profile.started && profile.privilege.classControl">
+              开始
+            </ion-button>
+
+            <ion-button color="primary" (click)="classromm.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
+              结束
             </ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-footer>
     </div>
-    <!--
-
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-    -->
   </ion-split-pane>
 </ion-app>
 

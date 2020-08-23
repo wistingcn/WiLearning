@@ -33,11 +33,12 @@ export class PeerService {
   public localStream: ClaMedia;
   public pScreen: DisplayMediaScreenShare;
   public peerStreams: ClaMedia[] = [];
-  public speakerStreams: ClaMedia[] = [];
   public peersInfo: ClaPeer[] = [];
   public producerMap = new Map<string, mediaTypes.Producer>();
 
   public networkType;
+
+  public hasInit = false;
 
   constructor(
     private socket: WebsocketService,
@@ -49,7 +50,10 @@ export class PeerService {
     this.eventbus.socket$.subscribe(async (event: IEventType) => {
       const { type } = event;
       if (type === EventType.socket_connected) {
-        if (profile.started) {
+        if (!this.hasInit) {
+          await this.init();
+          await this.roomUpdate();
+        } else if (profile.started) {
           await this.connectMediaServer();
           await this.iceRestart();
         }
@@ -85,7 +89,7 @@ export class PeerService {
 
       if (event.type === EventType.media_consumerScore ) {
         const {consumerId, score } = event.data;
-        const stream = [...this.peerStreams, ...this.speakerStreams].find(ss => ss.videoConsumer.id === consumerId);
+        const stream = this.peerStreams.find(ss => ss.videoConsumer.id === consumerId);
 
         if ( stream ) {
           stream.producerScore = [...stream.producerScore, score.producerScore];
@@ -137,20 +141,13 @@ export class PeerService {
       appArray[0], appArray[1], appArray[2], peerInfo.roler);
 
     let existStream = null;
-    if ( peerInfo.roler === ROLE.SPEAKER ) {
-      existStream = this.speakerStreams.find(ps => ps.source === source);
-      if ( existStream ) {
-        stream = existStream;
-      } else {
-        this.speakerStreams = [...this.speakerStreams, stream];
-      }
+    existStream = this.peerStreams.find(ps => ps.source === source);
+    if ( existStream ) {
+      stream = existStream;
     } else {
-      existStream = this.peerStreams.find(ps => ps.source === source);
-      if ( existStream ) {
-        stream = existStream;
-      } else {
-        this.peerStreams = [...this.peerStreams, stream];
-      }
+      this.peerStreams = [...this.peerStreams, stream];
+      peerInfo.stream = stream;
+      stream.peer = peerInfo;
     }
 
     stream.addTrack(consumer.track);
@@ -192,7 +189,7 @@ export class PeerService {
 
   private consumerPaused(data) {
     const {consumerId} = data;
-    const foundStream = [...this.peerStreams, ...this.speakerStreams].find(ps => {
+    const foundStream = this.peerStreams.find(ps => {
       return ( ps.videoConsumer && ps.videoConsumer.id === consumerId ) ||
       ( ps.audioConsumer && ps.audioConsumer.id === consumerId);
     });
@@ -213,7 +210,7 @@ export class PeerService {
 
   private consumerResumed(data) {
     const {consumerId} = data;
-    const foundStream = [...this.peerStreams, ...this.speakerStreams].find(ps => {
+    const foundStream = this.peerStreams.find(ps => {
       return ( ps.videoConsumer && ps.videoConsumer.id === consumerId ) ||
       ( ps.audioConsumer && ps.audioConsumer.id === consumerId);
     });
@@ -242,7 +239,7 @@ export class PeerService {
 
     this.logger.debug('consumerClosed, %s', consumerId);
 
-    const foundStream = [...this.peerStreams, ...this.speakerStreams].find(ps => {
+    const foundStream = this.peerStreams.find(ps => {
       return ( ps.videoConsumer && ps.videoConsumer.id === consumerId ) ||
       ( ps.audioConsumer && ps.audioConsumer.id === consumerId);
     });
@@ -263,18 +260,15 @@ export class PeerService {
     }
 
     if ( !foundStream.videoConsumer && !foundStream.audioConsumer) {
-      const otherStream = [...this.peerStreams, ...this.speakerStreams].find(stream => {
+      const otherStream = this.peerStreams.find(stream => {
         return (stream.peer === foundStream.peer && stream !== foundStream );
       });
       if (!otherStream) {
         foundStream.peer.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
       }
 
-      if ( foundStream.peer.roler === ROLE.SPEAKER ) {
-        this.speakerStreams = this.speakerStreams.filter( ss => ss !== foundStream );
-      } else {
-        this.peerStreams = this.peerStreams.filter( ps => ps !== foundStream);
-      }
+      this.peerStreams = this.peerStreams.filter( ps => ps !== foundStream);
+      foundStream.peer.stream = null;
     }
   }
 
@@ -374,8 +368,9 @@ export class PeerService {
 
     if ( this.profile.privilege.pubCamera ) {
       await this.getLocalCamera();
-      this.profile.me.stream = this.localStream;
     }
+
+    this.hasInit = true;
    }
 
    getPeerInfo(peerId: string) {
