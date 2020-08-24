@@ -53,8 +53,9 @@ export class PeerService {
         if (!this.hasInit) {
           await this.init();
           await this.roomUpdate();
-        } else if (profile.started) {
           await this.connectMediaServer();
+        } else if (profile.started) {
+          await this.connectMediaServer(true);
           await this.iceRestart();
         }
       }
@@ -75,21 +76,13 @@ export class PeerService {
         this.consumerClosed(event.data);
       }
 
-      if ( type === EventType.media_consumerPaused ) {
-        this.consumerPaused(event.data);
-      }
-
-      if ( type === EventType.media_consumerResumed ) {
-        this.consumerResumed(event.data);
-      }
-
       if ( type === EventType.media_newConsumer ) {
         this.newConsumer(event.data);
       }
 
       if (event.type === EventType.media_consumerScore ) {
         const {consumerId, score } = event.data;
-        const stream = this.peerStreams.find(ss => ss.videoConsumer.id === consumerId);
+        const stream = this.peerStreams.find(ss => ss.videoConsumer && ss.videoConsumer.id === consumerId);
 
         if ( stream ) {
           stream.producerScore = [...stream.producerScore, score.producerScore];
@@ -187,53 +180,6 @@ export class PeerService {
     });
   }
 
-  private consumerPaused(data) {
-    const {consumerId} = data;
-    const foundStream = this.peerStreams.find(ps => {
-      return ( ps.videoConsumer && ps.videoConsumer.id === consumerId ) ||
-      ( ps.audioConsumer && ps.audioConsumer.id === consumerId);
-    });
-
-    if ( !foundStream ) {
-      this.logger.error('consumerPaused, do not find consumer: %s', consumerId);
-      return;
-    }
-
-    if (foundStream.videoConsumer.id === consumerId ) {
-      foundStream.videoConsumer.pause();
-      foundStream.peer.enableCam = false;
-    } else {
-      foundStream.audioConsumer.pause();
-      foundStream.peer.enableMic = false;
-    }
-  }
-
-  private consumerResumed(data) {
-    const {consumerId} = data;
-    const foundStream = this.peerStreams.find(ps => {
-      return ( ps.videoConsumer && ps.videoConsumer.id === consumerId ) ||
-      ( ps.audioConsumer && ps.audioConsumer.id === consumerId);
-    });
-
-    if ( !foundStream ) {
-      this.logger.error('consumerPaused, do not find consumer: %s', consumerId);
-      return;
-    }
-
-    if (foundStream.videoConsumer.id === consumerId ) {
-      foundStream.videoConsumer.resume();
-      foundStream.peer.enableCam = true;
-    } else {
-      foundStream.audioConsumer.resume();
-      foundStream.peer.enableMic = true;
-
-      // do not consumer audio produced by itself
-      if ( foundStream.peer.id === this.profile.me.id ) {
-        foundStream.getAudioTracks()[0].enabled = false;
-      }
-    }
-  }
-
   private consumerClosed(data) {
     const {consumerId} = data;
 
@@ -251,12 +197,16 @@ export class PeerService {
 
     if ( foundStream.videoConsumer &&
       foundStream.videoConsumer.id === consumerId ) {
+      foundStream.removeTrack(foundStream.videoConsumer.track);
       foundStream.videoConsumer.close();
       foundStream.videoConsumer = null;
+      foundStream.peer.enableCam = false;
     } else if ( foundStream.audioConsumer &&
       foundStream.audioConsumer.id === consumerId) {
+      foundStream.removeTrack(foundStream.audioConsumer.track);
       foundStream.audioConsumer.close();
       foundStream.audioConsumer = null;
+      foundStream.peer.enableMic = false;
     }
 
     if ( !foundStream.videoConsumer && !foundStream.audioConsumer) {
@@ -295,14 +245,16 @@ export class PeerService {
     this.peersInfo = [ ...this.peersInfo, peer ];
   }
 
-  async connectMediaServer() {
-    if (this.media.recvTransport && await this.checkTransport(this.media.recvTransport.id)) {
-      this.logger.debug('recv transport closed in server, %s', this.media.recvTransport.id);
-      this.media.recvTransport.close();
-    }
-    if (this.media.sendTransport && await this.checkTransport(this.media.sendTransport.id)) {
-      this.logger.debug('send transport closed in server, %s', this.media.sendTransport.id);
-      this.media.sendTransport.close();
+  async connectMediaServer(reconnect = false) {
+    if ( reconnect ) {
+      if (this.media.recvTransport && await this.checkTransport(this.media.recvTransport.id)) {
+        this.logger.debug('recv transport closed in server, %s', this.media.recvTransport.id);
+        this.media.recvTransport.close();
+      }
+      if (this.media.sendTransport && await this.checkTransport(this.media.sendTransport.id)) {
+        this.logger.debug('send transport closed in server, %s', this.media.sendTransport.id);
+        this.media.sendTransport.close();
+      }
     }
 
     if ( !this.media.device.loaded ) {
@@ -430,70 +382,40 @@ export class PeerService {
     if ( !this.localStream ) {
       await this.getLocalCamera();
     }
-    await this.produceVideo(this.localStream, 'camera');
-    await this.produceAudio(this.localStream, 'camera');
-    this.profile.me.enableMic = true;
+    await this.produceVideo(this.localStream.clone(), 'camera');
     this.profile.me.enableCam = true;
   }
 
-  async pauseLocalCamera() {
-    this.profile.me.enableCam = false;
-
-    const sourceVideo = this.profile.me.id + '_' + 'camera' + '_' + 'video';
-    const videoProducer = this.producerMap.get(sourceVideo);
-
-    videoProducer.pause();
-    await this.socket.sendRequest(
-      RequestMethod.pauseProducer,
-      { producerId: videoProducer.id }
-    );
-  }
-
-  async resumeLocalCamera() {
-    this.profile.me.enableCam = true;
-
-    const sourceVideo = this.profile.me.id + '_' + 'camera' + '_' + 'video';
-    const videoProducer = this.producerMap.get(sourceVideo);
-
-    videoProducer.resume();
-    await this.socket.sendRequest(
-      RequestMethod.resumeProducer,
-      { producerId: videoProducer.id }
-    );
-  }
-
-  async pauseLocalMic() {
-    this.profile.me.enableMic = false;
-
-    const sourceAudio = this.profile.me.id + '_' + 'camera' + '_' + 'audio';
-    const audioProducer = this.producerMap.get(sourceAudio);
-
-    audioProducer.pause();
-    await this.socket.sendRequest(
-      RequestMethod.pauseProducer,
-      { producerId: audioProducer.id }
-    );
-  }
-
-  async resumeLocalMic() {
+  async produceLocalMic() {
+    if ( !this.localStream ) {
+      await this.getLocalCamera();
+    }
+    await this.produceAudio(this.localStream.clone(), 'camera');
     this.profile.me.enableMic = true;
-
-    const sourceAudio = this.profile.me.id + '_' + 'camera' + '_' + 'audio';
-    const audioProducer = this.producerMap.get(sourceAudio);
-
-    audioProducer.resume();
-    await this.socket.sendRequest(
-      RequestMethod.resumeProducer,
-      { producerId: audioProducer.id }
-    );
   }
 
   async stopLocalCamera() {
     const sourceVideo = this.profile.me.id + '_' + 'camera' + '_' + 'video';
+
+    const videoProducer = this.producerMap.get(sourceVideo);
+
+    if ( videoProducer ) {
+      videoProducer.close();
+      await this.socket.sendRequest(
+        RequestMethod.closeProducer, {producerId: videoProducer.id}
+      );
+
+      this.logger.debug('stopLocalCamera, video: %s', videoProducer.id);
+      this.producerMap.delete(sourceVideo);
+    }
+
+    this.profile.me.enableCam = false;
+  }
+
+  async stopLocalMic() {
     const sourceAudio = this.profile.me.id + '_' + 'camera' + '_' + 'audio';
 
     const audioProducer = this.producerMap.get(sourceAudio);
-    const videoProducer = this.producerMap.get(sourceVideo);
 
     if ( audioProducer ) {
       audioProducer.close();
@@ -506,19 +428,7 @@ export class PeerService {
       this.producerMap.delete(sourceAudio);
     }
 
-    if ( videoProducer ) {
-      videoProducer.close();
-      await this.socket.sendRequest(
-        RequestMethod.closeProducer, {producerId: videoProducer.id}
-      );
-
-      this.logger.debug('stopLocalCamera, video: %s', videoProducer.id);
-      this.producerMap.delete(sourceVideo);
-    }
-
     this.profile.me.enableMic = false;
-    this.profile.me.enableCam = false;
-    await this.getLocalCamera();
   }
 
   async  produceAudio(stream: MediaStream, src: string) {
@@ -728,19 +638,5 @@ export class PeerService {
         default:
           break;
       }
-  }
-
-  async addFakeStream() {
-    const stream = new ClaMedia();
-    stream.addTrack(this.localStream.getVideoTracks()[0]);
-    const peer = new ClaPeer();
-    peer.displayName = makeRandomString(8);
-    stream.peer = peer;
-    peer.stream = stream;
-    this.peersInfo.push(peer);
-  }
-
-  subFakeStream() {
-    this.peersInfo.pop();
   }
 }

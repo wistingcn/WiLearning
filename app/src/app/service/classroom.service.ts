@@ -60,18 +60,14 @@ export class ClassroomService {
   }
 
   async startConnectVideo() {
-    const result = await this.peer.connectMediaServer();
-    if ( !result ) {
-      return;
-    }
-
-    await this.peer.getLocalCamera();
     await this.peer.produceLocalCamera();
+    await this.peer.produceLocalMic();
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
   }
 
   async stopConnectVideo() {
     await this.peer.stopLocalCamera();
+    await this.peer.stopLocalMic();
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
   }
 
@@ -99,11 +95,6 @@ export class ClassroomService {
       return;
     }
 
-    const result = await this.peer.connectMediaServer();
-    if ( !result ) {
-      return;
-    }
-
     this.profile.started = true;
     this.profile.startTime = Date.now();
     this.profile.startTimeElapsed = 0;
@@ -112,6 +103,7 @@ export class ClassroomService {
 
     await this.socket.sendClassStart();
     await this.peer.produceLocalCamera();
+    await this.peer.produceLocalMic();
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
     this.profile.bClassStarter = true;
   }
@@ -124,6 +116,7 @@ export class ClassroomService {
     this.timeElapsed = '';
 
     await this.peer.stopLocalCamera();
+    await this.peer.stopLocalMic();
     await this.socket.sendClassStop();
 
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;

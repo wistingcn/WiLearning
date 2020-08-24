@@ -56,7 +56,7 @@ export class MainComponent implements OnInit {
     public profile: ProfileService,
     public peer: PeerService,
     public chat: ChatService,
-    public classromm: ClassroomService,
+    public classroom: ClassroomService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
@@ -194,5 +194,9 @@ export class MainComponent implements OnInit {
       translucent: true
     });
     return popover.present();
+  }
+
+  enableCamera() {
+
   }
 }

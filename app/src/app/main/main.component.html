@@ -60,9 +60,9 @@
               </ion-button>
             </ion-menu-toggle>
           </ion-buttons>
-          <ion-title slot="start">栗伟的课堂</ion-title>
+          <ion-title slot="start">{{profile.room.name}}</ion-title>
           <ion-title slot="start">张三请求发言</ion-title>
-          <ion-title>13:50</ion-title>
+          <ion-title>{{classroom.timeElapsed}}</ion-title>
           <ion-buttons slot="end">
             <ion-button slot="end" (click)="netstatPopover($event)">
               <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
@@ -80,16 +80,25 @@
       <ion-footer class="ion-no-border">
         <ion-toolbar>
           <ion-buttons class="ion-justify-content-around">
-            <ion-button>
-              <ion-icon slot="icon-only" name="videocam"></ion-icon>
-            </ion-button>
-            <ion-button>
-              <ion-icon slot="icon-only" name="mic"></ion-icon>
-            </ion-button>
+            <ng-container *ngIf="profile.started">
+              <ion-button *ngIf="!profile.me.enableCam" (click)="peer.produceLocalCamera()">
+                <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="profile.me.enableCam" (click)="peer.stopLocalCamera()" >
+                <ion-icon slot="icon-only" name="videocam"></ion-icon>
+              </ion-button>
 
-            <ion-button class="" (click)="sharePopover($event)">
-              <ion-icon slot="icon-only" name="share"></ion-icon>
-            </ion-button>
+              <ion-button *ngIf="!profile.me.enableMic" (click)="peer.produceLocalMic()">
+                <ion-icon slot="icon-only" name="mic-off"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="profile.me.enableMic" (click)="peer.stopLocalMic()">
+                <ion-icon slot="icon-only" name="mic"></ion-icon>
+              </ion-button>
+
+              <ion-button class="" (click)="sharePopover($event)">
+                <ion-icon slot="icon-only" name="share"></ion-icon>
+              </ion-button>
+            </ng-container>
 
             <ion-button (click)="openMember()">
               <ion-icon slot="icon-only" name="people"></ion-icon>
@@ -107,12 +116,12 @@
             </ion-button>
 
             <ion-button color="primary" 
-              (click)="classromm.startClass()" 
+              (click)="classroom.startClass()" 
               *ngIf="!profile.started && profile.privilege.classControl">
               开始
             </ion-button>
 
-            <ion-button color="primary" (click)="classromm.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
+            <ion-button color="primary" (click)="classroom.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
               结束
             </ion-button>
           </ion-buttons>
