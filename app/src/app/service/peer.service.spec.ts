@@ -6,8 +6,6 @@ import { MediaService, DisplayMediaScreenShare } from './media.service';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { ProfileService } from './profile.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material';
-import { SharedModule } from '../misc/shared.module';
 
 describe('PeerService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -15,7 +13,6 @@ describe('PeerService', () => {
       PeerService
     ],
     imports: [
-      SharedModule
     ]
   }));
 

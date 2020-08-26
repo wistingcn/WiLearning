@@ -1,33 +1,9 @@
 <ion-content>
-  <ion-fab vertical="center" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="peer.addFakeStream()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ion-fab vertical="center" horizontal="start" slot="fixed">
-    <ion-fab-button (click)="peer.subFakeStream()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ng-container *ngFor="let p of peer.peersInfo">
-      <app-videoplayer [stream]="p.stream" [toolbar]="false" *ngIf="p.stream && p.stream.toggleBoard"></app-videoplayer>
-  </ng-container>
-  <!--
-
-  <ion-grid class="ion-justify-content-center">
-    <ion-row *ngFor="let i of profile.rowNumber" class="ion-align-items-center">
-      <ion-col [size]="profile.colSize" *ngIf="i*3 < profile.streams.length" >
-        <video autoplay [srcObject]="profile.streams[i*3]"></video>
-      </ion-col>
-      <ion-col [size]="profile.colSize" *ngIf="i*3 + 1 < profile.streams.length">
-        <video autoplay [srcObject]="profile.streams[i*3 + 1]"></video>
-      </ion-col>
-      <ion-col [size]="profile.colSize" *ngIf="i*3 + 2 < profile.streams.length">
-        <video autoplay [srcObject]="profile.streams[i*3 + 2]"></video>
+  <ion-grid>
+    <ion-row *ngFor="let row of peer.cameraStreams" class="ion-align-self-center">
+      <ion-col [size]="stream.size" *ngFor="let stream of row">
+        <app-videoplayer [stream]="stream" [toolbar]="true"></app-videoplayer>
       </ion-col>
     </ion-row>
   </ion-grid>
-  -->
 </ion-content>

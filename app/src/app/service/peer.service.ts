@@ -30,11 +30,13 @@ import { audioConstrain, videoConstrain } from '../config';
   providedIn: 'root'
 })
 export class PeerService {
-  public localStream: ClaMedia;
+  public localCam: ClaMedia;
+  public localMic: ClaMedia;
   public pScreen: DisplayMediaScreenShare;
   public peerStreams: ClaMedia[] = [];
   public peersInfo: ClaPeer[] = [];
   public producerMap = new Map<string, mediaTypes.Producer>();
+  public cameraStreams = [];
 
   public networkType;
 
@@ -120,25 +122,24 @@ export class PeerService {
 
     const appdata = appData.source as string;
     const appArray = appdata.split('_'); // 0 - peerId, 1 - source ; 2-type
-
-    const source = appArray[0] + '_' + appArray[1]; // peerId_source as source id
+    const source = appArray[1]; // source as source id
 
     const peerInfo = this.getPeerInfo(peerId);
     peerInfo.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
 
-    let stream = new ClaMedia();
-    stream.peer = peerInfo;
-    stream.source = source;
-
     this.logger.debug('appdata, peerId: %s, source: %s, type: %s, peer roler: %s',
       appArray[0], appArray[1], appArray[2], peerInfo.roler);
 
-    let existStream = null;
-    existStream = this.peerStreams.find(ps => ps.source === source);
+    let stream = null;
+    const existStream = this.peerStreams.find(ps => (ps.source === source) && (ps.peer.id === peerId));
+
     if ( existStream ) {
       stream = existStream;
     } else {
+      stream = new ClaMedia();
       this.peerStreams = [...this.peerStreams, stream];
+      stream.source = source;
+
       peerInfo.stream = stream;
       stream.peer = peerInfo;
     }
@@ -148,6 +149,11 @@ export class PeerService {
     if ( consumer.kind === 'video' ) {
       stream.videoConsumer = consumer;
       peerInfo.enableCam = true;
+
+      if (source === 'cameramic') {
+        peerInfo.stream.toggleBoard = true;
+        this.cameraDisplayUpdate();
+      }
     } else {
       stream.audioConsumer = consumer;
       this.setupVolumeDetect(stream);
@@ -160,6 +166,38 @@ export class PeerService {
         stream.peer.id, consumer.id, consumer.kind);
       stream.getAudioTracks()[0].enabled = false;
     }
+  }
+
+  public cameraDisplayUpdate() {
+    this.cameraStreams = [];
+    const tmpStreams: ClaMedia[] = [];
+
+    this.peerStreams.forEach(stream => {
+      if (stream.toggleBoard && stream.source === 'cameramic' && stream.videoConsumer) {
+        stream.size = 6;
+        tmpStreams.push(stream);
+      }
+    });
+
+    if (!tmpStreams.length ) {
+      return;
+    }
+
+    if (tmpStreams.length === 1) {
+      tmpStreams[0].size = 12;
+      this.cameraStreams.push(tmpStreams);
+    } else {
+      const rowNumber = Math.floor(tmpStreams.length / 2);
+      for (let i = 0; i < rowNumber; i++) {
+        this.cameraStreams.push([tmpStreams[i], tmpStreams[i + 1]]);
+      }
+
+      if (tmpStreams.length > rowNumber * 2 ) {
+        this.cameraStreams.push([tmpStreams[tmpStreams.length - 1]]);
+      }
+    }
+
+    this.logger.debug(this.cameraStreams);
   }
 
   private setupVolumeDetect(stream: ClaMedia ) {
@@ -200,7 +238,12 @@ export class PeerService {
       foundStream.removeTrack(foundStream.videoConsumer.track);
       foundStream.videoConsumer.close();
       foundStream.videoConsumer = null;
-      foundStream.peer.enableCam = false;
+
+      if (foundStream.source === 'cameramic') {
+        foundStream.peer.enableCam = false;
+        foundStream.toggleBoard = false;
+        this.cameraDisplayUpdate();
+      }
     } else if ( foundStream.audioConsumer &&
       foundStream.audioConsumer.id === consumerId) {
       foundStream.removeTrack(foundStream.audioConsumer.track);
@@ -318,10 +361,6 @@ export class PeerService {
       this.profile.mainAudioDeviceId = this.media.audioDevices[0].deviceId;
     }
 
-    if ( this.profile.privilege.pubCamera ) {
-      await this.getLocalCamera();
-    }
-
     this.hasInit = true;
    }
 
@@ -379,23 +418,31 @@ export class PeerService {
   }
 
   async produceLocalCamera() {
-    if ( !this.localStream ) {
-      await this.getLocalCamera();
+    if ( !this.localCam ) {
+      try {
+        await this.getLocalCamera();
+      } catch (e) {
+        return;
+      }
     }
-    await this.produceVideo(this.localStream.clone(), 'camera');
+    await this.produceVideo(this.localCam, 'cameramic');
     this.profile.me.enableCam = true;
   }
 
   async produceLocalMic() {
-    if ( !this.localStream ) {
-      await this.getLocalCamera();
+    if ( !this.localMic) {
+      try {
+        await this.getLocalMic();
+      } catch (e) {
+        return;
+      }
     }
-    await this.produceAudio(this.localStream.clone(), 'camera');
+    await this.produceAudio(this.localMic, 'cameramic');
     this.profile.me.enableMic = true;
   }
 
   async stopLocalCamera() {
-    const sourceVideo = this.profile.me.id + '_' + 'camera' + '_' + 'video';
+    const sourceVideo = this.profile.me.id + '_' + 'cameramic' + '_' + 'video';
 
     const videoProducer = this.producerMap.get(sourceVideo);
 
@@ -410,10 +457,15 @@ export class PeerService {
     }
 
     this.profile.me.enableCam = false;
+
+    if (this.localCam ) {
+      this.localCam.getVideoTracks().forEach(track => track.stop());
+      this.localCam = null;
+    }
   }
 
   async stopLocalMic() {
-    const sourceAudio = this.profile.me.id + '_' + 'camera' + '_' + 'audio';
+    const sourceAudio = this.profile.me.id + '_' + 'cameramic' + '_' + 'audio';
 
     const audioProducer = this.producerMap.get(sourceAudio);
 
@@ -429,6 +481,11 @@ export class PeerService {
     }
 
     this.profile.me.enableMic = false;
+
+    if (this.localMic) {
+      this.localMic.getAudioTracks().forEach(track => track.stop());
+      this.localMic = null;
+    }
   }
 
   async  produceAudio(stream: MediaStream, src: string) {
@@ -597,28 +654,43 @@ export class PeerService {
   }
 
   async getLocalCamera() {
-    const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
-    for (const constraint in supportedConstraints) {
-      if ( constraint ) {
-        this.logger.debug('supportedConstraints: %s', constraint);
-      }
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              deviceId: this.profile.mainVideoDeviceId,
+              width: VIDEORESOLUTION[this.profile.mainVideoResolution].width,
+              height: VIDEORESOLUTION[this.profile.mainVideoResolution].height,
+              ...videoConstrain
+            },
+        }) as ClaMedia;
+    } catch (e) {
+      this.logger.error(e);
+      throw new Error('Open Camera Error!');
     }
 
-    this.localStream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          deviceId: this.profile.mainVideoDeviceId,
-          width: VIDEORESOLUTION[this.profile.mainVideoResolution].width,
-          height: VIDEORESOLUTION[this.profile.mainVideoResolution].height,
-          ...videoConstrain
-        },
-        audio: {
-          deviceId: this.profile.mainAudioDeviceId,
-          ...audioConstrain
-        }
-    }) as ClaMedia;
+    this.localCam = stream;
+    this.localCam.peer = this.profile.me;
+    return this.localCam;
+  }
 
-    this.localStream.peer = this.profile.me;
-    return this.localStream;
+  async getLocalMic() {
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: this.profile.mainAudioDeviceId,
+            ...audioConstrain
+          }
+        }) as ClaMedia;
+    } catch (e) {
+      this.logger.error(e);
+      throw new Error('Open Mic Error!');
+    }
+
+    this.localMic = stream;
+    this.localMic.peer = this.profile.me;
+    return this.localMic;
   }
 
   async roomUpdate() {

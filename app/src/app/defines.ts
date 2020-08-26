@@ -70,6 +70,7 @@ export class ClaMedia extends MediaStream {
   public consumerScore?: number[] = [];
   public scoreIndex?: string[] = [];
   public toggleBoard = false;
+  public size = 6;
 
   constructor() {
     super();
