@@ -1,14 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { PeerService } from '../../service/peer.service';
 
 @Component({
   selector: 'app-sharemedia',
   templateUrl: './sharemedia.component.html',
   styleUrls: ['./sharemedia.component.scss'],
 })
-export class SharemediaComponent implements OnInit {
+export class SharemediaComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  constructor(
+    public peer: PeerService,
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.peer.cameraToggleSide(true);
+    });
+  }
+
+  ngAfterViewInit() {
+    this.peer.cameraToggleSide(true);
+  }
 
 }

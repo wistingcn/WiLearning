@@ -4,10 +4,10 @@
   <div class="controlbar" *ngIf="toolbar">
     <ion-buttons>
       <ion-label>{{stream.peer.displayName}}</ion-label>
-      <ion-button *ngIf="stream.peer.enableMic">
+      <ion-button *ngIf="peer.isEnableMic(stream.peer)">
         <ion-icon name="mic"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="!stream.peer.enableMic">
+      <ion-button *ngIf="!peer.isEnableMic(stream.peer)">
         <ion-icon name="mic-off"></ion-icon>
       </ion-button>
     </ion-buttons>

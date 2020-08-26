@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../service/profile.service';
-import { BoardComp } from '../../defines';
+import { ClaBoardComp } from '../../defines';
+import { PeerService } from '../../service/peer.service';
 
 @Component({
   selector: 'app-sharepopover',
@@ -11,20 +12,21 @@ export class SharepopoverComponent implements OnInit {
 
   constructor(
     private profile: ProfileService,
+    public peer: PeerService,
   ) { }
 
   ngOnInit() {}
 
   openWelcome() {
-    this.profile.boardComponent = BoardComp.welcome;
+    this.profile.boardComponent = ClaBoardComp.welcome;
   }
 
   openVideo() {
-    this.profile.boardComponent = BoardComp.video;
+    this.profile.boardComponent = ClaBoardComp.video;
   }
 
   shareDesktop() {
-
+    this.profile.boardComponent = ClaBoardComp.sharescreen;
   }
 
   shareMedia() {
@@ -32,10 +34,10 @@ export class SharepopoverComponent implements OnInit {
   }
 
   openDocument() {
-    this.profile.boardComponent = BoardComp.document;
+    this.profile.boardComponent = ClaBoardComp.document;
   }
 
   openWhiteBoard() {
-    this.profile.boardComponent = BoardComp.whiteboard;
+    this.profile.boardComponent = ClaBoardComp.whiteboard;
   }
 }

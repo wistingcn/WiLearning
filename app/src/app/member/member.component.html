@@ -12,32 +12,32 @@
   <ion-list lines="none">
     <ion-menu-toggle autoHide="false">
       <ng-container *ngFor="let p of peer.peersInfo">
-        <ion-item *ngIf="p.stream && !p.stream.toggleBoard && p.enableCam">
-          <app-videoplayer [stream]="p.stream" ></app-videoplayer>
+        <ion-item *ngIf="p.camStream && p.camStream.toggleSide && peer.isEnableCamera(p)">
+          <app-videoplayer [stream]="p.camStream" ></app-videoplayer>
         </ion-item>
       </ng-container>
       <ng-container *ngFor="let p of peer.peersInfo">
-        <ion-item *ngIf="p.stream && p.enableMic && !p.enableCam">
-          <audio [srcObject]="p.stream" autoplay></audio>
+        <ion-item *ngIf="p.camStream && peer.isEnableMic(p)&& !peer.isEnableCamera(p)">
+          <audio [srcObject]="p.camStream" autoplay></audio>
           <ion-label>{{p.displayName}}</ion-label>
           <ion-buttons>
-            <ion-button *ngIf="p.enableMic">
+            <ion-button *ngIf="peer.isEnableMic(p)">
               <ion-icon name="mic"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="!p.enableMic">
+            <ion-button *ngIf="!peer.isEnableMic(p)">
               <ion-icon name="mic-off"></ion-icon>
             </ion-button>
           </ion-buttons>
         </ion-item>
       </ng-container>
       <ng-container *ngFor="let p of peer.peersInfo">
-        <ion-item *ngIf="!p.stream || p.stream.toggleBoard">
+        <ion-item *ngIf="!p.camStream|| !p.camStream.toggleSide">
           <ion-label>{{p.displayName}}</ion-label>
           <ion-buttons>
-            <ion-button *ngIf="p.enableMic">
+            <ion-button *ngIf="peer.isEnableMic(p)">
               <ion-icon name="mic"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="!p.enableMic">
+            <ion-button *ngIf="!peer.isEnableMic(p)">
               <ion-icon name="mic-off"></ion-icon>
             </ion-button>
           </ion-buttons>

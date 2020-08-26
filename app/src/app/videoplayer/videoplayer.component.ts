@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClaMedia } from '../defines';
+import { PeerService } from '../service/peer.service';
 
 @Component({
   selector: 'app-videoplayer',
@@ -10,7 +11,9 @@ export class VideoplayerComponent implements OnInit {
   @Input() stream: ClaMedia;
   @Input() toolbar = true;
 
-  constructor() { }
+  constructor(
+    public peer: PeerService,
+  ) { }
 
   ngOnInit() {}
 
@@ -18,6 +21,6 @@ export class VideoplayerComponent implements OnInit {
     console.log('click video');
     ev.preventDefault();
 
-    this.stream.toggleBoard = !this.stream.toggleBoard;
+    this.stream.toggleSide = !this.stream.toggleSide;
   }
 }

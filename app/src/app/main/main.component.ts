@@ -90,6 +90,8 @@ export class MainComponent implements OnInit {
     this.platform.ready().then(async () => {
       this.socket.connect();
     });
+
+    (window as any).peer = this.peer;
   }
 
   checkLoginStatus() {

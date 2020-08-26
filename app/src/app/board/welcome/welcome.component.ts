@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PeerService } from '../../service/peer.service';
 
 @Component({
   selector: 'app-welcome',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private peer: PeerService,
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.peer.cameraToggleSide(true);
+    });
+  }
 
 }

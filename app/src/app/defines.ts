@@ -31,9 +31,9 @@ export class ClaPeer {
   public connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
   public platform: string;
   public picture: string;
-  public enableCam = false;
-  public enableMic = false;
-  public stream?: ClaMedia;
+  public camStream?: ClaMedia;
+  public screenStream?: ClaMedia;
+  public mediaStream?: ClaMedia;
 
   constructor(
     ) {
@@ -69,7 +69,7 @@ export class ClaMedia extends MediaStream {
   public producerScore?: number[] = [];
   public consumerScore?: number[] = [];
   public scoreIndex?: string[] = [];
-  public toggleBoard = false;
+  public toggleSide = false;
   public size = 6;
 
   constructor() {
@@ -172,13 +172,19 @@ export enum RequestMethod {
   disconnectVideo = 'disconnectVideo',
 }
 
-export enum BoardComp {
+export enum ClaBoardComp {
   video = 'video',
   welcome = 'welcome',
   document = 'document',
   whiteboard = 'whiteboard',
-  sharedesk = 'sharedesk',
+  sharescreen = 'sharescreen',
   sharemedia = 'sharemedia',
+}
+
+export enum ClaMediaSource {
+  cameramic = 'cameramic',
+  screen = 'screen',
+  media = 'media',
 }
 
 export const makeRandomString = (length: number): string => {

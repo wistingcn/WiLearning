@@ -66,24 +66,24 @@
         <app-mainvideo *ngIf="profile.boardComponent==='video'"></app-mainvideo>
         <app-welcome *ngIf="profile.boardComponent==='welcome'"></app-welcome>
         <app-document *ngIf="profile.boardComponent==='document'"></app-document>
-        <app-sharedesk *ngIf="profile.boardComponent==='sharedesk'"></app-sharedesk>
+        <app-sharedesk *ngIf="profile.boardComponent==='sharescreen'"></app-sharedesk>
         <app-sharemedia *ngIf="profile.boardComponent==='sharemedia'"></app-sharemedia>
       </ion-content>
       <ion-footer class="ion-no-border">
         <ion-toolbar>
           <ion-buttons class="ion-justify-content-around">
             <ng-container *ngIf="profile.started">
-              <ion-button *ngIf="!profile.me.enableCam" (click)="peer.produceLocalCamera()">
+              <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="peer.produceLocalCamera()">
                 <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
               </ion-button>
-              <ion-button *ngIf="profile.me.enableCam" (click)="peer.stopLocalCamera()" >
+              <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera()" >
                 <ion-icon slot="icon-only" name="videocam"></ion-icon>
               </ion-button>
 
-              <ion-button *ngIf="!profile.me.enableMic" (click)="peer.produceLocalMic()">
+              <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="peer.produceLocalMic()">
                 <ion-icon slot="icon-only" name="mic-off"></ion-icon>
               </ion-button>
-              <ion-button *ngIf="profile.me.enableMic" (click)="peer.stopLocalMic()">
+              <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic()">
                 <ion-icon slot="icon-only" name="mic"></ion-icon>
               </ion-button>
 

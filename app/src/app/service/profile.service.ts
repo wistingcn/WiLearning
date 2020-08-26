@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { makeRandomString, ClaPeer } from '../defines';
 import { LoggerService } from './logger.service';
-import {ROLE, ClaRoom, RoomStatus, BoardComp } from '../defines';
+import {ROLE, ClaRoom, RoomStatus, ClaBoardComp } from '../defines';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class ProfileService {
 
   public bLogin = false;
   public themeDark = false;
-  public boardComponent = BoardComp.video;
+  public boardComponent = ClaBoardComp.video;
 
   public room = new ClaRoom();
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit  } from '@angular/core';
 import { ProfileService } from '../../service/profile.service';
 import { PeerService } from '../../service/peer.service';
 
@@ -7,7 +7,7 @@ import { PeerService } from '../../service/peer.service';
   templateUrl: './mainvideo.component.html',
   styleUrls: ['./mainvideo.component.scss'],
 })
-export class MainvideoComponent implements OnInit {
+export class MainvideoComponent implements OnInit, AfterViewInit {
 
   constructor(
     public profile: ProfileService,
@@ -15,6 +15,11 @@ export class MainvideoComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    setTimeout(() => {
+      this.peer.cameraToggleSide(false);
+    });
   }
 
+  ngAfterViewInit() {
+  }
 }
