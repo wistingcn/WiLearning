@@ -1,5 +1,21 @@
 <ion-fab vertical="center" horizontal="end" slot="fixed">
-  <ion-fab-button>
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
+  <ion-buttons>
+    <ion-label>画笔</ion-label>
+    <ion-button color="primary">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-buttons>
 </ion-fab>
+<div class="drawtool" slot="fixed"></div>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button>
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Schedule</ion-label>
+    </ion-tab-button>
+    <ion-tab-button>
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Schedule</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

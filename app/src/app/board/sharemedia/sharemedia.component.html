@@ -1,3 +1,22 @@
-<p>
-  sharemedia works!
-</p>
+<ion-content>
+  <input type="file" #input accept='video/mp4, audio/mp3' (change)="sharemedia.fileChange($event)" hidden/>
+  <div id="sharemedia"></div>
+
+  <ng-container *ngFor="let stream of peer.mediaStreams">
+    <app-videoplayer [stream]="stream"></app-videoplayer>
+  </ng-container>
+
+  <ng-container *ngIf="profile.privilege.shareMedia && !peer.mediaStreams.length">
+    <ion-fab vertical="center" horizontal="center" slot="fixed" *ngIf="!sharemedia.videoElement">
+      <ion-fab-button (click)="input.click()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-label position="stacked" class="ion-padding-top">共享媒体</ion-label>
+    </ion-fab>
+    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="sharemedia.videoElement">
+      <ion-fab-button (click)="sharemedia.close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-container>
+</ion-content>

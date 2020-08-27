@@ -211,6 +211,12 @@ export class PeerService {
   }
 
   private newCosumerMedia(peerId: string, consumer: mediaTypes.Consumer, source: string) {
+    // not consume media produce by me
+    if (peerId === this.profile.me.id ) {
+      consumer.close();
+      return;
+    }
+
     const peerInfo = this.getPeerInfo(peerId);
 
     let stream = null;
@@ -329,7 +335,7 @@ export class PeerService {
     });
 
     if ( !foundStream ) {
-      this.logger.error('consumerClosed, do not find consumer: %s', consumerId);
+      this.logger.debug('consumerClosed, do not find consumer: %s', consumerId);
       return;
     }
 
@@ -698,6 +704,7 @@ export class PeerService {
       await screen.start(SCREENSHARE_CONSTRAINTS);
     } catch (e) {
       this.logger.error(e);
+      return;
     }
 
     this.pScreen = screen;

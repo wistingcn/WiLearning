@@ -63,11 +63,11 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-justify-content-center">
-        <app-mainvideo *ngIf="profile.boardComponent==='video'"></app-mainvideo>
-        <app-welcome *ngIf="profile.boardComponent==='welcome'"></app-welcome>
-        <app-document *ngIf="profile.boardComponent==='document'"></app-document>
-        <app-sharedesk *ngIf="profile.boardComponent==='sharescreen'"></app-sharedesk>
-        <app-sharemedia *ngIf="profile.boardComponent==='sharemedia'"></app-sharemedia>
+        <app-mainvideo *ngIf="profile.boardComponent===boardcomp.video"></app-mainvideo>
+        <app-welcome *ngIf="profile.boardComponent===boardcomp.welcome"></app-welcome>
+        <app-document *ngIf="profile.boardComponent===boardcomp.document"></app-document>
+        <app-sharedesk *ngIf="profile.boardComponent===boardcomp.sharescreen"></app-sharedesk>
+        <app-sharemedia *ngIf="profile.boardComponent===boardcomp.sharemedia"></app-sharemedia>
       </ion-content>
       <ion-footer class="ion-no-border">
         <ion-toolbar>

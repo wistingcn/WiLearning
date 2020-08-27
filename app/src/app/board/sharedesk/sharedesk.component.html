@@ -7,15 +7,19 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-fab vertical="center" horizontal="center" slot="fixed" *ngIf="!peer.screenStreams.length && !peer.pScreen">
-    <ion-fab-button (click)="peer.startScreenShare()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="peer.screenStreams.length && peer.pScreen">
-    <ion-fab-button (click)="peer.stopScreenShare()">
-      <ion-icon name="close"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
+  <ng-container *ngIf="profile.privilege.shareDesktop">
+    <ion-fab vertical="center" horizontal="center" slot="fixed" *ngIf="!peer.screenStreams.length && !peer.pScreen">
+      <ion-fab-button (click)="peer.startScreenShare()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-label class="ion-margin-top">共享桌面</ion-label>
+
+    </ion-fab>
+    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="peer.screenStreams.length && peer.pScreen">
+      <ion-fab-button (click)="peer.stopScreenShare()">
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-container>
 </ion-content>

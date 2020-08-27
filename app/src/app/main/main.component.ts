@@ -16,15 +16,7 @@ import { ChatService } from '../service/chat.service';
 import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ClassroomService } from '../service/classroom.service';
-
-enum BoardComp {
-  video = 'video',
-  welcome = 'welcome',
-  document = 'document',
-  whiteboard = 'whiteboard',
-  sharedesk = 'sharedesk',
-  sharemedia = 'sharemedia',
-}
+import { ClaBoardComp } from '../defines';
 
 @Component({
   selector: 'app-main',
@@ -36,7 +28,6 @@ export class MainComponent implements OnInit {
   loggedIn = false;
   menuPage = 'member';
 
-  boardcomp = BoardComp.welcome;
   inputMessage = '';
 
   mediaFile: File;
@@ -50,6 +41,7 @@ export class MainComponent implements OnInit {
   recorderIntervalHandler;
   recordingIconSize = false;
   recorderEnable = false;
+  boardcomp = ClaBoardComp;
 
   constructor(
     public popoverController: PopoverController,
@@ -72,12 +64,14 @@ export class MainComponent implements OnInit {
     this.checkLoginStatus();
     this.listenForLoginEvents();
 
+    /*
     window.addEventListener('event:openvideocomp', () => {
       this.boardcomp = BoardComp.video;
     });
     window.addEventListener('event:openwelcomecomp', () => {
       this.boardcomp = BoardComp.welcome;
     });
+    */
 
     this.eventbus.chat$.subscribe((event: IEventType) => {
       if (event.type === EventType.chat_emoji) {
@@ -196,9 +190,5 @@ export class MainComponent implements OnInit {
       translucent: true
     });
     return popover.present();
-  }
-
-  enableCamera() {
-
   }
 }

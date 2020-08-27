@@ -30,7 +30,7 @@ export class SharepopoverComponent implements OnInit {
   }
 
   shareMedia() {
-
+    this.profile.boardComponent = ClaBoardComp.sharemedia;
   }
 
   openDocument() {
