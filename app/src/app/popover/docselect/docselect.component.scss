@@ -1,0 +1,16 @@
+
+.doc-item:hover{
+    background-color: gray;
+}
+.doc-item-selected{
+background-color: gray;
+}
+
+ion-item {
+  --background-hover: gray;
+  --background-activated: gray;
+}
+
+.item-select {
+    --background: var(--ion-color-medium);
+}

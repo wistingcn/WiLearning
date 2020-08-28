@@ -28,5 +28,8 @@ export class EmojiComponent implements OnInit {
       type: EventType.chat_emoji,
       data: emoji
     });
+    this.eventbus.popover$.next({
+      type: EventType.popover_emojiClosed
+    });
   }
 }

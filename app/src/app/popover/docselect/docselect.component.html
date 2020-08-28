@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>选择文件</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="input.click()">
+        添加
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <input type="file" #input accept='application/pdf' (change)="addFile($event)" hidden/>
+  <ion-list>
+    <ion-item button *ngFor="let doc of docList" lines="none" (click)="docSelect(doc)" [class.item-select]="doc===docSelected">
+      <ion-icon name="document" class="ion-margin-end"></ion-icon>
+      <ion-label>{{doc.fileName}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-label>{{message}}</ion-label>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="docOpen()" [disabled]="!docSelected">
+        选择
+      </ion-button>
+      <ion-button (click)=close()>
+        关闭
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

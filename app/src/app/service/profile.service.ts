@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import { Injectable } from '@angular/core';
-import { makeRandomString, ClaPeer } from '../defines';
+import { makeRandomString, ClaPeer, ClaColor } from '../defines';
 import { LoggerService } from './logger.service';
 import {ROLE, ClaRoom, RoomStatus, ClaBoardComp } from '../defines';
 
@@ -26,6 +26,8 @@ export class ProfileService {
   public useSimulcast = false;
   public videoNav = true;
 
+  public color = ClaColor.medium;
+
   public started = false; // Classroom status
   public startTime: number;
   public startTimeElapsed: number;
@@ -34,7 +36,7 @@ export class ProfileService {
 
   public bLogin = false;
   public themeDark = false;
-  public boardComponent = ClaBoardComp.video;
+  public boardComponent = ClaBoardComp.document;
 
   public room = new ClaRoom();
 

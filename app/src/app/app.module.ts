@@ -27,6 +27,7 @@ import { SharepopoverComponent } from './popover/sharepopover/sharepopover.compo
 import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { EmojiComponent } from './popover/emoji/emoji.component';
 import { MainComponent } from './main/main.component';
+import { DocselectComponent } from './popover/docselect/docselect.component';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { MainComponent } from './main/main.component';
     NetstatComponent,
     SharepopoverComponent,
     EmojiComponent,
+    DocselectComponent,
 
     VideoplayerComponent,
   ],
@@ -67,6 +69,7 @@ import { MainComponent } from './main/main.component';
     NetstatComponent,
     SharepopoverComponent,
     EmojiComponent,
+    DocselectComponent,
   ],
   providers: [InAppBrowser, SplashScreen, StatusBar],
   bootstrap: [AppComponent]

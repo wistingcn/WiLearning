@@ -43,6 +43,8 @@ export class MainComponent implements OnInit {
   recorderEnable = false;
   boardcomp = ClaBoardComp;
 
+  popoverEmoji = null;
+
   constructor(
     public popoverController: PopoverController,
     public profile: ProfileService,
@@ -64,18 +66,16 @@ export class MainComponent implements OnInit {
     this.checkLoginStatus();
     this.listenForLoginEvents();
 
-    /*
-    window.addEventListener('event:openvideocomp', () => {
-      this.boardcomp = BoardComp.video;
-    });
-    window.addEventListener('event:openwelcomecomp', () => {
-      this.boardcomp = BoardComp.welcome;
-    });
-    */
-
     this.eventbus.chat$.subscribe((event: IEventType) => {
       if (event.type === EventType.chat_emoji) {
         this.inputMessage += event.data;
+      }
+    });
+
+    this.eventbus.popover$.subscribe((event: IEventType) => {
+      if (event.type === EventType.popover_emojiClosed && this.popoverEmoji) {
+        this.popoverEmoji.dismiss();
+        this.popoverEmoji = null;
       }
     });
   }
@@ -189,6 +189,12 @@ export class MainComponent implements OnInit {
       event: ev,
       translucent: true
     });
+
+    this.popoverEmoji = popover;
     return popover.present();
+  }
+
+  click() {
+    this.logger.debug('click');
   }
 }

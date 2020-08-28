@@ -187,6 +187,26 @@ export enum ClaMediaSource {
   media = 'media',
 }
 
+export enum ClaColor {
+  primary = 'primary',
+  secondary = 'secondary',
+  tertiary = 'tertiary',
+  success = 'success',
+  warning = 'warning',
+  danger = 'danger',
+  light = 'light',
+  medium = 'medium',
+  dark = 'dark'
+}
+
+export class ClaDocument {
+  public id;
+  public fileName;
+  public roomId;
+  public uploadTime;
+  constructor() {}
+}
+
 export const makeRandomString = (length: number): string => {
     let outString = '';
     const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';

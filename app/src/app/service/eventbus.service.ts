@@ -37,9 +37,9 @@ export enum EventType {
   chat_message,
   chat_emoji,
 
-  overlay_shareMediaClosed,
-  overlay_pdfSelectClosed,
-  overlay_settingClosed,
+  popover_docSelectClosed,
+  popover_settingClosed,
+  popover_emojiClosed,
 
   document_docSelect,
   document_docImport,
@@ -67,7 +67,7 @@ export class EventbusService {
   public socket$ = new Subject();
   public media$ = new Subject();
   public chat$ = new Subject();
-  public overlay$ = new Subject();
+  public popover$ = new Subject();
   public pdftranscode$ = new Subject();
   public docoment$ = new Subject();
   public nav$ = new Subject();

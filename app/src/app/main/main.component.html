@@ -3,7 +3,7 @@
 
     <ion-menu contentId="main-content" type="overlay">
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar [color]="profile.color">
           <ion-segment (ionChange)="segmentChanged($event)">
             <ion-segment-button value="member" id="memberButton">
               <ion-label>成员：{{peer.peersInfo.length}}</ion-label>
@@ -23,8 +23,9 @@
       <ion-footer *ngIf="menuPage==='chat'">
         <ion-toolbar>
           <ion-buttons>
-            <ion-textarea #text placeholder="请输入信息，按回车发送" 
+            <ion-textarea placeholder="请输入信息，按回车发送"
               autofocus=true rows=4 inputmode="text" enterkeyhint="send" class="textarea" 
+              spellcheck="false"
               (keydown.enter)="sendMessage(); $event.preventDefault();" 
               [(ngModel)]="inputMessage"
               ></ion-textarea>
@@ -52,7 +53,7 @@
 
     <div class="ion-page" id="main-content">
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar [color]="profile.color">
           <ion-title slot="start">{{profile.room.name}}</ion-title>
           <ion-title>{{classroom.timeElapsed}}</ion-title>
           <ion-buttons slot="end">
@@ -68,6 +69,25 @@
         <app-document *ngIf="profile.boardComponent===boardcomp.document"></app-document>
         <app-sharedesk *ngIf="profile.boardComponent===boardcomp.sharescreen"></app-sharedesk>
         <app-sharemedia *ngIf="profile.boardComponent===boardcomp.sharemedia"></app-sharemedia>
+        <ion-fab activated="true" vertical="center" horizontal="end" slot="fixed" *ngIf="profile.boardComponent===boardcomp.document">
+          <ion-fab-button>
+            <ion-icon name="pencil"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list activated="true">
+            <ion-fab-button (click)="click(); $event.preventDefault()">
+              <ion-icon name="triangle"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="click(); $event.preventDefault()">
+              <ion-icon name="triangle"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="click(); $event.preventDefault()">
+              <ion-icon name="triangle"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="click(); $event.preventDefault()">
+              <ion-icon name="triangle"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
       </ion-content>
       <ion-footer class="ion-no-border">
         <ion-toolbar>

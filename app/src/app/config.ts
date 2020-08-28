@@ -26,7 +26,7 @@ export const RequestConnectVideoTimeout = 60;
 export const RoomLogoHeight = 50;
 
 export const RequestTimeout = 10000;
-export const DocImagesUrl = '/docs/images';
+export const DocImagesUrl = 'https://rtc.liweix.com/docs/images';
 
 export const videoConstrain = {
   frameRate: {
