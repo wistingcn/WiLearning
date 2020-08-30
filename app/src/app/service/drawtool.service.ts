@@ -16,11 +16,20 @@ import { Injectable } from '@angular/core';
 import { fabric } from 'fabric';
 import { LoggerService } from './logger.service';
 
+export enum DrawtoolType {
+  free = 'free',
+  select = 'select',
+  text = 'text',
+  line = 'line',
+  rect = 'rect',
+  none = 'none'
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class DrawtoolService {
-  color = 'black';
+  color = 'red';
   lineWeight = 1;
   shape: string;
   fontSize: 50;
@@ -31,8 +40,7 @@ export class DrawtoolService {
   private texting: fabric.IText;
   public document;
 
-  // 'none|free'|'select'|'text'|'rect'|'line';
-  public selectedTool: string;
+  public selectedTool: DrawtoolType;
 
   constructor(
     private logger: LoggerService,
@@ -50,19 +58,19 @@ export class DrawtoolService {
 
   private setupTool() {
     switch (this.selectedTool) {
-      case 'text' :
+      case DrawtoolType.text :
         this.setDrawText();
         break;
-      case 'rect' :
+      case DrawtoolType.rect :
         this.setDrawRect();
         break;
-      case 'line' :
+      case DrawtoolType.line :
         this.setDrawLine();
         break;
-      case 'select' :
+      case DrawtoolType.select :
         this.setDrawSelect();
         break;
-      case 'free' :
+      case DrawtoolType.free :
         this.setDrawFree();
         break;
       default :
@@ -76,11 +84,11 @@ export class DrawtoolService {
   private setupEvent() {
     this.fabCanvas.on('mouse:down', (e) => {
       switch (this.selectedTool) {
-        case 'text' :
+        case DrawtoolType.text :
           return this.enterDrawText(e);
-        case 'rect' :
+        case DrawtoolType.rect :
           return this.enterDrawRect(e);
-        case 'line' :
+        case DrawtoolType.line :
           return this.enterDrawLine(e);
       }
     });
@@ -94,7 +102,7 @@ export class DrawtoolService {
         }
       }
       switch (this.selectedTool) {
-        case 'line' :
+        case DrawtoolType.line :
           if ( this.lining ) {
             const loc = this.fabCanvas.getPointer(e.e);
             this.lining.set('x2', loc.x);
@@ -103,7 +111,7 @@ export class DrawtoolService {
             this.fabCanvas.renderAll();
           }
           break;
-        case 'rect' :
+        case DrawtoolType.rect :
           if ( this.recting ) {
             const loc = this.fabCanvas.getPointer(e.e);
             const width = loc.x - this.recting.left;
@@ -119,18 +127,18 @@ export class DrawtoolService {
 
     this.fabCanvas.on('mouse:up', (e) => {
       switch (this.selectedTool) {
-        case 'line' :
+        case DrawtoolType.line :
           if ( this.lining ) {
             this.lining = undefined;
             this.fabCanvas.discardActiveObject();
             this.document.sendSyncDocInfo();
           }
           break;
-        case 'rect' :
+        case DrawtoolType.rect :
           this.recting = undefined;
           this.document.sendSyncDocInfo();
           break;
-        case 'free' :
+        case DrawtoolType.free :
           this.document.sendSyncDocInfo();
           break;
       }
@@ -216,37 +224,37 @@ export class DrawtoolService {
 
   public recoverCanvas() {
     this.fabCanvas.isDrawingMode = false;
-    this.selectedTool = 'none';
+    this.selectedTool = DrawtoolType.none;
 
     this.fabCanvas.getObjects().forEach(obj => obj.selectable = false);
   }
 
   setDrawRect() {
     this.recoverCanvas();
-    this.selectedTool = 'rect';
+    this.selectedTool = DrawtoolType.rect;
   }
 
   setDrawLine() {
     this.recoverCanvas();
-    this.selectedTool = 'line';
+    this.selectedTool = DrawtoolType.line;
   }
 
   setDrawText() {
     this.recoverCanvas();
-    this.selectedTool = 'text';
+    this.selectedTool = DrawtoolType.text;
   }
 
   setDrawFree() {
     this.recoverCanvas();
     this.fabCanvas.isDrawingMode = true;
-    this.selectedTool = 'free';
+    this.selectedTool = DrawtoolType.free;
 
     this.updataCanvasTool();
   }
 
   setDrawSelect() {
     this.fabCanvas.isDrawingMode = false;
-    this.selectedTool = 'select';
+    this.selectedTool = DrawtoolType.select;
 
     this.fabCanvas.getObjects().forEach(obj => {
       obj.selectable = true;
@@ -260,7 +268,7 @@ export class DrawtoolService {
   }
 
   delObject() {
-    if ( this.selectedTool !== 'select' ) {
+    if ( this.selectedTool !== DrawtoolType.select) {
       return;
     }
 

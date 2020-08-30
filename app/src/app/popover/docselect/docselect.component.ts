@@ -6,6 +6,7 @@ import { ProfileService } from '../../service/profile.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { DocImagesUrl } from '../../config';
 import { ClaDocument } from '../../defines';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-docselect',
@@ -28,6 +29,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     private pdfs: PdfService,
     private profile: ProfileService,
     private clahttp: ClahttpService,
+    private navparams: NavParams,
   ) { }
 
   ngOnInit() {

@@ -1,0 +1,29 @@
+<div class="container">
+  <ion-item>
+    <ion-button fill="clear" (click)="selectColor($event)">
+      <div [class]="'color_' + drawtool.color"></div>
+    </ion-button>
+    <ion-button fill="clear" (click)="selectLineWeight($event)">
+      <div [class]="'lineweight_' + drawtool.lineWeight"></div>
+    </ion-button>
+  </ion-item>
+  <ion-item>
+    <ion-button (click)="drawtool.setDrawLine()" [color]="drawtoolButton(drawtoolType.line)">
+      <ion-icon name="remove"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawFree()" [color]="drawtoolButton(drawtoolType.free)">
+      <ion-icon name="pencil"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawText()" [color]="drawtoolButton(drawtoolType.text)">
+      <ion-icon name="text"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawSelect()" [color]="drawtoolButton(drawtoolType.select)">
+      <ion-icon name="hand-left"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item>
+    <ion-button (click)="drawtool.delObject()" color="light">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+  </ion-item>
+</div>

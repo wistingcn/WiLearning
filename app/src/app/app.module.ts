@@ -28,6 +28,8 @@ import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { EmojiComponent } from './popover/emoji/emoji.component';
 import { MainComponent } from './main/main.component';
 import { DocselectComponent } from './popover/docselect/docselect.component';
+import { DrawtoolComponent } from './drawtool/drawtool.component';
+import { PencilComponent } from './popover/pencil/pencil.component';
 
 @NgModule({
   imports: [
@@ -60,8 +62,10 @@ import { DocselectComponent } from './popover/docselect/docselect.component';
     SharepopoverComponent,
     EmojiComponent,
     DocselectComponent,
+    PencilComponent,
 
     VideoplayerComponent,
+    DrawtoolComponent,
   ],
   entryComponents: [
     MoreComponent,
@@ -70,6 +74,7 @@ import { DocselectComponent } from './popover/docselect/docselect.component';
     SharepopoverComponent,
     EmojiComponent,
     DocselectComponent,
+    PencilComponent,
   ],
   providers: [InAppBrowser, SplashScreen, StatusBar],
   bootstrap: [AppComponent]

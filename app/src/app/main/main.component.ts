@@ -17,6 +17,8 @@ import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ClassroomService } from '../service/classroom.service';
 import { ClaBoardComp } from '../defines';
+import { PdfService } from '../service/pdf.service';
+import { DocselectComponent } from '../popover/docselect/docselect.component';
 
 @Component({
   selector: 'app-main',
@@ -44,6 +46,7 @@ export class MainComponent implements OnInit {
   boardcomp = ClaBoardComp;
 
   popoverEmoji = null;
+  popoverDocselect = null;
 
   constructor(
     public popoverController: PopoverController,
@@ -51,6 +54,7 @@ export class MainComponent implements OnInit {
     public peer: PeerService,
     public chat: ChatService,
     public classroom: ClassroomService,
+    public document: PdfService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
@@ -76,6 +80,11 @@ export class MainComponent implements OnInit {
       if (event.type === EventType.popover_emojiClosed && this.popoverEmoji) {
         this.popoverEmoji.dismiss();
         this.popoverEmoji = null;
+      }
+
+      if (event.type === EventType.popover_docSelectClosed && this.popoverDocselect) {
+        this.popoverDocselect.dismiss();
+        this.popoverDocselect = null;
       }
     });
   }
@@ -194,7 +203,14 @@ export class MainComponent implements OnInit {
     return popover.present();
   }
 
-  click() {
-    this.logger.debug('click');
+  async openDocSelect(ev) {
+    const popover = await this.popoverController.create({
+      component: DocselectComponent,
+      translucent: false,
+      event: ev,
+      cssClass: 'popoverDocselect'
+    });
+    popover.present();
+    this.popoverDocselect = popover;
   }
 }

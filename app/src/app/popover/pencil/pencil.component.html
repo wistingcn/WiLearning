@@ -1,0 +1,31 @@
+ <ion-list lines="none">
+  <ng-container *ngIf="prop === 'color'">
+    <ion-item button (click)="drawtool.setColor('red')">
+      <div class="color_red"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setColor('black')">
+      <div class="color_black"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setColor('green')">
+      <div class="color_green"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setColor('yellow')">
+      <div class="color_yellow"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setColor('blue')">
+      <div class="color_blue"></div>
+    </ion-item>
+  </ng-container>
+
+  <ng-container *ngIf="prop === 'lineweight'">
+    <ion-item button (click)="drawtool.setLineWeight(1)">
+      <div class="lineweight_1"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setLineWeight(5)">
+      <div class="lineweight_5"></div>
+    </ion-item>
+    <ion-item button (click)="drawtool.setLineWeight(10)">
+      <div class="lineweight_10"></div>
+    </ion-item>
+  </ng-container>
+ </ion-list> 
