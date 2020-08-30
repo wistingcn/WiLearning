@@ -21,7 +21,6 @@ import { ClaFile } from '../defines';
 import { DocImagesUrl } from '../config';
 import { ClahttpService } from './clahttp.service';
 import { ProfileService } from './profile.service';
-import { PopoverController } from '@ionic/angular';
 
 export interface IImageData {
   height: number;

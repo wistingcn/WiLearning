@@ -72,6 +72,9 @@
         <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="drawtoolbar">
           <app-drawtool></app-drawtool>
         </div>
+        <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="pagetoolbar">
+          <app-pagetool></app-pagetool>
+        </div>
         <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="profile.boardComponent===boardcomp.document">
           <ion-fab-button>
             <ion-icon name="add"></ion-icon>

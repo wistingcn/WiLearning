@@ -144,11 +144,6 @@ export class DrawtoolService {
       }
     });
 
-    this.fabCanvas.on('mouse:dblclick', (e) => {
-      this.setDrawText();
-      this.enterDrawText(e);
-    });
-
     this.fabCanvas.on('object:removed', (e) => {
       this.logger.debug('fabric canvas %s is removed', e.target);
       this.document.sendSyncDocInfo();

@@ -30,6 +30,7 @@ import { MainComponent } from './main/main.component';
 import { DocselectComponent } from './popover/docselect/docselect.component';
 import { DrawtoolComponent } from './drawtool/drawtool.component';
 import { PencilComponent } from './popover/pencil/pencil.component';
+import { PagetoolComponent } from './pagetool/pagetool.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { PencilComponent } from './popover/pencil/pencil.component';
 
     VideoplayerComponent,
     DrawtoolComponent,
+    PagetoolComponent,
   ],
   entryComponents: [
     MoreComponent,
