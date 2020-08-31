@@ -17,7 +17,6 @@ import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ClassroomService } from '../service/classroom.service';
 import { ClaBoardComp } from '../defines';
-import { PdfService } from '../service/pdf.service';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
 
 @Component({
@@ -54,7 +53,6 @@ export class MainComponent implements OnInit {
     public peer: PeerService,
     public chat: ChatService,
     public classroom: ClassroomService,
-    public document: PdfService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,

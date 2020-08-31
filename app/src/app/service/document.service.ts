@@ -58,7 +58,7 @@ export class ClaDocs {
 @Injectable({
   providedIn: 'root'
 })
-export class PdfService {
+export class DocumentService {
   public docsMap = new Map<string, ClaDocs>();
   public selectedDoc;
 

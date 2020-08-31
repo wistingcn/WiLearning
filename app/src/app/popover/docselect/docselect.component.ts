@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EventbusService, EventType, IEventType } from '../../service/eventbus.service';
 import { LoggerService } from '../../service/logger.service';
-import { PdfService } from '../../service/pdf.service';
+import { DocumentService } from '../../service/document.service';
 import { ProfileService } from '../../service/profile.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { DocImagesUrl } from '../../config';
@@ -26,7 +26,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   constructor(
     private eventbus: EventbusService,
     private logger: LoggerService,
-    private pdfs: PdfService,
+    private document: DocumentService,
     private profile: ProfileService,
     private clahttp: ClahttpService,
     private navparams: NavParams,
@@ -81,7 +81,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     this.message = `${file.name}...`;
 
     const url = URL.createObjectURL(file);
-    await this.pdfs.openPdf(file.name, url);
+    await this.document.openPdf(file.name, url);
     URL.revokeObjectURL(url);
 
     this.loadDocs();
@@ -95,7 +95,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   docOpen() {
     this.logger.debug('pdf-select, docOpen');
 
-    this.pdfs.selectedDoc = this.docSelected;
+    this.document.selectedDoc = this.docSelected;
     this.eventbus.docoment$.next({
       type: EventType.document_docSelect,
       data: {doc: this.docSelected}
@@ -105,7 +105,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   }
 
   docImport() {
-    this.pdfs.selectedDoc = this.docSelected;
+    this.document.selectedDoc = this.docSelected;
     this.eventbus.docoment$.next({
       type: EventType.document_docImport,
       data: {doc: this.docSelected}

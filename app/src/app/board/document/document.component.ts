@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { PeerService } from '../../service/peer.service';
-import { PdfService, ClaDocPages, ClaDocs } from '../../service/pdf.service';
+import { DocumentService, ClaDocPages, ClaDocs } from '../../service/document.service';
 import { LoggerService } from '../../service/logger.service';
 import { DrawtoolService } from '../../service/drawtool.service';
 import { EventbusService, IEventType, EventType } from '../../service/eventbus.service';
@@ -10,9 +10,6 @@ import { fabric } from 'fabric';
 import { getImageMeta } from '../../defines';
 import { ProfileService } from '../../service/profile.service';
 import { DocImagesUrl } from '../../config';
-import { PopoverController } from '@ionic/angular';
-import { DocselectComponent } from '../../popover/docselect/docselect.component';
-
 
 @Component({
   selector: 'app-document',
@@ -21,6 +18,7 @@ import { DocselectComponent } from '../../popover/docselect/docselect.component'
 })
 export class DocumentComponent implements OnInit, AfterViewInit {
   @ViewChild('can', {static: false}) canvasEle: ElementRef;
+  @ViewChild('canvascontainer', {static: false}) container: ElementRef;
 
   docInfo: ClaDocs;
   pageNum = 1;
@@ -30,14 +28,8 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   selectedPages;
   selectedPage;
   docUrl: URL;
-  widthOffset = 50;
-  heightOffset = 20;
-  isViewList = false;
-  maxHeight = 500;
-  maxHeightOrigin = 0;
-  isCanvasInited = false;
 
-  popoverDocselect;
+  containerCheckIntervel = null;
 
   attendee = {
     image: null ,
@@ -46,38 +38,35 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
   constructor(
     public peer: PeerService,
-    private pdfs: PdfService,
+    private ds: DocumentService,
     private logger: LoggerService,
     private drawtool: DrawtoolService,
     private eventbus: EventbusService,
     private socket: WebsocketService,
     private clahttp: ClahttpService,
     private profile: ProfileService,
-    private popovercontroller: PopoverController,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     setTimeout(() => {
       this.peer.cameraToggleSide(true);
     });
 
-    this.eventbus.popover$.subscribe((event: IEventType) => {
-      if (event.type === EventType.popover_docSelectClosed && this.popoverDocselect) {
-        this.popoverDocselect.dismiss();
-        this.popoverDocselect = null;
+    this.containerCheckIntervel = setInterval( () => {
+      this.logger.debug('clientHeight: ', this.container.nativeElement.clientHeight);
+      if (this.container.nativeElement.clientHeight) {
+        this.claInit();
+
+        clearInterval(this.containerCheckIntervel);
+        this.containerCheckIntervel = null;
       }
-    });
+    }, 100);
   }
 
   ngAfterViewInit() {
-    this.fabCanvas = new fabric.Canvas(this.canvasEle.nativeElement);
-    setTimeout(() => {
-      this.drawtool.setDocument(this);
-    }, 0);
-
     this.eventbus.docoment$.subscribe((event: IEventType) => {
       if ( event.type === EventType.document_docSelect) {
-        this.isViewList = false;
         this.docSelect(event.data.doc);
       }
       if ( event.type === EventType.document_docImport) {
@@ -90,17 +79,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.eventbus.nav$.subscribe((event: IEventType) => {
-      if ( event.type === EventType.nav_topVideoViewInit ) {
-        this.maxHeightOrigin = this.maxHeight;
-        this.maxHeight = this.maxHeight - 150;
-      }
-
-      if ( event.type === EventType.nav_topVideoViewDestroy) {
-        this.maxHeight = this.maxHeightOrigin;
-      }
-    });
-
     this.eventbus.media$.subscribe((event: IEventType) => {
       const { type } = event;
       if ( type === EventType.media_newPeer ) {
@@ -110,12 +88,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.claInit();
   }
 
   claInit() {
-    this.fabCanvas
-      .setBackgroundColor('white', null);
+    this.canvasEle.nativeElement.width = this.container.nativeElement.clientWidth;
+    this.canvasEle.nativeElement.height = this.container.nativeElement.clientHeight;
+
+    this.fabCanvas = new fabric.Canvas(this.canvasEle.nativeElement);
+    this.drawtool.setDocument(this);
+
+    this.fabCanvas.setBackgroundColor('white', null);
   }
 
   // when it's not a speaker
@@ -174,7 +156,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.docInfo.uploadTime = doc.uploadTime;
     this.docInfo.numPages = this.numPages = this.selectedPages.length;
     this.docInfo.pages = this.selectedPages;
-    this.pdfs.docsMap.set(doc.fileName, this.docInfo);
+    this.ds.docsMap.set(doc.fileName, this.docInfo);
 
     this.pageNum = 1;
     await this.goPage(this.pageNum);
@@ -289,10 +271,6 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.disable = false;
   }
 
-  viewDocList() {
-    this.isViewList = !this.isViewList;
-  }
-
   selectPage(pageNum) {
     this.logger.debug('selectPage: %s', pageNum);
     this.serialPage(this.pageNum);
@@ -320,15 +298,4 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.logger.debug('speaker syncDocInfo : %s', JSON.stringify(seri));
   }
 
-  async openDocSelect(ev) {
-    const popover = await this.popovercontroller.create({
-      component: DocselectComponent,
-      translucent: false,
-      backdropDismiss: false,
-      event: ev,
-      cssClass: 'popoverDocselect'
-    });
-    popover.present();
-    this.popoverDocselect = popover;
-  }
 }
