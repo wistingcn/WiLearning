@@ -10,7 +10,7 @@ import { SettingComponent } from '../popover/setting/setting.component';
 import { MoreComponent } from '../popover/more/more.component';
 import { ProfileService } from '../service/profile.service';
 import { PeerService } from '../service/peer.service';
-import { WebsocketService } from '../service/websocket.service';
+import { SignalingService } from '../service/signaling.service';
 import { LoggerService } from '../service/logger.service';
 import { ChatService } from '../service/chat.service';
 import { EmojiComponent } from '../popover/emoji/emoji.component';
@@ -57,7 +57,7 @@ export class MainComponent implements OnInit {
     private platform: Platform,
     private router: Router,
     private userData: UserData,
-    private socket: WebsocketService,
+    private signaling: SignalingService,
     private logger: LoggerService,
     private eventbus: EventbusService,
   ) {
@@ -89,7 +89,7 @@ export class MainComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(async () => {
-      this.socket.connect();
+      this.signaling.connect();
     });
 
     (window as any).peer = this.peer;

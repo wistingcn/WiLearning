@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { ClaMessage, makeRandomString} from '../defines';
 import { PeerService } from './peer.service';
-import { WebsocketService } from './websocket.service';
+import { SignalingService } from './signaling.service';
 import { RequestMethod } from '../defines';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { ProfileService } from './profile.service';
@@ -29,7 +29,7 @@ export class ChatService {
 
   constructor(
     private peer: PeerService,
-    private socket: WebsocketService,
+    private signaling: SignalingService,
     private eventbus: EventbusService,
     private profile: ProfileService,
   ) {
@@ -64,7 +64,7 @@ send(chatMessage: string) {
 
   this.messages = [ ...this.messages, claMessage ];
 
-  this.socket.sendRequest(
+  this.signaling.sendRequest(
     RequestMethod.chatMessage,
     {chatMessage}
   ).then(() => {

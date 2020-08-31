@@ -4,7 +4,7 @@ import { ProfileService } from './profile.service';
 import { LoggerService } from './logger.service';
 import { CONNECT_VIDEO_STATUS } from '../defines';
 import { PeerService } from './peer.service';
-import { WebsocketService } from './websocket.service';
+import { SignalingService } from './signaling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class ClassroomService {
     private profile: ProfileService,
     private logger: LoggerService,
     private peer: PeerService,
-    private socket: WebsocketService,
+    private signaling: SignalingService,
   ) {
     this.eventbus.class$.subscribe((event: IEventType) => {
       if ( event.type === EventType.class_start ) {
@@ -101,7 +101,7 @@ export class ClassroomService {
 
     this.logger.debug('class start at: %s', this.profile.startTime);
 
-    await this.socket.sendClassStart();
+    await this.signaling.sendClassStart();
     await this.peer.produceLocalCamera();
     await this.peer.produceLocalMic();
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
@@ -117,7 +117,7 @@ export class ClassroomService {
 
     await this.peer.stopLocalCamera();
     await this.peer.stopLocalMic();
-    await this.socket.sendClassStop();
+    await this.signaling.sendClassStop();
 
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
     this.profile.bClassStarter = false;

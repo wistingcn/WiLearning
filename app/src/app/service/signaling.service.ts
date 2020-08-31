@@ -48,7 +48,7 @@ const Notification = (ref: string = null) => {
 @Injectable({
   providedIn: 'root'
 })
-export class WebsocketService {
+export class SignalingService {
   private socket: SocketIOClient.Socket;
 
   constructor(

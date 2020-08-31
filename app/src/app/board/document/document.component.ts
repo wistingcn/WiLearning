@@ -4,7 +4,7 @@ import { DocumentService, ClaDocPages, ClaDocs } from '../../service/document.se
 import { LoggerService } from '../../service/logger.service';
 import { DrawtoolService } from '../../service/drawtool.service';
 import { EventbusService, IEventType, EventType } from '../../service/eventbus.service';
-import { WebsocketService } from '../../service/websocket.service';
+import { SignalingService } from '../../service/signaling.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { fabric } from 'fabric';
 import { getImageMeta } from '../../defines';
@@ -42,7 +42,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     private logger: LoggerService,
     private drawtool: DrawtoolService,
     private eventbus: EventbusService,
-    private socket: WebsocketService,
+    private signaling: SignalingService,
     private clahttp: ClahttpService,
     private profile: ProfileService,
   ) {
@@ -294,7 +294,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       fabric: this.fabCanvas,
     };
 
-    const res = await this.socket.sendSyncDocInfo(seri);
+    const res = await this.signaling.sendSyncDocInfo(seri);
     this.logger.debug('speaker syncDocInfo : %s', JSON.stringify(seri));
   }
 

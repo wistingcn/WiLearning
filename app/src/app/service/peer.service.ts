@@ -13,7 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import { Injectable } from '@angular/core';
-import { WebsocketService } from './websocket.service';
+import { SignalingService } from './signaling.service';
 import { MediaService, DisplayMediaScreenShare } from './media.service';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
@@ -25,7 +25,6 @@ import { types as mediaTypes } from 'mediasoup-client';
 import * as hark from 'hark';
 import 'webrtc-adapter';
 import { audioConstrain, videoConstrain } from '../config';
-import { assert } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +46,7 @@ export class PeerService {
   public hasInit = false;
 
   constructor(
-    private socket: WebsocketService,
+    private signaling: SignalingService,
     private media: MediaService,
     private logger: LoggerService,
     private eventbus: EventbusService,
@@ -102,10 +101,10 @@ export class PeerService {
 
   private async iceRestart() {
     this.logger.debug('iceRestart begin...');
-    const  paramsS = await this.socket.sendIceRestart(this.media.sendTransport.id) as any;
+    const  paramsS = await this.signaling.sendIceRestart(this.media.sendTransport.id) as any;
     await this.media.sendTransport.restartIce({iceParameters: paramsS.iceParameters});
 
-    const paramsR = await this.socket.sendIceRestart(this.media.recvTransport.id) as any;
+    const paramsR = await this.signaling.sendIceRestart(this.media.recvTransport.id) as any;
     await this.media.recvTransport.restartIce({iceParameters: paramsR.iceParameters});
   }
 
@@ -420,7 +419,7 @@ export class PeerService {
     }
 
     if ( !this.media.device.loaded ) {
-      const routerRtpCapabilities = await this.socket.getRouterRtpCapabilities();
+      const routerRtpCapabilities = await this.signaling.getRouterRtpCapabilities();
       this.logger.debug('get route capabilities from server: ', routerRtpCapabilities);
 
       const loaded = await this.media.load({routerRtpCapabilities});
@@ -443,7 +442,7 @@ export class PeerService {
   }
 
   private async checkTransport(transportId) {
-    const { closed } = await this.socket.sendRequest(
+    const { closed } = await this.signaling.sendRequest(
       RequestMethod.getTransportStats,
       {transportId}
     ) as any;
@@ -452,7 +451,7 @@ export class PeerService {
   }
 
   async joinRoom() {
-    const { joined, peers } = await this.socket.join({
+    const { joined, peers } = await this.signaling.join({
       roler: this.profile.me.roler,
       displayName : this.profile.me.displayName,
       picture: this.profile.me.picture,
@@ -498,7 +497,7 @@ export class PeerService {
         return;
       }
 
-    const transportInfo = await this.socket.createWebRtcTransport({
+    const transportInfo = await this.signaling.createWebRtcTransport({
       forceTcp: this.profile.forceTcp,
       producing: true,
       consuming: false
@@ -509,7 +508,7 @@ export class PeerService {
     transport.on('connect', async ({dtlsParameters}, callback, errback) => {
       this.logger.debug('transport connect event, dtlsParameter: %o', dtlsParameters);
 
-      await this.socket.sendRequest(
+      await this.signaling.sendRequest(
         RequestMethod.connectWebRtcTransport,
         {
           transportId : transport.id,
@@ -521,7 +520,7 @@ export class PeerService {
     transport.on('produce', async ({ kind, rtpParameters, appData }, callback, errback) => {
         this.logger.debug('transport produce event, kind: %s, rtpParameters: %o', kind, rtpParameters);
 
-        await this.socket.sendRequest(
+        await this.signaling.sendRequest(
           RequestMethod.produce,
           {
             transportId : transport.id,
@@ -565,7 +564,7 @@ export class PeerService {
 
     if ( videoProducer ) {
       videoProducer.close();
-      await this.socket.sendRequest(
+      await this.signaling.sendRequest(
         RequestMethod.closeProducer, {producerId: videoProducer.id}
       );
 
@@ -586,7 +585,7 @@ export class PeerService {
 
     if ( audioProducer ) {
       audioProducer.close();
-      await this.socket.sendRequest(
+      await this.signaling.sendRequest(
         RequestMethod.closeProducer, {producerId: audioProducer.id}
       );
 
@@ -629,7 +628,7 @@ export class PeerService {
 
     producer.on('trackended', () => {
       this.logger.debug('audio source %s trackended!', source);
-      this.socket.sendRequest(
+      this.signaling.sendRequest(
         RequestMethod.closeProducer,
         {producerId: producer.id}
       );
@@ -676,7 +675,7 @@ export class PeerService {
 
     producer.on('trackended', () => {
       this.logger.debug('video source %s trackended!', source);
-      this.socket.sendRequest(
+      this.signaling.sendRequest(
         RequestMethod.closeProducer,
         {producerId: producer.id}
       );
@@ -742,7 +741,7 @@ export class PeerService {
         return;
       }
 
-    const transportInfo = await this.socket.createWebRtcTransport({
+    const transportInfo = await this.signaling.createWebRtcTransport({
       forceTcp: this.profile.forceTcp,
       producing: false,
       consuming: true
@@ -756,7 +755,7 @@ export class PeerService {
 
     transport.on('connect', ({ dtlsParameters }, callback, errback) => {
       this.logger.debug('recv transport connect event, dtlsParameters: %o', dtlsParameters);
-      this.socket.connectWebRtcTransport(
+      this.signaling.connectWebRtcTransport(
         {
           transportId : transport.id,
           dtlsParameters
@@ -809,7 +808,7 @@ export class PeerService {
   }
 
   async roomUpdate() {
-      const roomInfo = await this.socket.getRoomInfo() as ClaRoom;
+      const roomInfo = await this.signaling.getRoomInfo() as ClaRoom;
       this.profile.room = roomInfo;
       this.logger.debug('roomInfo : %s', JSON.stringify(roomInfo));
 
