@@ -20,7 +20,6 @@ import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { RequestMethod, ClaRoom } from '../defines';
 import { types as mediaTypes } from 'mediasoup-client';
-import { MediaService } from './media.service';
 
 const pRequestMap = new Map<string, string>();
 const pNotificationMap = new Map<string, string>();

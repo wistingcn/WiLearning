@@ -75,19 +75,6 @@
         <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="pagetoolbar">
           <app-pagetool></app-pagetool>
         </div>
-        <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="profile.boardComponent===boardcomp.document">
-          <ion-fab-button>
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-list>
-            <ion-fab-button (click)="openDocSelect()">
-              <ion-icon name="folder-open"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button (click)="$event.preventDefault()">
-              <ion-icon name="grid"></ion-icon>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
       </ion-content>
       <ion-footer class="ion-no-border">
         <ion-toolbar>

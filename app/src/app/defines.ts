@@ -200,11 +200,13 @@ export enum ClaColor {
 }
 
 export class ClaDocument {
-  public id;
-  public fileName;
-  public roomId;
-  public uploadTime;
-  constructor() {}
+  public id: number;
+  public roomId: string;
+  public uploadTime: string;
+  public opened = false;
+  constructor(
+    public fileName: string,
+  ) {}
 }
 
 export const makeRandomString = (length: number): string => {

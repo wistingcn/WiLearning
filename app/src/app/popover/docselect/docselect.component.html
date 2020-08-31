@@ -11,8 +11,9 @@
 <ion-content>
   <input type="file" #input accept='application/pdf' (change)="addFile($event)" hidden/>
   <ion-list *ngIf="docList && docList.length">
-    <ion-item button *ngFor="let doc of docList" lines="none" (click)="docSelect(doc)" [class.item-select]="doc===docSelected">
-      <ion-icon name="document" class="ion-margin-end"></ion-icon>
+    <ion-item button *ngFor="let doc of docList" lines="none" (click)="docSelect(doc)" 
+      [class.item-select]="doc===docSelected">
+      <ion-icon name="document" class="ion-margin-end" [color]="doc.opened?'primary':'dark'"></ion-icon>
       <ion-label>{{doc.fileName}}</ion-label>
     </ion-item>
   </ion-list>

@@ -6,7 +6,6 @@ import { ProfileService } from '../../service/profile.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { DocImagesUrl } from '../../config';
 import { ClaDocument } from '../../defines';
-import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-docselect',
@@ -15,21 +14,20 @@ import { NavParams } from '@ionic/angular';
 })
 export class DocselectComponent implements OnInit, AfterViewInit {
 
-  docList: ClaDocument[];
+  docList: ClaDocument[] = [];
   pdfFile: File;
   pdfNum = 0;
   pdfCurrentPage = 0;
-  docSelected;
+  docSelected: ClaDocument;
 
   transStart = false;
   message: string;
   constructor(
     private eventbus: EventbusService,
     private logger: LoggerService,
-    private document: DocumentService,
+    private ds: DocumentService,
     private profile: ProfileService,
     private clahttp: ClahttpService,
-    private navparams: NavParams,
   ) { }
 
   ngOnInit() {
@@ -50,15 +48,33 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loadDocs();
+    setTimeout(() => {
+      this.loadDocs();
+    });
   }
 
   loadDocs() {
+    this.ds.docsMap.forEach(value => {
+      this.docList.push(value);
+    });
+
     const docUrl = DocImagesUrl + '/' + this.profile.roomId;
 
     this.clahttp.http.get(docUrl).subscribe(res => {
-      this.docList = res as ClaDocument[];
+      const docs = res as ClaDocument[];
       this.logger.debug(res);
+
+      docs.forEach(value => {
+        if ( !this.docList.find(doc => doc.id === value.id)) {
+          this.docList.push(value);
+        }
+      });
+
+      this.docList.forEach(doc => {
+        if (doc.id === this.ds.selectedDoc.id) {
+          this.docSelected = doc;
+        }
+      });
     }, error => {
       this.logger.error('get %s error: %s !', docUrl, error);
     });
@@ -81,34 +97,25 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     this.message = `${file.name}...`;
 
     const url = URL.createObjectURL(file);
-    await this.document.openPdf(file.name, url);
+    await this.ds.openPdf(file.name, url);
     URL.revokeObjectURL(url);
 
     this.loadDocs();
     this.transStart = false;
   }
 
-  docSelect(doc) {
+  docSelect(doc: ClaDocument) {
     this.docSelected = doc;
   }
 
   docOpen() {
     this.logger.debug('pdf-select, docOpen');
 
-    this.document.selectedDoc = this.docSelected;
     this.eventbus.docoment$.next({
       type: EventType.document_docSelect,
       data: {doc: this.docSelected}
     });
 
     this.close();
-  }
-
-  docImport() {
-    this.document.selectedDoc = this.docSelected;
-    this.eventbus.docoment$.next({
-      type: EventType.document_docImport,
-      data: {doc: this.docSelected}
-    });
   }
 }

@@ -1,10 +1,10 @@
 <div class="container">
   <ion-item>
-    <ion-button fill="clear">
+    <ion-button fill="clear" (click)="dc.selectedDoc.prevPage()" [disabled]="dc.selectedDoc?.disable">
       <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
     </ion-button>
-    <ion-label>12 / 22</ion-label>
-    <ion-button fill="clear">
+    <ion-label>{{dc.selectedDoc?.pageNum}} / {{dc.selectedDoc?.numPages}}</ion-label>
+    <ion-button fill="clear" (click)="dc.selectedDoc.nextPage()" [disabled]="dc.selectedDoc?.disable">
       <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
     </ion-button>
   </ion-item>
@@ -15,6 +15,11 @@
     <ion-label>90%</ion-label>
     <ion-button fill="clear">
       <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="dc.selectedDoc?.numPages > 1">
+    <ion-button color="light">
+      <ion-icon name="grid"></ion-icon>
     </ion-button>
   </ion-item>
 </div>

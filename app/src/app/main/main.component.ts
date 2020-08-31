@@ -45,7 +45,6 @@ export class MainComponent implements OnInit {
   boardcomp = ClaBoardComp;
 
   popoverEmoji = null;
-  popoverDocselect = null;
 
   constructor(
     public popoverController: PopoverController,
@@ -78,11 +77,6 @@ export class MainComponent implements OnInit {
       if (event.type === EventType.popover_emojiClosed && this.popoverEmoji) {
         this.popoverEmoji.dismiss();
         this.popoverEmoji = null;
-      }
-
-      if (event.type === EventType.popover_docSelectClosed && this.popoverDocselect) {
-        this.popoverDocselect.dismiss();
-        this.popoverDocselect = null;
       }
     });
   }
@@ -199,16 +193,5 @@ export class MainComponent implements OnInit {
 
     this.popoverEmoji = popover;
     return popover.present();
-  }
-
-  async openDocSelect(ev) {
-    const popover = await this.popoverController.create({
-      component: DocselectComponent,
-      translucent: false,
-      event: ev,
-      cssClass: 'popoverDocselect'
-    });
-    popover.present();
-    this.popoverDocselect = popover;
   }
 }

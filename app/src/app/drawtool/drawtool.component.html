@@ -1,4 +1,9 @@
 <div class="container">
+  <ion-item slot="start">
+    <ion-button color='light' (click)="openDocSelect($event)">
+      <ion-icon name="documents"></ion-icon>
+    </ion-button>
+  </ion-item>
   <ion-item>
     <ion-button fill="clear" (click)="selectColor($event)">
       <div [class]="'color_' + drawtool.color"></div>
