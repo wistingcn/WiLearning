@@ -46,6 +46,7 @@ export class ClaDocs extends ClaDocument {
   public pageNum = 1;
   public disable = false;
   public signaling: SignalingService = null;
+  public zoom = 1;
 
   public type: 'file'|'whiteboard' = null;
 
@@ -182,6 +183,11 @@ export class ClaDocs extends ClaDocument {
     const seri = this.getSerialInfo();
     console.log('speaker syncDocInfo : %s', JSON.stringify(seri));
     await this.signaling.sendSyncDocInfo(seri);
+  }
+
+  setZoom(zoom) {
+    this.fabCanvas.setZoom(zoom);
+    this.zoom = zoom;
   }
 }
 

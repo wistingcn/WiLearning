@@ -19,6 +19,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   fabCanvas: fabric.Canvas;
   document: ClaDocs = null;
   containerCheckIntervel = null;
+  isCanvasInited = false;
 
   attendee = {
     image: null ,
@@ -54,10 +55,10 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.eventbus.docoment$.subscribe(async (event: IEventType) => {
       if ( event.type === EventType.document_docSelect) {
+        this.sendSyncDocInfo();
         this.document = await this.ds.docSelect(event.data.doc);
         this.document.setFabCanvas(this.fabCanvas);
-        this.drawtool.setDocument(this.document);
-        this.document.goPage(1);
+        this.document.goPage(this.document.pageNum);
       }
 
       // recv from speaker
@@ -85,7 +86,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.fabCanvas.setBackgroundColor('white', null);
 
     this.document = this.ds.newWhiteboard(this.fabCanvas);
-    this.drawtool.setDocument(this.document);
+    this.drawtool.setDocument(this);
   }
 
   // when it's not a speaker
@@ -132,5 +133,11 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.fabCanvas.forEachObject((element) => element.selectable = false );
 
     this.fabCanvas.renderAll();
+  }
+
+  async sendSyncDocInfo() {
+    if (this.document) {
+      await this.document.sendSyncDocInfo();
+    }
   }
 }

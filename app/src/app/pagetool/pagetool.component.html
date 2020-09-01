@@ -9,11 +9,11 @@
     </ion-button>
   </ion-item>
   <ion-item>
-    <ion-button fill="clear">
+    <ion-button fill="clear" (click)="zoomIn()">
       <ion-icon slot="icon-only" name="remove"></ion-icon>
     </ion-button>
-    <ion-label>90%</ion-label>
-    <ion-button fill="clear">
+    <ion-label>{{dc.selectedDoc?.zoom|percent}}</ion-label>
+    <ion-button fill="clear" (click)="zoomOut()">
       <ion-icon slot="icon-only" name="add"></ion-icon>
     </ion-button>
   </ion-item>

@@ -83,6 +83,7 @@ export class DrawtoolService {
 
   private setupEvent() {
     this.fabCanvas.on('mouse:down', (e) => {
+      this.logger.debug('mouse:down event');
       switch (this.selectedTool) {
         case DrawtoolType.text :
           return this.enterDrawText(e);
@@ -175,7 +176,9 @@ export class DrawtoolService {
     this.texting.enterEditing();
 
     this.texting.on('editing:exited', () => {
-      if ( !this.texting.text.length ) {
+      const text = this.texting.text.trim();
+      if ( !text.length ) {
+        this.logger.debug('remove text because zero length');
         this.fabCanvas.remove(this.texting);
       }
     });

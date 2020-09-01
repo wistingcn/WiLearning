@@ -18,4 +18,17 @@ export class PagetoolComponent implements OnInit {
 
   ngOnInit() {}
 
+  zoomOut() {
+    const zoom = this.dc.selectedDoc.zoom + 0.1;
+    this.dc.selectedDoc.setZoom(zoom);
+  }
+
+  zoomIn() {
+    const zoom = this.dc.selectedDoc.zoom - 0.1;
+    if (zoom < 0.1) {
+      return;
+    }
+    this.dc.selectedDoc.setZoom(zoom);
+  }
+
 }
