@@ -1,5 +1,5 @@
 <div class="container">
-  <ion-item>
+  <ion-item *ngIf="profile.privilege.classControl">
     <ion-button fill="clear" (click)="dc.selectedDoc.prevPage()" [disabled]="dc.selectedDoc?.disable">
       <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
     </ion-button>
@@ -17,8 +17,8 @@
       <ion-icon slot="icon-only" name="add"></ion-icon>
     </ion-button>
   </ion-item>
-  <ion-item *ngIf="dc.selectedDoc?.numPages > 1">
-    <ion-button color="light">
+  <ion-item *ngIf="dc.selectedDoc?.numPages > 1 && profile.privilege.classControl">
+    <ion-button color="light" (click)="dc.selectedDoc.docList = !(dc.selectedDoc.docList)">
       <ion-icon name="grid"></ion-icon>
     </ion-button>
   </ion-item>

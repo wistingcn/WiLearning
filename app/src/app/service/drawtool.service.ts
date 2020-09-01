@@ -40,7 +40,7 @@ export class DrawtoolService {
   private texting: fabric.IText;
   public document;
 
-  public selectedTool: DrawtoolType;
+  public selectedTool: DrawtoolType = DrawtoolType.line;
 
   constructor(
     private logger: LoggerService,

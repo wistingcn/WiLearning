@@ -1,5 +1,5 @@
 <ion-app [class.dark-theme]="profile.themeDark">
-  <ion-split-pane when="sm" contentId="main-content">
+  <ion-split-pane when="lg" contentId="main-content">
 
     <ion-menu contentId="main-content" type="overlay">
       <ion-header>
@@ -69,7 +69,7 @@
         <app-document *ngIf="profile.boardComponent===boardcomp.document"></app-document>
         <app-sharedesk *ngIf="profile.boardComponent===boardcomp.sharescreen"></app-sharedesk>
         <app-sharemedia *ngIf="profile.boardComponent===boardcomp.sharemedia"></app-sharemedia>
-        <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="drawtoolbar">
+        <div *ngIf="profile.boardComponent===boardcomp.document && profile.privilege.classControl" slot="fixed" class="drawtoolbar">
           <app-drawtool></app-drawtool>
         </div>
         <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="pagetoolbar">

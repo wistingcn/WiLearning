@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DrawtoolService } from '../service/drawtool.service';
 import { LoggerService } from '../service/logger.service';
 import { DocumentService } from '../service/document.service';
+import { ProfileService } from '../service/profile.service';
 
 @Component({
   selector: 'app-pagetool',
@@ -13,6 +14,7 @@ export class PagetoolComponent implements OnInit {
   constructor(
     public drawtool: DrawtoolService,
     public dc: DocumentService,
+    public profile: ProfileService,
     private logger: LoggerService,
   ) { }
 

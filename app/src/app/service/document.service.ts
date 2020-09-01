@@ -47,6 +47,7 @@ export class ClaDocs extends ClaDocument {
   public disable = false;
   public signaling: SignalingService = null;
   public zoom = 1;
+  public docList = false;
 
   public type: 'file'|'whiteboard' = null;
 
@@ -99,15 +100,20 @@ export class ClaDocs extends ClaDocument {
   }
 
   async renderPage(pageNum: number) {
+    const path = this.getPagePath(pageNum);
+    if (path) {
+      const image = await getImageMeta(path);
+      await this.renderImageUrl(image.width, image.height, path);
+    }
+  }
+
+  getPagePath(pageNum: number) {
     const page = this.pages.find(ele => ele.page === pageNum);
     if ( !page ) {
       console.error('Do not find page, file: %s, pageNum: %s', this.fileName, pageNum);
-      return;
+      return null;
     }
-
-    const path = this.url.origin + '/' + page.path;
-    const image = await getImageMeta(path);
-    await this.renderImageUrl(image.width, image.height, path);
+    return this.url.origin + '/' + page.path;
   }
 
   async nextPage() {
@@ -120,7 +126,7 @@ export class ClaDocs extends ClaDocument {
     }
 
     this.serialPage();
-    await this.goPage(++this.pageNum);
+    await this.goPage(this.pageNum + 1);
   }
 
   async prevPage() {
@@ -133,7 +139,7 @@ export class ClaDocs extends ClaDocument {
     }
 
     this.serialPage();
-    await this.goPage(--this.pageNum);
+    await this.goPage(this.pageNum - 1);
   }
 
   async goPage(pageNum) {
@@ -142,6 +148,7 @@ export class ClaDocs extends ClaDocument {
     }
 
     this.disable = true;
+    this.pageNum = pageNum;
 
     this.fabCanvas.clear();
     if ( ! await this.renderSerial(pageNum) ) {
@@ -188,6 +195,7 @@ export class ClaDocs extends ClaDocument {
   setZoom(zoom) {
     this.fabCanvas.setZoom(zoom);
     this.zoom = zoom;
+    console.log('width after zoom: ', this.fabCanvas.width);
   }
 }
 
