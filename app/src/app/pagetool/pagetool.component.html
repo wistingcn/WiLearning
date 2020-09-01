@@ -1,10 +1,12 @@
-<div class="container">
-  <ion-item *ngIf="profile.privilege.classControl">
-    <ion-button fill="clear" (click)="dc.selectedDoc.prevPage()" [disabled]="dc.selectedDoc?.disable">
+<div class="container" *ngIf="profile.privilege.classControl">
+  <ion-item>
+    <ion-button fill="clear" (click)="dc.selectedDoc.prevPage()" 
+      [disabled]="dc.selectedDoc?.disable || dc.selectedDoc?.pageNum === 1">
       <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
     </ion-button>
     <ion-label>{{dc.selectedDoc?.pageNum}} / {{dc.selectedDoc?.numPages}}</ion-label>
-    <ion-button fill="clear" (click)="dc.selectedDoc.nextPage()" [disabled]="dc.selectedDoc?.disable">
+    <ion-button fill="clear" (click)="dc.selectedDoc.nextPage()" 
+      [disabled]="dc.selectedDoc?.disable || dc.selectedDoc?.pageNum === dc.selectedDoc?.numPages">
       <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
     </ion-button>
   </ion-item>
@@ -17,7 +19,7 @@
       <ion-icon slot="icon-only" name="add"></ion-icon>
     </ion-button>
   </ion-item>
-  <ion-item *ngIf="dc.selectedDoc?.numPages > 1 && profile.privilege.classControl">
+  <ion-item *ngIf="dc.selectedDoc?.numPages > 1">
     <ion-button color="light" (click)="dc.selectedDoc.docList = !(dc.selectedDoc.docList)">
       <ion-icon name="grid"></ion-icon>
     </ion-button>

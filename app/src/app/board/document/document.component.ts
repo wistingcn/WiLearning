@@ -26,6 +26,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     src : ''
   };
 
+  width;
+  height;
+
   constructor(
     public peer: PeerService,
     private ds: DocumentService,
@@ -58,6 +61,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
         this.sendSyncDocInfo();
         this.document = await this.ds.docSelect(event.data.doc);
         this.document.setFabCanvas(this.fabCanvas);
+        this.document.setZoom(this.document.zoom);
         this.document.goPage(this.document.pageNum);
       }
 
@@ -79,8 +83,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   }
 
   claInit() {
-    this.canvasEle.nativeElement.width = this.container.nativeElement.clientWidth;
-    this.canvasEle.nativeElement.height = this.container.nativeElement.clientHeight;
+    this.width = this.container.nativeElement.clientWidth;
+    this.height = this.container.nativeElement.clientHeight;
+
+    this.canvasEle.nativeElement.width = this.width;
+    this.canvasEle.nativeElement.height = this.height;
+
+    this.logger.debug('native width: %s ,native height: %s',
+      this.container.nativeElement.clientWidth,
+      this.container.nativeElement.clientHeight
+    );
 
     this.fabCanvas = new fabric.Canvas(this.canvasEle.nativeElement);
     this.fabCanvas.setBackgroundColor('white', null);
@@ -105,9 +117,13 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     const canvas = info.canvas;
     const doc = info.doc;
 
-    this.fabCanvas
-      .setHeight(canvas.height)
-      .setWidth(canvas.width);
+    this.width = this.container.nativeElement.clientWidth;
+    this.height = this.container.nativeElement.clientHeight;
+
+    this.logger.debug('canvas width: %s, canvas height: %s', canvas.width, canvas.height);
+    this.logger.debug('native width: %s, native height: %s', this.width, this.height);
+
+    this.setCanvasZoom(canvas.width, canvas.height);
 
     if (! serialObj.backgroundImage ) {
       await new Promise(resolve => this.fabCanvas.loadFromJSON(serialObj, resolve));
@@ -133,6 +149,23 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.fabCanvas.forEachObject((element) => element.selectable = false );
 
     this.fabCanvas.renderAll();
+  }
+
+  setCanvasZoom(width, height) {
+    this.fabCanvas.setZoom(1);
+    if (this.width > width) {
+      this.fabCanvas.setWidth(width).setHeight(height);
+      (this.container.nativeElement as HTMLDivElement).style.height = height + 'px';
+      return;
+    }
+
+    const zoom = Math.floor(this.width / width * 100) / 100;
+
+    this.logger.debug('canvas width: %s, native width: %s, zoom: %s',
+      width, this.width, zoom);
+    this.fabCanvas.setHeight(height * zoom);
+    (this.container.nativeElement as HTMLDivElement).style.height = height * zoom + 'px';
+    this.fabCanvas.setZoom(zoom);
   }
 
   async sendSyncDocInfo() {

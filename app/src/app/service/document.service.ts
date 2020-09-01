@@ -195,7 +195,6 @@ export class ClaDocs extends ClaDocument {
   setZoom(zoom) {
     this.fabCanvas.setZoom(zoom);
     this.zoom = zoom;
-    console.log('width after zoom: ', this.fabCanvas.width);
   }
 }
 
