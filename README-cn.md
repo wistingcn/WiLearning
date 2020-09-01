@@ -16,7 +16,8 @@ WiLearning 是一个开源、免费的在线学习及视频会议系统。WiLear
 * 全终端支持 - 支持PC/Android/IOS平台，自动适配Pad平板电脑
 
 # 安装
-支持Linux/Mac操作系统,要求Nodejs版本大于V12.
+* 服务器及客户端代码支持部署在Linux/Mac操作系统,要求Nodejs版本大于V12.
+* 支持在Windows/Linux/Mac等操作系统使用Chrome浏览器打开Web客户端
 ## 安装依赖包
 ```
 npm install -g cnpm
