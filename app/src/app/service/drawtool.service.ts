@@ -154,6 +154,15 @@ export class DrawtoolService {
       this.logger.debug('fabric canvas object modified , %s', e.target);
       this.document.sendSyncDocInfo();
     });
+
+    this.fabCanvas.on('path:created', (e) => {
+      this.logger.debug('path:created event, ', e);
+      (e as any).path.opacity = 0.3;
+    });
+
+    this.fabCanvas.on('object:added', (e) => {
+      this.logger.debug('object added event');
+    });
   }
 
   private enterDrawText(e: fabric.IEvent) {
@@ -293,7 +302,7 @@ export class DrawtoolService {
   private updataCanvasTool() {
     if ( this.fabCanvas.isDrawingMode ) {
       this.fabCanvas.freeDrawingBrush.color = this.color;
-      this.fabCanvas.freeDrawingBrush.width = this.lineWeight;
+      this.fabCanvas.freeDrawingBrush.width = 20;
     }
   }
 }

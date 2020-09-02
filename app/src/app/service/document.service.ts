@@ -22,6 +22,7 @@ import { DocImagesUrl } from '../config';
 import { ClahttpService } from './clahttp.service';
 import { ProfileService } from './profile.service';
 import { SignalingService } from './signaling.service';
+import {fabric} from 'fabric';
 
 export interface IImageData {
   height: number;
@@ -46,6 +47,7 @@ export class ClaDocs extends ClaDocument {
   public pageNum = 1;
   public disable = false;
   public signaling: SignalingService = null;
+  public eventbus: EventbusService = null;
   public zoom = 1;
   public docList = false;
 
@@ -187,13 +189,22 @@ export class ClaDocs extends ClaDocument {
 
   async sendSyncDocInfo() {
     this.serialPage();
+
     const seri = this.getSerialInfo();
     console.log('speaker syncDocInfo : %s', JSON.stringify(seri));
+
+    this.eventbus.draw$.next({
+      type: EventType.draw_action,
+      data: this.pageNum,
+    });
+
     await this.signaling.sendSyncDocInfo(seri);
   }
 
   setZoom(zoom) {
-    this.fabCanvas.setZoom(zoom);
+    // this.fabCanvas.setZoom(zoom);
+    const point = new fabric.Point(this.fabCanvas.width / 2, this.fabCanvas.height / 2);
+    this.fabCanvas.zoomToPoint(point, zoom);
     this.zoom = zoom;
   }
 }
@@ -293,6 +304,7 @@ export class DocumentService {
     docInfo.signaling = this.signaling;
     docInfo.type = 'file';
     docInfo.opened = true;
+    docInfo.eventbus = this.eventbus;
     this.docsMap.set(doc.fileName, docInfo);
 
     this.selectedDoc = docInfo;
@@ -322,6 +334,7 @@ export class DocumentService {
       whiteboard.type = 'whiteboard';
       whiteboard.opened = true;
       whiteboard.fabCanvas = fabCanvas;
+      whiteboard.eventbus = this.eventbus;
 
       const page = new ClaDocPages();
       page.page = 1;

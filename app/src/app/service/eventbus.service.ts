@@ -49,15 +49,14 @@ export enum EventType {
   pdftranscode_end,
   pdftranscode_progress,
 
-  nav_topVideoViewInit,
-  nav_topVideoViewDestroy,
-
   class_start,
   class_stop,
   class_connectVideo,
   class_connectApproval,
   class_disconnectVideo,
   class_announcementTextChange,
+
+  draw_action,
 }
 
 @Injectable({
@@ -70,9 +69,8 @@ export class EventbusService {
   public popover$ = new Subject();
   public pdftranscode$ = new Subject();
   public docoment$ = new Subject();
-  public nav$ = new Subject();
-  public selectedTab = new FormControl(0);
   public class$ = new Subject();
+  public draw$ = new Subject();
 
   constructor() { }
 }

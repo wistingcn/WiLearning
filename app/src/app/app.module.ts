@@ -31,6 +31,7 @@ import { DocselectComponent } from './popover/docselect/docselect.component';
 import { DrawtoolComponent } from './drawtool/drawtool.component';
 import { PencilComponent } from './popover/pencil/pencil.component';
 import { PagetoolComponent } from './pagetool/pagetool.component';
+import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { PagetoolComponent } from './pagetool/pagetool.component';
     WhiteboardComponent,
     SharedeskComponent,
     SharemediaComponent,
+    ThumbnailComponent,
 
     MoreComponent,
     SettingComponent,

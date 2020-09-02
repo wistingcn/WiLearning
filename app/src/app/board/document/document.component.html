@@ -3,10 +3,10 @@
     <div  *ngFor="let page of document?.pages" 
       [ngClass]="{'imagecontainer': true, 'imageselected': page.page === document.pageNum}"
       (dblclick)="document.goPage(page.page)">
-      <img [src]="document?.getPagePath(page.page)">
+      <app-thumbnail [page]="page" class="ion-margin"></app-thumbnail>
       <ion-label>{{page.page}}</ion-label>
     </div>
 
   </div>
-  <canvas #can id="can" width="100%" height="100%"></canvas>
+  <canvas #can id="can" width="100%" height="100%" class="ion-padding"></canvas>
 </div>

@@ -23,12 +23,4 @@ export class PencilComponent implements OnInit {
     this.logger.debug(this.navparams);
   }
 
-  selectColor(color: string) {
-
-  }
-
-  selectLineWeight(weight: number) {
-
-  }
-
 }

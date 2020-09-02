@@ -94,8 +94,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       this.container.nativeElement.clientHeight
     );
 
-    this.fabCanvas = new fabric.Canvas(this.canvasEle.nativeElement);
-    this.fabCanvas.setBackgroundColor('white', null);
+    this.initFabric();
 
     this.document = this.ds.newWhiteboard(this.fabCanvas);
     this.drawtool.setDocument(this);
@@ -172,5 +171,15 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     if (this.document) {
       await this.document.sendSyncDocInfo();
     }
+  }
+
+  initFabric() {
+    fabric.Object.prototype.transparentCorners = false;
+    fabric.Object.prototype.cornerColor = 'blue';
+    fabric.Object.prototype.cornerStyle = 'circle';
+    fabric.Object.prototype.hasControls = false;
+
+    this.fabCanvas = new fabric.Canvas(this.canvasEle.nativeElement);
+    this.fabCanvas.setBackgroundColor('white', null);
   }
 }
