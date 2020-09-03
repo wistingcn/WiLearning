@@ -1,3 +1,66 @@
-<p>
-  setting works!
-</p>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <h2>音视频设置</h2>
+    </ion-list-header>
+    <div class="item">
+      <div slot="start" style="display: flex; flex-direction: column; justify-content: center; width: 50%;">
+        <ion-select [value]="selectedVideoDevice" 
+          interface="popover"
+          (ionChange)="selectVideoDevice($event)">
+          <ion-select-option *ngFor="let device of media.videoDevices" [value]="device.deviceId">
+            {{device.label}}
+          </ion-select-option>
+        </ion-select>
+        <ion-select [value]="selectedVideoResolution" 
+          interface="popover"
+          (ionChange)="selectVideoResolution($event)">
+          <ion-select-option [value]="0">
+            640 * 360
+          </ion-select-option>
+          <ion-select-option [value]="1">
+            640 * 480
+          </ion-select-option>
+          <ion-select-option [value]="2">
+            1280 * 720
+          </ion-select-option>
+        </ion-select>
+      </div>
+      <video muted [srcObject]="localCam" autoplay controls slot="end"></video>
+
+    </div>
+    <ion-item-divider></ion-item-divider>
+    <div class="item">
+      <ion-select 
+        interface="popover"
+        (ionChange)="selectAudioDevice($event)"
+        [value]="selectedAudioDevice">
+        <ion-select-option *ngFor="let device of media.audioDevices" [value]="device.deviceId">
+          {{device.label}}
+        </ion-select-option>
+      </ion-select>
+      <div class="volume-display">
+        <div 
+          *ngFor="let vol of volumeArray; index as index"
+          [ngClass]="{'audio-volume-meter': true, 'meter-green': currentVolume>index*5}"
+          [ngStyle]="{'height.px': 12 + index }"
+        ></div>
+      </div>
+    </div>
+  </ion-list>
+
+</ion-content>
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveSetting()" [disabled]="selectedAudioDevice === profile.mainAudioDeviceId && selectedVideoDevice === profile.mainVideoDeviceId && selectedVideoResolution === profile.mainVideoResolution">
+        保存
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        关闭
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

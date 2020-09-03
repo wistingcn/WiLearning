@@ -25,8 +25,12 @@ export class SharepopoverComponent implements OnInit {
     this.profile.boardComponent = ClaBoardComp.video;
   }
 
-  shareDesktop() {
-    this.profile.boardComponent = ClaBoardComp.sharescreen;
+  async shareDesktop() {
+    if (this.peer.pScreen) {
+      this.profile.boardComponent = ClaBoardComp.sharescreen;
+    } else if (await this.peer.startScreenShare()) {
+      this.profile.boardComponent = ClaBoardComp.sharescreen;
+    }
   }
 
   shareMedia() {

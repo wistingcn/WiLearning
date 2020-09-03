@@ -36,7 +36,7 @@ export class ProfileService {
 
   public bLogin = false;
   public themeDark = false;
-  public boardComponent = ClaBoardComp.document;
+  public boardComponent = ClaBoardComp.video;
 
   public room = new ClaRoom();
 
@@ -99,50 +99,4 @@ export class ProfileService {
 
     return peerId;
   }
-
-  /*
-  async loadCamera() {
-    this.camera = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false,
-    });
-  }
-
-  camera: MediaStream;
-  streams = new Array<MediaStream>();
-  rowNumber = [];
-  colSize = 4;
-  addStream() {
-    this.streams.push(this.camera);
-    this.calGrid();
-  }
-
-  subStream() {
-    this.streams.pop();
-    this.calGrid();
-  }
-
-  calGrid() {
-    if (this.streams.length < 3) {
-      if (this.rowNumber.length !== 1) {
-        this.rowNumber.push('');
-      }
-      this.colSize = 12 / this.streams.length;
-    } else {
-      const streamNumber = Math.ceil(this.streams.length / 3);
-      if (this.rowNumber.length > streamNumber) {
-        for (let i = 0 ; i < this.rowNumber.length - streamNumber; i++) {
-          this.rowNumber.pop();
-        }
-      } else if (this.rowNumber.length < streamNumber ) {
-        for (let i = 0 ; i < streamNumber - this.rowNumber.length; i++) {
-          this.rowNumber.push('');
-        }
-      }
-      this.colSize = 4;
-    }
-
-    console.log(`colSize: ${this.colSize}, rowNumber: ${this.rowNumber}`);
-  }
-  */
 }

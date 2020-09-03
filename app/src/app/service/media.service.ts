@@ -35,7 +35,6 @@ export class MediaService {
 
     this.device = new mediasoup.Device();
     this.logger.debug('media handler name: ', this.device.handlerName);
-    this.enumerateDevies();
   }
 
   async load(capability: {routerRtpCapabilities: mediasoup.types.RtpCapabilities}) {
@@ -80,26 +79,22 @@ export class MediaService {
   }
 
   async enumerateDevies() {
-    const videoDevices = [];
-    const audioDevices = [];
+    this.videoDevices = [];
+    this.audioDevices = [];
 
     const devices = await navigator.mediaDevices.enumerateDevices();
     devices.forEach((device, index) => {
-      this.logger.debug(device);
-
       if ( device.kind === 'videoinput') {
-        videoDevices.push(device);
+        this.videoDevices.push(device);
       } else if ( device.kind === 'audioinput') {
         if ( device.deviceId !== 'default') {
-          audioDevices.push(device);
+          this.audioDevices.push(device);
         }
       }
-      this.logger.debug(index + ',' + device.kind + ': ' + device.label +
-            ' id = ' + device.deviceId);
     });
 
-    this.videoDevices = videoDevices;
-    this.audioDevices = audioDevices;
+    this.logger.debug('video device: ', this.videoDevices);
+    this.logger.debug('audio device: ', this.audioDevices);
   }
 
   checkRecorderType() {

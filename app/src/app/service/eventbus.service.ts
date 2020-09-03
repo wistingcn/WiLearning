@@ -14,7 +14,6 @@
 */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FormControl } from '@angular/forms';
 
 export interface IEventType {
   type: string|number;

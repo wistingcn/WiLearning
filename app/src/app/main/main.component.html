@@ -79,25 +79,23 @@
       <ion-footer class="ion-no-border">
         <ion-toolbar>
           <ion-buttons class="ion-justify-content-around">
-            <ng-container *ngIf="profile.started">
-              <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="peer.produceLocalCamera()">
-                <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
-              </ion-button>
-              <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera()" >
-                <ion-icon slot="icon-only" name="videocam"></ion-icon>
-              </ion-button>
+            <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="peer.produceLocalCamera()">
+              <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera()" >
+              <ion-icon slot="icon-only" name="videocam"></ion-icon>
+            </ion-button>
 
-              <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="peer.produceLocalMic()">
-                <ion-icon slot="icon-only" name="mic-off"></ion-icon>
-              </ion-button>
-              <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic()">
-                <ion-icon slot="icon-only" name="mic"></ion-icon>
-              </ion-button>
+            <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="peer.produceLocalMic()">
+              <ion-icon slot="icon-only" name="mic-off"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic()">
+              <ion-icon slot="icon-only" name="mic"></ion-icon>
+            </ion-button>
 
-              <ion-button class="" (click)="sharePopover($event)">
-                <ion-icon slot="icon-only" name="share"></ion-icon>
-              </ion-button>
-            </ng-container>
+            <ion-button class="" (click)="sharePopover($event)">
+              <ion-icon slot="icon-only" name="share"></ion-icon>
+            </ion-button>
 
             <ion-button (click)="openMember()">
               <ion-icon slot="icon-only" name="people"></ion-icon>

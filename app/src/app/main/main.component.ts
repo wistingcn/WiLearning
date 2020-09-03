@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MenuController, Platform, ToastController, PopoverController } from '@ionic/angular';
+import { MenuController, Platform, ToastController, PopoverController, ModalController } from '@ionic/angular';
 
 import { UserData } from '../providers/user-data';
 import { SharepopoverComponent } from '../popover/sharepopover/sharepopover.component';
@@ -45,9 +45,9 @@ export class MainComponent implements OnInit {
   boardcomp = ClaBoardComp;
 
   popoverEmoji = null;
+  popoverSetting = null;
 
   constructor(
-    public popoverController: PopoverController,
     public profile: ProfileService,
     public peer: PeerService,
     public chat: ChatService,
@@ -59,6 +59,8 @@ export class MainComponent implements OnInit {
     private signaling: SignalingService,
     private logger: LoggerService,
     private eventbus: EventbusService,
+    private popoverController: PopoverController,
+    private modalController: ModalController,
   ) {
     this.initializeApp();
   }
@@ -77,6 +79,11 @@ export class MainComponent implements OnInit {
       if (event.type === EventType.popover_emojiClosed && this.popoverEmoji) {
         this.popoverEmoji.dismiss();
         this.popoverEmoji = null;
+      }
+
+      if (event.type === EventType.popover_settingClosed && this.popoverSetting) {
+        this.popoverSetting.dismiss();
+        this.popoverSetting = null;
       }
     });
   }
@@ -139,13 +146,13 @@ export class MainComponent implements OnInit {
     return popover.present();
   }
 
-  async settingPopover(ev) {
-    const popover = await this.popoverController.create({
-      component: SettingComponent,
-      event: ev,
-      translucent: true
+  async settingPopover() {
+    const popover = await this.modalController.create({
+      component: SettingComponent
     });
-    return popover.present();
+
+    await popover.present();
+    this.popoverSetting = popover;
   }
 
   async netstatPopover(ev) {

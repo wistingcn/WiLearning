@@ -1,18 +1,27 @@
 
 <ion-list>
   <ion-item button (click)="shareDesktop()">
-    共享桌面
+    <ion-icon name="desktop"></ion-icon>
+    <ion-label class="ion-padding-start">
+      共享桌面
+    </ion-label>
   </ion-item>
   <ion-item button (click)="shareMedia()">
-    共享媒体
+    <ion-icon name="film"></ion-icon>
+    <ion-label class="ion-padding-start">
+      共享媒体
+    </ion-label>
   </ion-item>
   <ion-item button (click)="openDocument()">
-    共享课件
-  </ion-item>
-  <ion-item button (click)="openWhiteBoard()">
-    白板
+    <ion-icon name="book"></ion-icon>
+    <ion-label class="ion-padding-start">
+      课件与白板
+    </ion-label>
   </ion-item>
   <ion-item button (click)="openVideo()">
-    主视频模式
+    <ion-icon name="videocam"></ion-icon>
+    <ion-label class="ion-padding-start">
+      主视频
+    </ion-label>
   </ion-item>
 </ion-list>

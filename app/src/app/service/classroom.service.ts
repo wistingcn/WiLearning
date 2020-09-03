@@ -102,9 +102,11 @@ export class ClassroomService {
     this.logger.debug('class start at: %s', this.profile.startTime);
 
     await this.signaling.sendClassStart();
+    /*
     await this.peer.produceLocalCamera();
     await this.peer.produceLocalMic();
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
+    */
     this.profile.bClassStarter = true;
   }
 

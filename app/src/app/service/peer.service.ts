@@ -703,7 +703,7 @@ export class PeerService {
       await screen.start(SCREENSHARE_CONSTRAINTS);
     } catch (e) {
       this.logger.error(e);
-      return;
+      return false;
     }
 
     this.pScreen = screen;
@@ -712,6 +712,8 @@ export class PeerService {
     producer.on('trackended', () => {
       this.pScreen = null;
     });
+
+    return true;
   }
 
   stopScreenShare() {

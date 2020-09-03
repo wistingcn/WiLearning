@@ -1,0 +1,27 @@
+video {
+    width: 200px;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 10px;
+    width: 100%;
+}
+
+.audio-volume-meter {
+    width: 6px;
+    height: 12px;
+    margin: 2px;
+    background-color: gray;
+  }
+.meter-green{
+    background-color:green;
+}
+
+.volume-display {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
