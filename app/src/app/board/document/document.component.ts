@@ -56,7 +56,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.eventbus.docoment$.subscribe(async (event: IEventType) => {
+    this.eventbus.document$.subscribe(async (event: IEventType) => {
       if ( event.type === EventType.document_docSelect) {
         this.sendSyncDocInfo();
         this.document = await this.ds.docSelect(event.data.doc);
@@ -82,7 +82,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
   }
 
-  claInit() {
+  async claInit() {
     this.width = this.container.nativeElement.clientWidth;
     this.height = this.container.nativeElement.clientHeight;
 
@@ -96,8 +96,25 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
     this.initFabric();
 
-    this.document = this.ds.newWhiteboard(this.fabCanvas);
-    this.drawtool.setDocument(this);
+    if (this.ds.selectedDoc) {
+      this.document = await this.ds.docSelect(this.ds.selectedDoc);
+      this.document.setFabCanvas(this.fabCanvas);
+      this.document.setZoom(this.document.zoom);
+      if (!this.isCanvasInited) {
+        this.drawtool.setDocument(this);
+      }
+      return this.document.goPage(this.document.pageNum);
+    }
+
+    if (this.ds.lastDocSyncData) {
+      this.logger.debug('In claInit, sync from lastDocSyncData.');
+      return this.attendeeSyncDoc(this.ds.lastDocSyncData);
+    }
+
+    if (this.profile.privilege.draw) {
+      this.document = this.ds.newWhiteboard(this.fabCanvas);
+      this.drawtool.setDocument(this);
+    }
   }
 
   // when it's not a speaker
@@ -109,16 +126,19 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.logger.debug('recv remote doc sync info , from %s.', peerId);
-    this.logger.debug('recv remote doc sync info : %s', JSON.stringify(info));
-
     const serialObj = info.fabric;
     const canvas = info.canvas;
     const doc = info.doc;
 
     this.width = this.container.nativeElement.clientWidth;
     this.height = this.container.nativeElement.clientHeight;
+    if (!this.width) {
+      this.logger.debug('the component maybe destoryed! just return.');
+      return;
+    }
 
+    this.logger.debug('recv remote doc sync info , from %s.', peerId);
+    this.logger.debug('recv remote doc sync info : %s', JSON.stringify(info));
     this.logger.debug('canvas width: %s, canvas height: %s', canvas.width, canvas.height);
     this.logger.debug('native width: %s, native height: %s', this.width, this.height);
 

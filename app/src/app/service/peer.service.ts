@@ -204,7 +204,7 @@ export class PeerService {
       stream.getAudioTracks()[0].enabled = false;
     }
 
-    this.profile.boardComponent = ClaBoardComp.sharescreen;
+    this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
     this.updateScreenStreams();
 
   }
@@ -243,7 +243,7 @@ export class PeerService {
     }
 
     this.updateMediaStreams();
-    this.profile.boardComponent = ClaBoardComp.sharemedia;
+    this.profile.switchBoardComponent(ClaBoardComp.sharemedia);
   }
 
   private updateScreenStreams() {

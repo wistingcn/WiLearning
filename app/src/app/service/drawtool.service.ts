@@ -38,6 +38,7 @@ export class DrawtoolService {
   private lining: fabric.Line;
   private recting: fabric.Rect;
   private texting: fabric.IText;
+  private freeDraw = null;
   public document;
 
   public selectedTool: DrawtoolType = DrawtoolType.line;
@@ -91,6 +92,9 @@ export class DrawtoolService {
           return this.enterDrawRect(e);
         case DrawtoolType.line :
           return this.enterDrawLine(e);
+        case DrawtoolType.free :
+          this.freeDraw = true;
+          break;
       }
     });
 
@@ -123,6 +127,10 @@ export class DrawtoolService {
             this.fabCanvas.renderAll();
           }
           break;
+        case DrawtoolType.free :
+          if (this.freeDraw) {
+          }
+          break;
       }
     });
 
@@ -140,6 +148,7 @@ export class DrawtoolService {
           this.document.sendSyncDocInfo();
           break;
         case DrawtoolType.free :
+          this.freeDraw = false;
           this.document.sendSyncDocInfo();
           break;
       }

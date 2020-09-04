@@ -18,6 +18,7 @@ import { EventbusService, IEventType, EventType } from '../service/eventbus.serv
 import { ClassroomService } from '../service/classroom.service';
 import { ClaBoardComp } from '../defines';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
+import { DocumentService } from '../service/document.service';
 
 @Component({
   selector: 'app-main',
@@ -46,6 +47,8 @@ export class MainComponent implements OnInit {
 
   popoverEmoji = null;
   popoverSetting = null;
+  popoverShare = null;
+  popoverMore = null;
 
   constructor(
     public profile: ProfileService,
@@ -61,6 +64,7 @@ export class MainComponent implements OnInit {
     private eventbus: EventbusService,
     private popoverController: PopoverController,
     private modalController: ModalController,
+    private ds: DocumentService,
   ) {
     this.initializeApp();
   }
@@ -84,6 +88,23 @@ export class MainComponent implements OnInit {
       if (event.type === EventType.popover_settingClosed && this.popoverSetting) {
         this.popoverSetting.dismiss();
         this.popoverSetting = null;
+      }
+
+      if (event.type === EventType.popover_shareClosed && this.popoverShare) {
+        this.popoverShare.dismiss();
+        this.popoverShare = null;
+      }
+
+      if (event.type === EventType.popover_moreClosed && this.popoverMore) {
+        this.popoverMore.dismiss();
+        this.popoverMore = null;
+      }
+    });
+
+    this.eventbus.document$.subscribe((event: IEventType) => {
+      if (event.type === EventType.document_syncDocInfo && event.data.peerId !== this.profile.me.id) {
+        this.profile.switchBoardComponent(ClaBoardComp.document);
+        this.ds.lastDocSyncData = event.data;
       }
     });
   }
@@ -134,7 +155,8 @@ export class MainComponent implements OnInit {
       event: ev,
       translucent: true
     });
-    return popover.present();
+    await popover.present();
+    this.popoverShare = popover;
   }
 
   async morePopover(ev) {
@@ -143,7 +165,8 @@ export class MainComponent implements OnInit {
       event: ev,
       translucent: true
     });
-    return popover.present();
+    await popover.present();
+    this.popoverMore = popover;
   }
 
   async settingPopover() {

@@ -111,7 +111,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   docOpen() {
     this.logger.debug('pdf-select, docOpen');
 
-    this.eventbus.docoment$.next({
+    this.eventbus.document$.next({
       type: EventType.document_docSelect,
       data: {doc: this.docSelected}
     });

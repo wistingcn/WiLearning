@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../service/profile.service';
 import { ClaBoardComp } from '../../defines';
 import { PeerService } from '../../service/peer.service';
+import { EventbusService, EventType } from '../../service/eventbus.service';
 
 @Component({
   selector: 'app-sharepopover',
@@ -11,37 +12,40 @@ import { PeerService } from '../../service/peer.service';
 export class SharepopoverComponent implements OnInit {
 
   constructor(
-    private profile: ProfileService,
+    public profile: ProfileService,
     public peer: PeerService,
+    private eventbus: EventbusService,
   ) { }
 
   ngOnInit() {}
 
-  openWelcome() {
-    this.profile.boardComponent = ClaBoardComp.welcome;
-  }
-
   openVideo() {
-    this.profile.boardComponent = ClaBoardComp.video;
+    this.profile.switchBoardComponent(ClaBoardComp.video);
+    this.closeWindow();
   }
 
   async shareDesktop() {
+    this.closeWindow();
     if (this.peer.pScreen) {
-      this.profile.boardComponent = ClaBoardComp.sharescreen;
+      this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
     } else if (await this.peer.startScreenShare()) {
-      this.profile.boardComponent = ClaBoardComp.sharescreen;
+      this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
     }
   }
 
   shareMedia() {
-    this.profile.boardComponent = ClaBoardComp.sharemedia;
+    this.profile.switchBoardComponent(ClaBoardComp.sharemedia);
+    this.closeWindow();
   }
 
   openDocument() {
-    this.profile.boardComponent = ClaBoardComp.document;
+    this.profile.switchBoardComponent(ClaBoardComp.document);
+    this.closeWindow();
   }
 
-  openWhiteBoard() {
-    this.profile.boardComponent = ClaBoardComp.whiteboard;
+  closeWindow() {
+    this.eventbus.popover$.next({
+      type: EventType.popover_shareClosed,
+    });
   }
 }

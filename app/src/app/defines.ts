@@ -15,7 +15,7 @@
 import * as mediasoup from 'mediasoup-client';
 
 export enum ROLE {
-  SPEAKER = 1,
+  MASTER = 0,
   AUDIENCE,
 }
 export enum CONNECT_VIDEO_STATUS {
@@ -27,7 +27,7 @@ export enum CONNECT_VIDEO_STATUS {
 export class ClaPeer {
   public id: string;
   public displayName: string;
-  public roler = ROLE.SPEAKER;
+  public roler = ROLE.AUDIENCE;
   public connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
   public platform: string;
   public picture: string;

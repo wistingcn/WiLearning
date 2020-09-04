@@ -93,7 +93,7 @@
               <ion-icon slot="icon-only" name="mic"></ion-icon>
             </ion-button>
 
-            <ion-button class="" (click)="sharePopover($event)">
+            <ion-button class="" (click)="sharePopover($event)" *ngIf="profile.privilege.classControl">
               <ion-icon slot="icon-only" name="share"></ion-icon>
             </ion-button>
 

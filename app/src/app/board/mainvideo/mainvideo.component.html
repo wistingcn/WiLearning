@@ -1,9 +1,19 @@
-<ion-content>
-  <ion-grid>
+<div class="container">
+  <ion-grid *ngIf="peer.cameraStreams.length">
     <ion-row *ngFor="let row of peer.cameraStreams" class="ion-align-self-center">
       <ion-col [size]="stream.size" *ngFor="let stream of row">
         <app-videoplayer [stream]="stream" [toolbar]="true"></app-videoplayer>
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-content>
+  <div class="welcome" *ngIf="!peer.cameraStreams.length">
+    <h1>
+      欢迎！
+    </h1>
+    <ul>
+      <li>
+        设为主持人，可开始课程并作为讲师，主持人拥有最高权限。 更多->设为主持人。
+      </li>
+    </ul>
+  </div>
+</div>

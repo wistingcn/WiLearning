@@ -215,6 +215,7 @@ export class ClaDocs extends ClaDocument {
 export class DocumentService {
   public docsMap = new Map<string, ClaDocs>();
   public selectedDoc: ClaDocs = null;
+  public lastDocSyncData = null;
 
   constructor(
     private logger: LoggerService,

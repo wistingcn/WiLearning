@@ -149,7 +149,7 @@ export class SignalingService {
   @Notification()
   private syncDocInfo(data) {
     // const { peerId, info } = data;
-    this.eventbus.docoment$.next({
+    this.eventbus.document$.next({
       type: EventType.document_syncDocInfo,
       data
     });

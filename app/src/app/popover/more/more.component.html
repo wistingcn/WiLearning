@@ -3,4 +3,7 @@
     黑色主题
     <ion-toggle [(ngModel)]="profile.themeDark"></ion-toggle>
   </ion-item>
+  <ion-item button (click)="setAsMaster()" *ngIf="profile.me.roler !== 0">
+    <ion-label>设为主持人</ion-label>
+  </ion-item>
 </ion-list>

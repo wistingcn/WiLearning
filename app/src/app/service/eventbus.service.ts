@@ -39,6 +39,8 @@ export enum EventType {
   popover_docSelectClosed,
   popover_settingClosed,
   popover_emojiClosed,
+  popover_shareClosed,
+  popover_moreClosed,
 
   document_docSelect,
   document_docImport,
@@ -67,7 +69,7 @@ export class EventbusService {
   public chat$ = new Subject();
   public popover$ = new Subject();
   public pdftranscode$ = new Subject();
-  public docoment$ = new Subject();
+  public document$ = new Subject();
   public class$ = new Subject();
   public draw$ = new Subject();
 

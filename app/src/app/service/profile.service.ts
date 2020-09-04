@@ -47,27 +47,25 @@ export class ProfileService {
   public me = new ClaPeer();
 
   public privilegeAll = [
-    // 0
-    {},
-    // ROLE.SPEAKER = 1
+    // ROLE.MASTER = 0
     {
       pubCamera: true,
+      pubAudio: true,
       classControl: true,
-      draw: true,
+      shareDocument: true,
       shareDesktop: true,
       shareMedia: true,
-      raiseHand: false,
-      connectVideo: false,
+      draw: true,
     },
-    // ROLE.AUDIENCE = 2
+    // ROLE.AUDIENCE = 1
     {
-      pubCamera: false,
+      pubCamera: true,
+      pubAudio: true,
       classControl: false,
-      draw: false,
-      shareDesktop: false,
+      shareDocument: false,
+      shareDesktop: true,
       shareMedia: false,
-      raiseHand: true,
-      connectVideo: true,
+      draw: false,
     },
   ];
 
@@ -87,6 +85,10 @@ export class ProfileService {
     return this.privilegeAll[this.me.roler];
   }
 
+  setRoler(roler) {
+    this.me.roler = roler;
+  }
+
   genPeerId() {
     /*
     let peerId = sessionStorage.getItem('WiLearning.peerId');
@@ -98,5 +100,9 @@ export class ProfileService {
     const peerId = makeRandomString(8);
 
     return peerId;
+  }
+
+  switchBoardComponent(comp: ClaBoardComp) {
+    this.boardComponent = comp;
   }
 }
