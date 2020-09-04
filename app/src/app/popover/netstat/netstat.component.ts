@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatsService } from '../../service/stats.service';
 
 @Component({
   selector: 'app-netstat',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NetstatComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public stats: StatsService,
+  ) { }
 
   ngOnInit() {}
 

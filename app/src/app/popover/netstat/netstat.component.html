@@ -1,3 +1,29 @@
-<p>
-  netstat works!
-</p>
+<ion-content>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>视频编码：{{stats.videoCodec}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>视频分辨率：{{stats.videoWidth}}*{{stats.videoHeight}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>视频帧率：{{stats.videoFrameRate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>视频接收码率：{{stats.videoKbpsRecv}}kbps</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>视频发送码率：{{stats.videoKbpsSent}}kbps</ion-label>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <ion-label>音频编码：{{stats.audioCodec}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>音频接收码率：{{stats.audioKbpsRecv}}kbps</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>音频发送码率：{{stats.audioKbpsSent}}kbps</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

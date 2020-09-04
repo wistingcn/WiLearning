@@ -25,6 +25,7 @@ import { types as mediaTypes } from 'mediasoup-client';
 import * as hark from 'hark';
 import 'webrtc-adapter';
 import { audioConstrain, videoConstrain } from '../config';
+import { StatsService } from './stats.service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,7 @@ export class PeerService {
     private logger: LoggerService,
     private eventbus: EventbusService,
     private profile: ProfileService,
+    private stats: StatsService,
   ) {
     this.eventbus.socket$.subscribe(async (event: IEventType) => {
       const { type } = event;
@@ -166,9 +168,13 @@ export class PeerService {
       stream.videoConsumer = consumer;
       stream.toggleSide = this.toggleSide;
       this.updateCameraStreams();
+
+      this.stats.setVideoConsumer(consumer);
     } else {
       stream.audioConsumer = consumer;
       this.setupVolumeDetect(stream);
+
+      this.stats.setAudioConsumer(consumer);
     }
 
     // do not consumer audio produced by itself
@@ -543,7 +549,8 @@ export class PeerService {
         return;
       }
     }
-    await this.produceVideo(this.localCam, ClaMediaSource.cameramic);
+    const producer = await this.produceVideo(this.localCam, ClaMediaSource.cameramic);
+    this.stats.setVideoProducer(producer);
   }
 
   async produceLocalMic() {
@@ -554,7 +561,8 @@ export class PeerService {
         return;
       }
     }
-    await this.produceAudio(this.localMic, ClaMediaSource.cameramic);
+    const producer = await this.produceAudio(this.localMic, ClaMediaSource.cameramic);
+    this.stats.setAudioProducer(producer);
   }
 
   async stopLocalCamera() {
