@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoggerService } from './logger.service';
 import { PeerService } from './peer.service';
-import {ClaMedia, ClaMediaSource} from '../defines';
+import {WlMedia, WlMediaSource} from '../defines';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +21,14 @@ export class SharemediaService {
     const media = videoElement.captureStream();
     this.logger.debug('export media: %o.', media);
 
-    this.peer.produceVideo(media, ClaMediaSource.media);
-    this.peer.produceAudio(media, ClaMediaSource.media);
+    this.peer.produceVideo(media, WlMediaSource.media);
+    this.peer.produceAudio(media, WlMediaSource.media);
 
     this.shareVideoStream = media;
   }
 
   close() {
-    this.peer.stopProduceStream(this.shareVideoStream as ClaMedia);
+    this.peer.stopProduceStream(this.shareVideoStream as WlMedia);
     document.getElementById('sharemedia').removeChild(this.videoElement);
     this.shareVideoStream = null;
     this.videoElement = null;

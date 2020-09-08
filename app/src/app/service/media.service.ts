@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import * as mediasoup from 'mediasoup-client';
 import { LoggerService } from './logger.service';
-import { ClaMedia } from '../defines';
+import { WlMedia } from '../defines';
 
 @Injectable({
   providedIn: 'root'

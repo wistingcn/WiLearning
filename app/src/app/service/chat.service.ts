@@ -13,7 +13,7 @@
 	 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 import { Injectable } from '@angular/core';
-import { ClaMessage, makeRandomString} from '../defines';
+import { WlMessage, makeRandomString} from '../defines';
 import { PeerService } from './peer.service';
 import { SignalingService } from './signaling.service';
 import { RequestMethod } from '../defines';
@@ -24,7 +24,7 @@ import { ProfileService } from './profile.service';
   providedIn: 'root'
 })
 export class ChatService {
-  public messages: ClaMessage[] = [];
+  public messages: WlMessage[] = [];
   public toPeer = 'all';
 
   constructor(
@@ -38,7 +38,7 @@ export class ChatService {
         const { peerId, chatMessage } = event.data;
         const peerInfo = this.peer.getPeerInfo(peerId);
 
-        const claMessage = new ClaMessage(
+        const claMessage = new WlMessage(
           makeRandomString(8),
           peerInfo,
           'partner',
@@ -53,7 +53,7 @@ export class ChatService {
   }
 
 send(chatMessage: string) {
-  const claMessage = new ClaMessage(
+  const claMessage = new WlMessage(
     makeRandomString(8),
     this.profile.me,
     'me',

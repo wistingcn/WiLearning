@@ -17,7 +17,7 @@ import { throwError } from 'rxjs';
 import { map, last, catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpErrorResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { LoggerService } from './logger.service';
-import { ClaFile } from '../defines';
+import { WlFile } from '../defines';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class ClahttpService {
     public http: HttpClient,
   ) { }
 
-  uploadFiles(file: ClaFile, url: string) {
+  uploadFiles(file: WlFile, url: string) {
     const headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
 
@@ -48,7 +48,7 @@ export class ClahttpService {
     );
   }
 
-  private getEventMessage(event: HttpEvent<any>, file: ClaFile) {
+  private getEventMessage(event: HttpEvent<any>, file: WlFile) {
     let message = '';
     switch (event.type) {
       case HttpEventType.Sent:
@@ -73,7 +73,7 @@ export class ClahttpService {
     return event;
   }
 
-  private handleError(file: ClaFile) {
+  private handleError(file: WlFile) {
     return (error: HttpErrorResponse)  => {
       if (error.error instanceof ErrorEvent) {
         // A client-side or network error occurred. Handle it accordingly.

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../service/profile.service';
-import { ClaBoardComp } from '../../defines';
+import { WlBoardComp } from '../../defines';
 import { PeerService } from '../../service/peer.service';
 import { EventbusService, EventType } from '../../service/eventbus.service';
 
@@ -20,26 +20,26 @@ export class SharepopoverComponent implements OnInit {
   ngOnInit() {}
 
   openVideo() {
-    this.profile.switchBoardComponent(ClaBoardComp.video);
+    this.profile.switchBoardComponent(WlBoardComp.video);
     this.closeWindow();
   }
 
   async shareDesktop() {
     this.closeWindow();
     if (this.peer.pScreen) {
-      this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
+      this.profile.switchBoardComponent(WlBoardComp.sharescreen);
     } else if (await this.peer.startScreenShare()) {
-      this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
+      this.profile.switchBoardComponent(WlBoardComp.sharescreen);
     }
   }
 
   shareMedia() {
-    this.profile.switchBoardComponent(ClaBoardComp.sharemedia);
+    this.profile.switchBoardComponent(WlBoardComp.sharemedia);
     this.closeWindow();
   }
 
   openDocument() {
-    this.profile.switchBoardComponent(ClaBoardComp.document);
+    this.profile.switchBoardComponent(WlBoardComp.document);
     this.closeWindow();
   }
 

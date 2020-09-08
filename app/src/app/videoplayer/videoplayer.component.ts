@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ClaMedia } from '../defines';
+import { WlMedia } from '../defines';
 import { PeerService } from '../service/peer.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { PeerService } from '../service/peer.service';
   styleUrls: ['./videoplayer.component.scss'],
 })
 export class VideoplayerComponent implements OnInit {
-  @Input() stream: ClaMedia;
+  @Input() stream: WlMedia;
   @Input() toolbar = true;
 
   constructor(

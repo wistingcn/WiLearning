@@ -24,26 +24,26 @@ export enum CONNECT_VIDEO_STATUS {
   Connected = 'connected',
 }
 
-export class ClaPeer {
+export class WlPeer {
   public id: string;
   public displayName: string;
   public roler = ROLE.AUDIENCE;
   public connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
   public platform: string;
   public picture: string;
-  public camStream?: ClaMedia;
-  public screenStream?: ClaMedia;
-  public mediaStream?: ClaMedia;
+  public camStream?: WlMedia;
+  public screenStream?: WlMedia;
+  public mediaStream?: WlMedia;
 
   constructor(
     ) {
   }
 }
 
-export class ClaMessage {
+export class WlMessage {
   constructor(
     public id: string,
-    public peer: ClaPeer,
+    public peer: WlPeer,
     public who: string,
     public message: string,
     public recvTime: Date,
@@ -52,7 +52,7 @@ export class ClaMessage {
   }
 }
 
-export class ClaFile {
+export class WlFile {
   constructor(
     public name: string,
     public size: number,
@@ -60,10 +60,10 @@ export class ClaFile {
   ) { }
 }
 
-export class ClaMedia extends MediaStream {
+export class WlMedia extends MediaStream {
   public videoConsumer?: mediasoup.types.Consumer;
   public audioConsumer?: mediasoup.types.Consumer;
-  public peer?: ClaPeer;
+  public peer?: WlPeer;
   public source?: string;
   public volume?: number;
   public producerScore?: number[] = [];
@@ -82,7 +82,7 @@ export enum RoomStatus {
   stopped = 'stopped',
 }
 
-export class ClaRoom {
+export class WlRoom {
   id: string;
   name: string;
   password: string;
@@ -172,7 +172,7 @@ export enum RequestMethod {
   disconnectVideo = 'disconnectVideo',
 }
 
-export enum ClaBoardComp {
+export enum WlBoardComp {
   video = 'video',
   welcome = 'welcome',
   document = 'document',
@@ -181,13 +181,13 @@ export enum ClaBoardComp {
   sharemedia = 'sharemedia',
 }
 
-export enum ClaMediaSource {
+export enum WlMediaSource {
   cameramic = 'cameramic',
   screen = 'screen',
   media = 'media',
 }
 
-export enum ClaColor {
+export enum WlColor {
   primary = 'primary',
   secondary = 'secondary',
   tertiary = 'tertiary',
@@ -199,7 +199,7 @@ export enum ClaColor {
   dark = 'dark'
 }
 
-export class ClaDocument {
+export class WlDocument {
   public id: number;
   public roomId: string;
   public uploadTime: string;

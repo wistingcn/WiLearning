@@ -16,7 +16,7 @@ import { ChatService } from '../service/chat.service';
 import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ClassroomService } from '../service/classroom.service';
-import { ClaBoardComp } from '../defines';
+import { WlBoardComp } from '../defines';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
 import { DocumentService } from '../service/document.service';
 
@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
   recorderIntervalHandler;
   recordingIconSize = false;
   recorderEnable = false;
-  boardcomp = ClaBoardComp;
+  boardcomp = WlBoardComp;
 
   popoverEmoji = null;
   popoverSetting = null;
@@ -103,7 +103,7 @@ export class MainComponent implements OnInit {
 
     this.eventbus.document$.subscribe((event: IEventType) => {
       if (event.type === EventType.document_syncDocInfo && event.data.peerId !== this.profile.me.id) {
-        this.profile.switchBoardComponent(ClaBoardComp.document);
+        this.profile.switchBoardComponent(WlBoardComp.document);
         this.ds.lastDocSyncData = event.data;
       }
     });

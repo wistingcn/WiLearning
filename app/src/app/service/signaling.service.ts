@@ -18,7 +18,7 @@ import { MediaServer, RequestTimeout } from '../config';
 import { ProfileService } from './profile.service';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
-import { RequestMethod, ClaRoom } from '../defines';
+import { RequestMethod, WlRoom } from '../defines';
 import { types as mediaTypes } from 'mediasoup-client';
 
 const pRequestMap = new Map<string, string>();
@@ -220,7 +220,7 @@ export class SignalingService {
 
   @Notification()
   private async classStart(data) {
-    this.profile.room = await this.getRoomInfo() as ClaRoom;
+    this.profile.room = await this.getRoomInfo() as WlRoom;
     this.eventbus.class$.next({
       type: EventType.class_start
     });

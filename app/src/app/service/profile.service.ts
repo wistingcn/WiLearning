@@ -13,9 +13,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import { Injectable } from '@angular/core';
-import { makeRandomString, ClaPeer, ClaColor } from '../defines';
+import { makeRandomString, WlPeer, WlColor } from '../defines';
 import { LoggerService } from './logger.service';
-import {ROLE, ClaRoom, RoomStatus, ClaBoardComp } from '../defines';
+import {ROLE, WlRoom, RoomStatus, WlBoardComp } from '../defines';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class ProfileService {
   public useSimulcast = false;
   public videoNav = true;
 
-  public color = ClaColor.medium;
+  public color = WlColor.medium;
 
   public started = false; // Classroom status
   public startTime: number;
@@ -36,15 +36,15 @@ export class ProfileService {
 
   public bLogin = false;
   public themeDark = false;
-  public boardComponent = ClaBoardComp.video;
+  public boardComponent = WlBoardComp.video;
 
-  public room = new ClaRoom();
+  public room = new WlRoom();
 
   public mainVideoDeviceId;
   public mainAudioDeviceId;
   public mainVideoResolution = 0;
 
-  public me = new ClaPeer();
+  public me = new WlPeer();
 
   public privilegeAll = [
     {},
@@ -105,7 +105,7 @@ export class ProfileService {
     return peerId;
   }
 
-  switchBoardComponent(comp: ClaBoardComp) {
+  switchBoardComponent(comp: WlBoardComp) {
     this.boardComponent = comp;
   }
 }

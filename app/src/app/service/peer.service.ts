@@ -18,8 +18,8 @@ import { MediaService, DisplayMediaScreenShare } from './media.service';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { ProfileService } from './profile.service';
-import { ClaMedia, ClaPeer, RequestMethod, ROLE, CONNECT_VIDEO_STATUS, makeRandomString } from '../defines';
-import { ClaRoom, RoomStatus, ClaMediaSource, ClaBoardComp } from '../defines';
+import { WlMedia, WlPeer, RequestMethod, ROLE, CONNECT_VIDEO_STATUS, makeRandomString } from '../defines';
+import { WlRoom, RoomStatus, WlMediaSource, WlBoardComp } from '../defines';
 import { SIMULCASTENCODING, SCREENSHARE_CONSTRAINTS, VIDEORESOLUTION} from '../defines';
 import { types as mediaTypes } from 'mediasoup-client';
 import * as hark from 'hark';
@@ -31,15 +31,15 @@ import { StatsService } from './stats.service';
   providedIn: 'root'
 })
 export class PeerService {
-  public localCam: ClaMedia;
-  public localMic: ClaMedia;
+  public localCam: WlMedia;
+  public localMic: WlMedia;
   public pScreen: DisplayMediaScreenShare;
-  public peerStreams: ClaMedia[] = [];
-  public peersInfo: ClaPeer[] = [];
+  public peerStreams: WlMedia[] = [];
+  public peersInfo: WlPeer[] = [];
   public producerMap = new Map<string, mediaTypes.Producer>();
   public cameraStreams = [];
-  public screenStreams: ClaMedia[] = [];
-  public mediaStreams: ClaMedia[] = [];
+  public screenStreams: WlMedia[] = [];
+  public mediaStreams: WlMedia[] = [];
   public toggleSide = false;
 
   public networkType;
@@ -132,13 +132,13 @@ export class PeerService {
     this.logger.debug('appdata, peerId: %s, source: %s, type: %s', appArray[0], appArray[1], appArray[2]);
 
     switch (source) {
-      case ClaMediaSource.cameramic:
+      case WlMediaSource.cameramic:
         this.newConsumerCam(peerId, consumer, source);
         break;
-      case ClaMediaSource.screen:
+      case WlMediaSource.screen:
         this.newConsumerScreen(peerId, consumer, source);
         break;
-      case ClaMediaSource.media:
+      case WlMediaSource.media:
         this.newCosumerMedia(peerId, consumer, source);
         break;
     }
@@ -154,7 +154,7 @@ export class PeerService {
     if ( existStream ) {
       stream = existStream;
     } else {
-      stream = new ClaMedia();
+      stream = new WlMedia();
       this.peerStreams = [...this.peerStreams, stream];
       stream.source = source;
 
@@ -191,7 +191,7 @@ export class PeerService {
     if (peerInfo.screenStream) {
       stream = peerInfo.screenStream;
     } else {
-      stream = new ClaMedia();
+      stream = new WlMedia();
       stream.source = source;
       peerInfo.screenStream = stream;
       stream.peer = peerInfo;
@@ -210,7 +210,7 @@ export class PeerService {
       stream.getAudioTracks()[0].enabled = false;
     }
 
-    this.profile.switchBoardComponent(ClaBoardComp.sharescreen);
+    this.profile.switchBoardComponent(WlBoardComp.sharescreen);
     this.updateScreenStreams();
 
   }
@@ -229,7 +229,7 @@ export class PeerService {
     if (peerInfo.mediaStream) {
       stream = peerInfo.mediaStream;
     } else {
-      stream = new ClaMedia();
+      stream = new WlMedia();
       stream.source = source;
       peerInfo.mediaStream = stream;
       stream.peer = peerInfo;
@@ -249,13 +249,13 @@ export class PeerService {
     }
 
     this.updateMediaStreams();
-    this.profile.switchBoardComponent(ClaBoardComp.sharemedia);
+    this.profile.switchBoardComponent(WlBoardComp.sharemedia);
   }
 
   private updateScreenStreams() {
     this.screenStreams = [];
     this.peerStreams.forEach(stream => {
-      if (stream.source === ClaMediaSource.screen && stream.videoConsumer) {
+      if (stream.source === WlMediaSource.screen && stream.videoConsumer) {
         this.screenStreams.push(stream);
       }
     });
@@ -264,7 +264,7 @@ export class PeerService {
   private updateMediaStreams() {
     this.mediaStreams = [];
     this.peerStreams.forEach(stream => {
-      if (stream.source === ClaMediaSource.media && stream.videoConsumer) {
+      if (stream.source === WlMediaSource.media && stream.videoConsumer) {
         this.mediaStreams.push(stream);
       }
     });
@@ -272,10 +272,10 @@ export class PeerService {
 
   public updateCameraStreams() {
     this.cameraStreams = [];
-    const tmpStreams: ClaMedia[] = [];
+    const tmpStreams: WlMedia[] = [];
 
     this.peerStreams.forEach(stream => {
-      if (stream.source === ClaMediaSource.cameramic && stream.videoConsumer) {
+      if (stream.source === WlMediaSource.cameramic && stream.videoConsumer) {
         stream.size = 6;
         tmpStreams.push(stream);
       }
@@ -311,7 +311,7 @@ export class PeerService {
     this.toggleSide = toggle;
   }
 
-  private setupVolumeDetect(stream: ClaMedia ) {
+  private setupVolumeDetect(stream: WlMedia ) {
     const speechEvents = hark(stream, {});
     speechEvents.on('speaking', () => {
       this.logger.debug('%s speaking.', stream.peer.id);
@@ -370,22 +370,22 @@ export class PeerService {
       }
     }
 
-    if (foundStream.source === ClaMediaSource.cameramic) {
+    if (foundStream.source === WlMediaSource.cameramic) {
       this.updateCameraStreams();
-    } else if (foundStream.source === ClaMediaSource.screen ) {
+    } else if (foundStream.source === WlMediaSource.screen ) {
       this.updateScreenStreams();
-    } else if (foundStream.source === ClaMediaSource.media) {
+    } else if (foundStream.source === WlMediaSource.media) {
       this.updateMediaStreams();
     } else {
       this.logger.error('Wrong media source, Check it !');
     }
   }
 
-  public isEnableCamera(peer: ClaPeer) {
+  public isEnableCamera(peer: WlPeer) {
     return peer.camStream && peer.camStream.videoConsumer && !peer.camStream.videoConsumer.closed;
   }
 
-  public isEnableMic(peer: ClaPeer) {
+  public isEnableMic(peer: WlPeer) {
     return peer.camStream && peer.camStream.audioConsumer && !peer.camStream.audioConsumer.closed;
   }
 
@@ -401,7 +401,7 @@ export class PeerService {
       return;
     }
 
-    const peer = new ClaPeer();
+    const peer = new WlPeer();
     peer.id = data.id;
     peer.roler = +data.roler;
     peer.displayName = data.displayName;
@@ -549,7 +549,7 @@ export class PeerService {
         return;
       }
     }
-    const producer = await this.produceVideo(this.localCam, ClaMediaSource.cameramic);
+    const producer = await this.produceVideo(this.localCam, WlMediaSource.cameramic);
     this.stats.setVideoProducer(producer);
   }
 
@@ -561,12 +561,12 @@ export class PeerService {
         return;
       }
     }
-    const producer = await this.produceAudio(this.localMic, ClaMediaSource.cameramic);
+    const producer = await this.produceAudio(this.localMic, WlMediaSource.cameramic);
     this.stats.setAudioProducer(producer);
   }
 
   async stopLocalCamera() {
-    const sourceVideo = this.profile.me.id + '_' + ClaMediaSource.cameramic + '_' + 'video';
+    const sourceVideo = this.profile.me.id + '_' + WlMediaSource.cameramic + '_' + 'video';
 
     const videoProducer = this.producerMap.get(sourceVideo);
 
@@ -587,7 +587,7 @@ export class PeerService {
   }
 
   async stopLocalMic() {
-    const sourceAudio = this.profile.me.id + '_' + ClaMediaSource.cameramic + '_' + 'audio';
+    const sourceAudio = this.profile.me.id + '_' + WlMediaSource.cameramic + '_' + 'audio';
 
     const audioProducer = this.producerMap.get(sourceAudio);
 
@@ -731,7 +731,7 @@ export class PeerService {
     }
   }
 
-  stopProduceStream(stream: ClaMedia) {
+  stopProduceStream(stream: WlMedia) {
     stream.getTracks().forEach((track) => {
       track.stop();
       stream.removeTrack(track);
@@ -787,7 +787,7 @@ export class PeerService {
               height: VIDEORESOLUTION[this.profile.mainVideoResolution].height,
               ...videoConstrain
             },
-        }) as ClaMedia;
+        }) as WlMedia;
     } catch (e) {
       this.logger.error(e);
       throw new Error('Open Camera Error!');
@@ -806,7 +806,7 @@ export class PeerService {
             deviceId: this.profile.mainAudioDeviceId,
             ...audioConstrain
           }
-        }) as ClaMedia;
+        }) as WlMedia;
     } catch (e) {
       this.logger.error(e);
       throw new Error('Open Mic Error!');
@@ -818,7 +818,7 @@ export class PeerService {
   }
 
   async roomUpdate() {
-      const roomInfo = await this.signaling.getRoomInfo() as ClaRoom;
+      const roomInfo = await this.signaling.getRoomInfo() as WlRoom;
       this.profile.room = roomInfo;
       this.logger.debug('roomInfo : %s', JSON.stringify(roomInfo));
 

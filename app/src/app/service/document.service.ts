@@ -17,7 +17,7 @@ import * as pdfjs from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
-import { ClaFile, ClaDocument, getImageMeta } from '../defines';
+import { WlFile, WlDocument, getImageMeta } from '../defines';
 import { DocImagesUrl } from '../config';
 import { ClahttpService } from './clahttp.service';
 import { ProfileService } from './profile.service';
@@ -36,7 +36,7 @@ export class ClaDocPages {
   path: string;
 }
 
-export class ClaDocs extends ClaDocument {
+export class ClaDocs extends WlDocument {
   public numPages: number;
   public id: number;
   public serialMap = new Map<number, string>();
@@ -271,14 +271,14 @@ export class DocumentService {
     const blob: Blob = await new Promise(resolve => canvas.toBlob(resolve));
 
     const pageName = fileName + '-' + pageNum.toString();
-    const file = new ClaFile(pageName, blob.size, blob);
+    const file = new WlFile(pageName, blob.size, blob);
 
     return this.claHttp
       .uploadFiles(file, DocImagesUrl + '/' + this.profile.roomId)
       .toPromise();
   }
 
-  async docSelect(doc: ClaDocument) {
+  async docSelect(doc: WlDocument) {
     let docInfo: ClaDocs = null;
     this.docsMap.forEach((value, key) => {
       if (value.id === doc.id) {

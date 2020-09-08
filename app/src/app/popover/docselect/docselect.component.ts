@@ -5,7 +5,7 @@ import { DocumentService } from '../../service/document.service';
 import { ProfileService } from '../../service/profile.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { DocImagesUrl } from '../../config';
-import { ClaDocument } from '../../defines';
+import { WlDocument } from '../../defines';
 
 @Component({
   selector: 'app-docselect',
@@ -14,11 +14,11 @@ import { ClaDocument } from '../../defines';
 })
 export class DocselectComponent implements OnInit, AfterViewInit {
 
-  docList: ClaDocument[] = [];
+  docList: WlDocument[] = [];
   pdfFile: File;
   pdfNum = 0;
   pdfCurrentPage = 0;
-  docSelected: ClaDocument;
+  docSelected: WlDocument;
 
   transStart = false;
   message: string;
@@ -61,7 +61,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     const docUrl = DocImagesUrl + '/' + this.profile.roomId;
 
     this.clahttp.http.get(docUrl).subscribe(res => {
-      const docs = res as ClaDocument[];
+      const docs = res as WlDocument[];
       this.logger.debug(res);
 
       docs.forEach(value => {
@@ -104,7 +104,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     this.transStart = false;
   }
 
-  docSelect(doc: ClaDocument) {
+  docSelect(doc: WlDocument) {
     this.docSelected = doc;
   }
 
