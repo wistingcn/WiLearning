@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { MenuController, Platform, ToastController, PopoverController, ModalController } from '@ionic/angular';
 
-import { UserData } from '../providers/user-data';
 import { SharepopoverComponent } from '../popover/sharepopover/sharepopover.component';
 import { NetstatComponent } from '../popover/netstat/netstat.component';
 import { SettingComponent } from '../popover/setting/setting.component';
@@ -58,7 +57,6 @@ export class MainComponent implements OnInit {
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
-    private userData: UserData,
     private signaling: SignalingService,
     private logger: LoggerService,
     private eventbus: EventbusService,
@@ -70,9 +68,6 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
-
     this.eventbus.chat$.subscribe((event: IEventType) => {
       if (event.type === EventType.chat_emoji) {
         this.inputMessage += event.data;
@@ -120,38 +115,6 @@ export class MainComponent implements OnInit {
 
     (window as any).peer = this.peer;
 
-  }
-
-  checkLoginStatus() {
-    return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
-  }
-
-  updateLoggedInStatus(loggedIn: boolean) {
-    setTimeout(() => {
-      this.loggedIn = loggedIn;
-    }, 300);
-  }
-
-  listenForLoginEvents() {
-    window.addEventListener('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    window.addEventListener('user:signup', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    window.addEventListener('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
-  }
-
-  logout() {
-    this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/schedule');
-    });
   }
 
   async sharePopover(ev) {
