@@ -5,12 +5,14 @@ import { MemberComponent } from './member/member.component';
 import { ChatComponent } from './chat/chat.component';
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
+import { LoginGuard } from './guard/login.guard';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: MainComponent
+    component: MainComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'member',

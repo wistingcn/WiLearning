@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { UserData } from '../../providers/user-data';
-
-import { UserOptions } from '../../interfaces/user-options';
-
-
+import { AuthService } from '../../service/auth.service';
+import { LoggerService } from '../../service/logger.service';
+import { ROLE } from '../../defines';
+import { ProfileService } from '../../service/profile.service';
 
 @Component({
   selector: 'page-login',
@@ -14,24 +12,60 @@ import { UserOptions } from '../../interfaces/user-options';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { username: '', password: '' };
   submitted = false;
 
+  roler: ROLE = ROLE.AUDIENCE;
+
+  roomInit: string;
+  usernameInit: string;
+
+  room: string;
+  username: string;
+
+  password: string;
+
   constructor(
-    public userData: UserData,
-    public router: Router
-  ) { }
+    public router: Router,
+    private auth: AuthService,
+    private logger: LoggerService,
+    private profile: ProfileService,
+  ) {
+    if ( this.auth.redirectUrl ) {
+      const index = this.auth.redirectUrl.indexOf('?');
 
-  onLogin(form: NgForm) {
-    this.submitted = true;
+      const search = this.auth.redirectUrl.slice(index);
+      const url = new URLSearchParams(search);
 
-    if (form.valid) {
-      this.userData.login(this.login.username);
-      this.router.navigateByUrl('/app/tabs/schedule');
+      const roler = +url.get('roler');
+      if (roler === ROLE.AUDIENCE || roler === ROLE.MASTER) {
+        this.roler = roler;
+      }
+
+      this.roomInit = this.room = url.get('room');
+      this.usernameInit = this.username = url.get('user');
+
+      this.logger.debug('url: %s, role: %s, room: %s, user: %s', this.auth.redirectUrl,
+        this.roler, this.room, this.username);
     }
   }
 
-  onSignup() {
-    this.router.navigateByUrl('/signup');
+  async onLogin(form: NgForm) {
+    this.submitted = true;
+    if (form.valid) {
+      const logres = await this.auth.login({
+        username: this.username,
+        password: this.password,
+        roler: this.roler + '',
+        roomId: this.room,
+      });
+
+      if (logres) {
+        this.profile.me.displayName = this.username;
+        this.profile.me.roler = +this.roler;
+        this.profile.roomId = this.room;
+
+        this.router.navigateByUrl(this.auth.redirectUrl);
+      }
+    }
   }
 }

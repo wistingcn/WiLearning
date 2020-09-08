@@ -15,12 +15,13 @@
 import { environment } from '../environments/environment';
 
 export const MediaServer = {
-  address: ''
+  address: 'rtc.liweix.com',
 };
 
-if (!environment.production) {
-  MediaServer.address = 'rtc.liweix.com';
-}
+export const AdminServer = {
+  address: 'rtc.liweix.com',
+  port: 443,
+};
 
 export const RequestConnectVideoTimeout = 60;
 export const RoomLogoHeight = 50;

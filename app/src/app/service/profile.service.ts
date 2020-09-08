@@ -47,7 +47,8 @@ export class ProfileService {
   public me = new ClaPeer();
 
   public privilegeAll = [
-    // ROLE.MASTER = 0
+    {},
+    // ROLE.MASTER = 1
     {
       pubCamera: true,
       pubAudio: true,
@@ -58,7 +59,7 @@ export class ProfileService {
       shareMedia: true,
       draw: true,
     },
-    // ROLE.AUDIENCE = 1
+    // ROLE.AUDIENCE = 2
     {
       pubCamera: true,
       pubAudio: true,

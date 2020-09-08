@@ -15,7 +15,7 @@
 import * as mediasoup from 'mediasoup-client';
 
 export enum ROLE {
-  MASTER = 0,
+  MASTER = 1,
   AUDIENCE,
 }
 export enum CONNECT_VIDEO_STATUS {

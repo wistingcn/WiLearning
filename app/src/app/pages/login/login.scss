@@ -5,9 +5,21 @@
 }
 
 .login-logo img {
-  max-width: 150px;
+  max-width: 370px;
 }
 
 .list {
   margin-bottom: 0;
+}
+
+.app-login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login-window{
+  max-width: 400px;
 }

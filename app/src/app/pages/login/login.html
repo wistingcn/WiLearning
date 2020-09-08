@@ -1,54 +1,57 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+<ion-content >
+  <div class="app-login">
 
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <div class="login-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic logo">
+  <div  class="login-logo" style="width: 375px;">
+    <img src="assets/img/signin.svg" alt="WiLearning Logo">
   </div>
+  <div style="width: 375px; font-size:24px; font-weight: 500; text-align: center;">WiLearning用户登录</div>
 
-  <form #loginForm="ngForm" novalidate>
+  <form #loginForm="ngForm" novalidate style="width: 375px;">
     <ion-list>
-      <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
-        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
+      <ion-item [hidden]="usernameInit">
+        <ion-label position="stacked" color="primary">用户名</ion-label>
+        <ion-input [(ngModel)]="username" name="username" type="text" #usernameInput="ngModel" spellcheck="false" autocapitalize="off"
           required>
         </ion-input>
       </ion-item>
 
-      <ion-text color="danger">
-        <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          Username is required
+      <ion-text color="danger" [hidden]="usernameInit">
+        <p [hidden]="usernameInput.valid || submitted == false" class="ion-padding-start">
+          请输入用户名！
         </p>
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
+        <ion-label position="stacked" color="primary">密码</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="password" #passwordInput="ngModel" required>
         </ion-input>
       </ion-item>
 
       <ion-text color="danger">
-        <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
-          Password is required
+        <p [hidden]="passwordInput.valid || submitted == false" class="ion-padding-start">
+          请输入密码！
+        </p>
+      </ion-text>
+
+      <ion-item [hidden]="roomInit">
+        <ion-label position="stacked" color="primary">房间ID</ion-label>
+        <ion-input [(ngModel)]="room" name="roomId" type="text" #roomInput="ngModel" spellcheck="false" autocapitalize="off" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" [hidden]="roomInit">
+        <p [hidden]="roomInput.valid || submitted == false" class="ion-padding-start">
+          请输入房间ID！
         </p>
       </ion-text>
     </ion-list>
 
     <ion-row>
       <ion-col>
-        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
+        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block" [disabled]="!loginForm.valid">登录</ion-button>
       </ion-col>
     </ion-row>
   </form>
 
+  </div>
 </ion-content>

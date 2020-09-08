@@ -114,7 +114,12 @@ export class MainComponent implements OnInit {
       this.signaling.connect();
     });
 
+    this.platform.resize.subscribe((event) => {
+      this.logger.debug(`resize event, width:${window.innerWidth}, height: ${window.innerHeight}`);
+    });
+
     (window as any).peer = this.peer;
+
   }
 
   checkLoginStatus() {

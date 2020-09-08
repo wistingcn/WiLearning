@@ -23,7 +23,7 @@ export class AuthService {
 
   constructor() { }
 
-  login(use: string, passwd: string) {
+  login(userInfo: {username: string, password: string, roomId: string, roler: string}) {
     this.isLoggedIn = true;
     return new Promise(resolve => {
       resolve(true);

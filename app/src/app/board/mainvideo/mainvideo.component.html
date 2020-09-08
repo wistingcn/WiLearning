@@ -8,9 +8,9 @@
   </ion-grid>
   <div class="welcome" *ngIf="!peer.cameraStreams.length">
     <h1>
-      欢迎！
+      欢迎！{{profile.me.displayName}}。
     </h1>
-    <ul>
+    <ul *ngIf="profile.me.roler !== 1">
       <li>
         设为主持人，可开始课程并作为讲师，主持人拥有最高权限。 更多->设为主持人。
       </li>
