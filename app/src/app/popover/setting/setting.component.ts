@@ -9,6 +9,7 @@ import {videoConstrain, audioConstrain} from '../../config';
 import * as hark from 'hark';
 import { EventbusService, EventType } from '../../service/eventbus.service';
 import { trace } from 'console';
+import { I18nService } from '../../service/i18n.service';
 
 @Component({
   selector: 'app-setting',
@@ -28,6 +29,7 @@ export class SettingComponent implements OnInit, OnDestroy {
     public peer: PeerService,
     public media: MediaService,
     public profile: ProfileService,
+    public i18n: I18nService,
     private logger: LoggerService,
     private toastController: ToastController,
     private eventbus: EventbusService,

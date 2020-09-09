@@ -18,6 +18,7 @@ import { ClassroomService } from '../service/classroom.service';
 import { WlBoardComp } from '../defines';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
 import { DocumentService } from '../service/document.service';
+import { I18nService } from '../service/i18n.service';
 
 @Component({
   selector: 'app-main',
@@ -54,6 +55,7 @@ export class MainComponent implements OnInit {
     public peer: PeerService,
     public chat: ChatService,
     public classroom: ClassroomService,
+    public i18n: I18nService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,

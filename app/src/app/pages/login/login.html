@@ -4,12 +4,12 @@
   <div  class="login-logo" style="width: 375px;">
     <img src="assets/img/signin.svg" alt="WiLearning Logo">
   </div>
-  <div style="width: 375px; font-size:24px; font-weight: 500; text-align: center;">WiLearning用户登录</div>
+  <div style="width: 375px; font-size:24px; font-weight: 500; text-align: center;">WiLearning {{i18n.lang.userLogin}}</div>
 
   <form #loginForm="ngForm" novalidate style="width: 375px;">
     <ion-list>
       <ion-item [hidden]="usernameInit">
-        <ion-label position="stacked" color="primary">用户名</ion-label>
+        <ion-label position="stacked" color="primary">{{i18n.lang.username}}</ion-label>
         <ion-input [(ngModel)]="username" name="username" type="text" #usernameInput="ngModel" spellcheck="false" autocapitalize="off"
           required>
         </ion-input>
@@ -17,38 +17,38 @@
 
       <ion-text color="danger" [hidden]="usernameInit">
         <p [hidden]="usernameInput.valid || submitted == false" class="ion-padding-start">
-          请输入用户名！
+          {{i18n.lang.inputUsername}}
         </p>
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">密码</ion-label>
+        <ion-label position="stacked" color="primary">{{i18n.lang.password}}</ion-label>
         <ion-input [(ngModel)]="password" name="password" type="password" #passwordInput="ngModel" required>
         </ion-input>
       </ion-item>
 
       <ion-text color="danger">
         <p [hidden]="passwordInput.valid || submitted == false" class="ion-padding-start">
-          请输入密码！
+          {{i18n.lang.inputPassword}}
         </p>
       </ion-text>
 
       <ion-item [hidden]="roomInit">
-        <ion-label position="stacked" color="primary">房间ID</ion-label>
+        <ion-label position="stacked" color="primary">{{i18n.lang.roomid}}</ion-label>
         <ion-input [(ngModel)]="room" name="roomId" type="text" #roomInput="ngModel" spellcheck="false" autocapitalize="off" required>
         </ion-input>
       </ion-item>
 
       <ion-text color="danger" [hidden]="roomInit">
         <p [hidden]="roomInput.valid || submitted == false" class="ion-padding-start">
-          请输入房间ID！
+          {{i18n.lang.inputRoom}}
         </p>
       </ion-text>
     </ion-list>
 
     <ion-row>
       <ion-col>
-        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block" [disabled]="!loginForm.valid">登录</ion-button>
+        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block" [disabled]="!loginForm.valid">{{i18n.lang.login}}</ion-button>
       </ion-col>
     </ion-row>
   </form>

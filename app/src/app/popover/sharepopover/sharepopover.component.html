@@ -3,25 +3,25 @@
   <ion-item button (click)="shareDesktop()" *ngIf="profile.privilege.shareDesktop">
     <ion-icon name="desktop"></ion-icon>
     <ion-label class="ion-padding-start">
-      共享桌面
+      {{i18n.lang.shareScreen}}
     </ion-label>
   </ion-item>
   <ion-item button (click)="shareMedia()" *ngIf="profile.privilege.shareMedia">
     <ion-icon name="film"></ion-icon>
     <ion-label class="ion-padding-start">
-      共享媒体
+      {{i18n.lang.shareMedia}}
     </ion-label>
   </ion-item>
   <ion-item button (click)="openDocument()" *ngIf="profile.privilege.shareDocument">
     <ion-icon name="book"></ion-icon>
     <ion-label class="ion-padding-start">
-      课件与白板
+      {{i18n.lang.document}}
     </ion-label>
   </ion-item>
   <ion-item button (click)="openVideo()">
     <ion-icon name="videocam"></ion-icon>
     <ion-label class="ion-padding-start">
-      主视频
+      {{i18n.lang.mainVideo}}
     </ion-label>
   </ion-item>
 </ion-list>

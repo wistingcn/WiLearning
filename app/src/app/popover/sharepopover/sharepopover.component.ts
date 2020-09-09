@@ -3,6 +3,7 @@ import { ProfileService } from '../../service/profile.service';
 import { WlBoardComp } from '../../defines';
 import { PeerService } from '../../service/peer.service';
 import { EventbusService, EventType } from '../../service/eventbus.service';
+import { I18nService } from '../../service/i18n.service';
 
 @Component({
   selector: 'app-sharepopover',
@@ -14,6 +15,7 @@ export class SharepopoverComponent implements OnInit {
   constructor(
     public profile: ProfileService,
     public peer: PeerService,
+    public i18n: I18nService,
     private eventbus: EventbusService,
   ) { }
 

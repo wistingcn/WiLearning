@@ -14,7 +14,6 @@ import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { MemberComponent } from './member/member.component';
 import { ChatComponent } from './chat/chat.component';
-import { WelcomeComponent } from './board/welcome/welcome.component';
 import { MainvideoComponent } from './board/mainvideo/mainvideo.component';
 import { DocumentComponent } from './board/document/document.component';
 import { WhiteboardComponent } from './board/whiteboard/whiteboard.component';
@@ -51,7 +50,6 @@ import { ThumbnailComponent } from './thumbnail/thumbnail.component';
     MemberComponent,
     ChatComponent,
 
-    WelcomeComponent,
     MainvideoComponent,
     DocumentComponent,
     WhiteboardComponent,

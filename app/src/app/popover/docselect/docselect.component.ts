@@ -6,6 +6,7 @@ import { ProfileService } from '../../service/profile.service';
 import { ClahttpService } from '../../service/clahttp.service';
 import { DocImagesUrl } from '../../config';
 import { WlDocument } from '../../defines';
+import { I18nService } from '../../service/i18n.service';
 
 @Component({
   selector: 'app-docselect',
@@ -23,6 +24,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   transStart = false;
   message: string;
   constructor(
+    public i18n: I18nService,
     private eventbus: EventbusService,
     private logger: LoggerService,
     private ds: DocumentService,

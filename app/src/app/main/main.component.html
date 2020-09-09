@@ -6,10 +6,10 @@
         <ion-toolbar [color]="profile.color">
           <ion-segment (ionChange)="segmentChanged($event)">
             <ion-segment-button value="member" id="memberButton">
-              <ion-label>成员：{{peer.peersInfo.length}}</ion-label>
+              <ion-label>{{i18n.lang.member}}：{{peer.peersInfo.length}}</ion-label>
             </ion-segment-button>
             <ion-segment-button value="chat" id="chatButton">
-              <ion-label>聊天</ion-label>
+              <ion-label>{{i18n.lang.chat}}</ion-label>
             </ion-segment-button>
           </ion-segment>
         </ion-toolbar>
@@ -23,7 +23,7 @@
       <ion-footer *ngIf="menuPage==='chat'">
         <ion-toolbar>
           <ion-buttons>
-            <ion-textarea placeholder="请输入信息，按回车发送"
+            <ion-textarea [placeholder]="i18n.lang.inputMessage"
               autofocus=true rows=4 inputmode="text" enterkeyhint="send" class="textarea" 
               spellcheck="false"
               (keydown.enter)="sendMessage(); $event.preventDefault();" 
@@ -33,9 +33,9 @@
         </ion-toolbar>
         <ion-toolbar>
           <ion-buttons slot="start">
-            发送至:
-          <ion-select placeholder="所有人" cancelText="取消" okText="确定" interface="popover" (ionChange)="sendToChange($event)">
-            <ion-select-option value="all">所有人</ion-select-option>
+            {{i18n.lang.sendTo}}:
+          <ion-select [placeholder]="i18n.lang.all" interface="popover" (ionChange)="sendToChange($event)">
+            <ion-select-option value="all">{{i18n.lang.all}}</ion-select-option>
             <ion-select-option [value]="p.id" *ngFor="let p of peer.peersInfo">{{p.displayName}}</ion-select-option>
           </ion-select>
           </ion-buttons>
@@ -44,7 +44,7 @@
               <ion-icon slot="icon-only" name="happy"></ion-icon>
             </ion-button>
             <ion-button (click)="sendMessage()">
-              <ion-label>发送</ion-label>
+              <ion-label>{{i18n.lang.send}}</ion-label>
             </ion-button>
           </ion-buttons>
         </ion-toolbar>
@@ -65,7 +65,6 @@
       </ion-header>
       <ion-content class="ion-justify-content-center">
         <app-mainvideo *ngIf="profile.boardComponent===boardcomp.video"></app-mainvideo>
-        <app-welcome *ngIf="profile.boardComponent===boardcomp.welcome"></app-welcome>
         <app-document *ngIf="profile.boardComponent===boardcomp.document"></app-document>
         <app-sharedesk *ngIf="profile.boardComponent===boardcomp.sharescreen"></app-sharedesk>
         <app-sharemedia *ngIf="profile.boardComponent===boardcomp.sharemedia"></app-sharemedia>
@@ -115,11 +114,11 @@
             <ion-button color="primary" 
               (click)="classroom.startClass()" 
               *ngIf="!profile.started && profile.privilege.classControl">
-              开始
+              {{i18n.lang.start}}
             </ion-button>
 
             <ion-button color="primary" (click)="classroom.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
-              结束
+              {{i18n.lang.stop}}
             </ion-button>
           </ion-buttons>
         </ion-toolbar>

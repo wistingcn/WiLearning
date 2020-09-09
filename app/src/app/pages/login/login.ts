@@ -5,6 +5,7 @@ import { AuthService } from '../../service/auth.service';
 import { LoggerService } from '../../service/logger.service';
 import { ROLE } from '../../defines';
 import { ProfileService } from '../../service/profile.service';
+import { I18nService } from '../../service/i18n.service';
 
 @Component({
   selector: 'page-login',
@@ -26,6 +27,7 @@ export class LoginPage {
 
   constructor(
     public router: Router,
+    public i18n: I18nService,
     private auth: AuthService,
     private logger: LoggerService,
     private profile: ProfileService,

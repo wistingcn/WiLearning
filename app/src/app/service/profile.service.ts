@@ -45,6 +45,7 @@ export class ProfileService {
   public mainVideoResolution = 0;
 
   public me = new WlPeer();
+  public language = 'zh-CN';
 
   public privilegeAll = [
     {},
@@ -82,6 +83,8 @@ export class ProfileService {
     this.mainVideoDeviceId = localStorage.getItem('WiLearning.device.mainvideo.id');
     this.mainAudioDeviceId = localStorage.getItem('WiLearning.device.mainaudio.id');
     this.mainVideoResolution = +localStorage.getItem('WiLearning.device.mainvideoresolution.index');
+
+    this.language = navigator.language;
   }
 
   get privilege() {

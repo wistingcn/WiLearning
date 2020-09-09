@@ -1,7 +1,7 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <h2>音视频设置</h2>
+      <h2>{{i18n.lang.videoAudioSetting}}</h2>
     </ion-list-header>
     <div class="item">
       <div slot="start" style="display: flex; flex-direction: column; justify-content: center; width: 50%;">
@@ -54,12 +54,12 @@
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button (click)="saveSetting()" [disabled]="selectedAudioDevice === profile.mainAudioDeviceId && selectedVideoDevice === profile.mainVideoDeviceId && selectedVideoResolution === profile.mainVideoResolution">
-        保存
+        {{i18n.lang.save}}
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
-        关闭
+        {{i18n.lang.close}}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

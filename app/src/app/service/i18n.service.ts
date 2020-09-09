@@ -19,29 +19,60 @@ import { Injectable } from '@angular/core';
 })
 export class I18nService {
   public en = {
-    setting: 'setting',
-    shareScreen: 'Screen share',
-    stopShareScreen: 'Stop screen share',
-    shareMedia: 'ShareMedia',
+    username: 'username',
+    password: 'password',
+    roomid: 'roomid',
+    userLogin: 'User Login',
+    login: 'Login',
+    inputUsername: 'Please input your username',
+    inputRoom: 'Please input room id',
+    inputPassword: 'Please input your password(3-10)',
+
+    welcome: 'Welcome',
+
     chat: 'Chat',
     member: 'Member',
+    mutedAll: 'Muted All',
+    inputMessage: 'Please enter the message and press Enter to send.',
+    sendTo: 'Send to',
+    all: 'All',
+    send: 'Send',
+    start: 'Start',
+    stop: 'Stop',
+
+    shareScreen: 'Screen Share',
+    stopShareScreen: 'Stop screen share',
+    shareMedia: 'Media Share',
+    document: 'Document&Whiteboard',
+    mainVideo: 'Main Video',
+
+    videoAudioSetting: 'Video&Audio Setting',
+    close: 'Close',
+    save: 'Save',
+
+    videoCodec: 'Video Codec',
+    videoResolution: 'Video Resolution',
+    videoFrame: 'FrameRate',
+    videoRecvRate: 'Video Receive',
+    videoSendRate: 'Video Send',
+    audioCodec: 'Audio Codec',
+    audioRecvRate: 'Audio Receive',
+    audioSendRate: 'Audio Send',
+
+    setAsPresenter: 'Set As Presenter',
+    darkTheme: 'Dark Theme',
+
+    chinese: 'Chinese',
+
+    setting: 'setting',
     inpubMessage: 'Input your messages',
     language: 'Language',
-    document: 'Document',
     whiteBoard: 'White Board',
     selectPdfDialogTitle: 'Please select your pdf file',
     select: 'Select',
     import: 'Import',
     open: 'Open',
-    close: 'Close',
-    save: 'Save',
     addNewFile: 'Add New File',
-    userLogin: 'User Login',
-    login: 'Login',
-    inputUsername: 'Please input your username',
-    inputRoom: 'Please input room id',
-    selectRole: 'Please select role',
-    inputPassword: 'Please input your password(3-10)',
     inputNickname: 'Please input your nickname',
     roleSpeaker: 'Speaker',
     roleAttendee: 'Attendee',
@@ -49,8 +80,6 @@ export class I18nService {
     roleAssistant: 'Assistant',
     addOrOpenDoc: 'add or open document',
     addNewTab:  'add new tab',
-    start: 'Start',
-    stop: 'Stop',
     started: 'Started',
     stopped: 'Stopped',
     waitForStart: 'Waiting for start',
@@ -79,38 +108,65 @@ export class I18nService {
   };
 
   public cn = {
-    setting: '设置',
-    shareScreen: '屏幕共享',
-    stopShareScreen: '关闭屏幕共享',
-    shareMedia: '媒体共享',
+    userLogin: '用户登录',
+    username: '用户名',
+    password: '密码',
+    roomid: '房间ID',
+    login: '登录',
+    inputUsername: '请输入用户名',
+    inputRoom: '请输入房间Id',
+    inputPassword: '请输入密码(3-10)',
+
+    welcome: '欢迎',
+
     chat: '聊天',
     member: '成员',
-    inpubMessage: '请输入聊天信息',
+    mutedAll: '全体禁言',
+    inputMessage: '请输入信息，按回车发送',
+    sendTo: '发送至',
+    all: '所有人',
+    send: '发送',
+    start: '开始',
+    stop: '停止',
+
+    shareScreen: '共享桌面',
+    stopShareScreen: '关闭桌面共享',
+    shareMedia: '共享媒体',
+    document: '课件与白板',
+    mainVideo: '主视频',
+
+    videoAudioSetting: '音视频设置',
+    close: '关闭',
+    save: '保存',
+
+    videoCodec: '视频编码',
+    videoResolution: '视频分辨率',
+    videoFrame: '视频帧率',
+    videoRecvRate: '视频接收码率',
+    videoSendRate: '视频发送码率',
+    audioCodec: '音频编码',
+    audioRecvRate: '音频接收码率',
+    audioSendRate: '音频发送码率',
+
+    setAsPresenter: '设为主持人',
+    darkTheme: '黑色主题',
+
+    chinese: '中文',
+
+    setting: '设置',
     language: '语言',
-    document: '文档',
     whiteBoard: '白板',
     selectPdfDialogTitle: '请选择Pdf文件',
     select: '选择',
     import: '导入',
     open: '打开',
-    close: '关闭',
-    save: '保存',
     addNewFile: '添加新文件',
-    userLogin: '用户登录',
-    login: '登录',
-    inputUsername: '请输入您的用户名',
-    inputRoom: '请输入房间Id',
-    selectRole: '请选择角色',
-    inputPassword: '请输入您的密码(3-10)',
-    inputNickname: '请输入你的昵称',
     roleSpeaker: '主讲人',
     roleAttendee: '参与人',
     roleAudience: '旁观人',
     roleAssistant: '助手',
     addOrOpenDoc: '添加或打开文档',
     addNewTab:  '添加新的Tab页',
-    start: '开始',
-    stop: '停止',
     started: '已开始',
     stopped: '已结束',
     waitForStart: '等待课程开始',
@@ -139,23 +195,20 @@ export class I18nService {
   };
 
   public lang = this.cn;
-  public locale = 'cn';
 
   constructor() {
+    this.setLocale(navigator.language.toLowerCase());
    }
 
    setLocale(locale: string) {
-     switch ( locale ) {
-       case 'en' :
-         this.lang = this.en;
-         this.locale = locale;
-         break;
-      case 'cn' :
-        this.lang = this.cn;
-        this.locale = locale;
-        break;
-      default:
-        this.lang = this.en;
+     if (locale.indexOf('zh') >= 0 ) {
+      this.lang = this.cn;
+     } else {
+       this.lang = this.en;
+       console.log('set to en');
      }
+
+     console.log(locale);
+     console.log(this.lang);
    }
 }
