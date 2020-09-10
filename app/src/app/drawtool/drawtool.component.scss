@@ -1,0 +1,65 @@
+.container {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+ion-toolbar {
+    --min-height: 100%;
+}
+
+.color_red {
+    background: red;
+    height: 10px;
+    width: 50px;
+}
+
+.color_black {
+    background: black;
+    height: 10px;
+    width: 50px;
+}
+
+.color_green {
+    background:green;
+    height: 10px;
+    width: 50px;
+}
+
+.color_yellow {
+    background:yellow;
+    height: 10px;
+    width: 50px;
+}
+
+.color_blue {
+    background:blue;
+    height: 10px;
+    width: 50px;
+}
+
+.lineweight_1{
+    background: black;
+    width: 50px;
+    height: 1px;
+}
+
+.lineweight_5{
+    background: black;
+    width: 50px;
+    height: 5px;
+}
+
+.lineweight_10{
+    background: black;
+    width: 50px;
+    height: 10px;
+}
+
+.lineweight_20{
+    background: black;
+    width: 50px;
+    height: 20px;
+}

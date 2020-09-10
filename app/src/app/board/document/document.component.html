@@ -1,0 +1,12 @@
+<div class="canvas-container" #canvascontainer>
+  <div class="doclist" *ngIf="document?.docList">
+    <div  *ngFor="let page of document?.pages" 
+      [ngClass]="{'imagecontainer': true, 'imageselected': page.page === document.pageNum}"
+      (dblclick)="document.goPage(page.page)">
+      <app-thumbnail [page]="page" class="ion-margin"></app-thumbnail>
+      <ion-label>{{page.page}}</ion-label>
+    </div>
+
+  </div>
+  <canvas #can id="can" width="100%" height="100%"></canvas>
+</div>

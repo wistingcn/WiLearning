@@ -1,0 +1,130 @@
+<ion-app [class.dark-theme]="profile.themeDark">
+  <ion-split-pane when="lg" contentId="main-content">
+
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-header>
+        <ion-toolbar [color]="profile.color">
+          <ion-segment (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="member" id="memberButton">
+              <ion-label>{{i18n.lang.member}}：{{peer.peersInfo.length}}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="chat" id="chatButton">
+              <ion-label>{{i18n.lang.chat}}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <app-member *ngIf="menuPage==='member'"></app-member>
+        <app-chat *ngIf="menuPage==='chat'"></app-chat>
+      </ion-content>
+
+      <ion-footer *ngIf="menuPage==='chat'">
+        <ion-toolbar>
+          <ion-buttons>
+            <ion-textarea [placeholder]="i18n.lang.inputMessage"
+              autofocus=true rows=4 inputmode="text" enterkeyhint="send" class="textarea" 
+              spellcheck="false"
+              (keydown.enter)="sendMessage(); $event.preventDefault();" 
+              [(ngModel)]="inputMessage"
+              ></ion-textarea>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-toolbar>
+          <ion-label slot="start">
+            {{i18n.lang.sendTo}}:
+          </ion-label>
+          <ion-select [placeholder]="i18n.lang.all" interface="popover" (ionChange)="sendToChange($event)" slot="start">
+            <ion-select-option value="all">{{i18n.lang.all}}</ion-select-option>
+            <ion-select-option [value]="p.id" *ngFor="let p of peer.peersInfo">{{p.displayName}}</ion-select-option>
+          </ion-select>
+
+          <ion-buttons slot="end">
+            <ion-button (click)="openEmoji($event)">
+              <ion-icon slot="icon-only" name="happy"></ion-icon>
+            </ion-button>
+            <ion-button (click)="sendMessage()">
+              <ion-label>{{i18n.lang.send}}</ion-label>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ion-menu>
+
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar [color]="profile.color">
+          <ion-title slot="start">{{profile.room.name}}</ion-title>
+          <ion-title>{{classroom.timeElapsed}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button slot="end" (click)="netstatPopover($event)">
+              <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-justify-content-center">
+        <app-mainvideo *ngIf="profile.boardComponent===boardcomp.video"></app-mainvideo>
+        <app-document *ngIf="profile.boardComponent===boardcomp.document"></app-document>
+        <app-sharedesk *ngIf="profile.boardComponent===boardcomp.sharescreen"></app-sharedesk>
+        <app-sharemedia *ngIf="profile.boardComponent===boardcomp.sharemedia"></app-sharemedia>
+        <div *ngIf="profile.boardComponent===boardcomp.document && profile.privilege.classControl" slot="fixed" class="drawtoolbar">
+          <app-drawtool></app-drawtool>
+        </div>
+        <div *ngIf="profile.boardComponent===boardcomp.document" slot="fixed" class="pagetoolbar">
+          <app-pagetool></app-pagetool>
+        </div>
+      </ion-content>
+      <ion-footer class="ion-no-border">
+        <ion-toolbar>
+          <ion-buttons class="ion-justify-content-around">
+            <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="peer.produceLocalCamera()">
+              <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera()" >
+              <ion-icon slot="icon-only" name="videocam"></ion-icon>
+            </ion-button>
+
+            <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="peer.produceLocalMic()">
+              <ion-icon slot="icon-only" name="mic-off"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic()">
+              <ion-icon slot="icon-only" name="mic"></ion-icon>
+            </ion-button>
+
+            <ion-button class="" (click)="sharePopover($event)" *ngIf="profile.privilege.classControl">
+              <ion-icon slot="icon-only" name="share"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="openMember()">
+              <ion-icon slot="icon-only" name="people"></ion-icon>
+            </ion-button>
+            <ion-button (click)="openChat()">
+              <ion-icon  slot="icon-only" name="chatbox-ellipses"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="settingPopover()">
+              <ion-icon slot="icon-only" name="settings"></ion-icon>
+            </ion-button>
+
+            <ion-button (click)="morePopover($event)">
+              <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </ion-button>
+
+            <ion-button color="primary" 
+              (click)="classroom.startClass()" 
+              *ngIf="!profile.started && profile.privilege.classControl">
+              {{i18n.lang.start}}
+            </ion-button>
+
+            <ion-button color="primary" (click)="classroom.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
+              {{i18n.lang.stop}}
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </div>
+  </ion-split-pane>
+</ion-app>
+

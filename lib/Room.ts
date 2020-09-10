@@ -484,13 +484,7 @@ export class Room extends EventEmitter {
 
 			case 'chatMessage':
 			{
-				const { chatMessage } = request.data;
-
-				this._notification(peer.socket, 'chatMessage', {
-					peerId      : peer.id,
-					chatMessage : chatMessage
-				}, true);
-
+				this._notification(peer.socket, 'chatMessage', request.data, true);
 				cb();
 
 				break;
@@ -609,6 +603,13 @@ export class Room extends EventEmitter {
 					approval,
 				}, true);
 
+				cb();
+				break;
+			}
+
+			case 'switchComponent' :
+			{
+				this._notification(peer.socket, 'switchComponent', request.data, true);
 				cb();
 				break;
 			}

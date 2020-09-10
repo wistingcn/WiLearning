@@ -1,0 +1,95 @@
+ion-menu ion-content {
+  --padding-bottom: 20px;
+
+  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
+/* Remove background transitions for switching themes */
+ion-menu ion-item {
+  --transition: none;
+  // --border-radius: 50px;
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}
+
+ion-split-pane {
+  --side-max-width: 20%;
+  --side-min-width: 200px;
+}
+
+
+/*
+ * Material Design Menu
+*/
+ion-menu.md ion-list {
+  padding: 20px 0;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-list-header,
+ion-menu.md ion-item ion-icon {
+  color: var(--ion-color-step-650, #5f6368);
+}
+
+ion-menu.md ion-list:not(:last-of-type) {
+  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+}
+
+
+/*
+ * iOS Menu
+*/
+ion-menu.ios ion-list-header {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --min-height: 50px;
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 24px;
+  color: #73849a;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+video {
+  width: 100%;
+  height: 100%;
+}
+
+.drawtoolbar {
+  position: absolute;
+  width: 100%; 
+  top:0;
+  left: 0;
+  height: 40px;
+}
+
+.pagetoolbar {
+  position: absolute;
+  width: 100%; 
+  bottom: 20px;
+  left: 0;
+  height: 40px;
+}

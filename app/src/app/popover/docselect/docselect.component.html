@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{i18n.lang.selectFile}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="input.click()">
+        {{i18n.lang.addFile}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <input type="file" #input accept='application/pdf' (change)="addFile($event)" hidden/>
+  <ion-list *ngIf="docList && docList.length">
+    <ion-item button *ngFor="let doc of docList" lines="none" 
+      (click)="docSelect(doc)" 
+      (dblclick)="docSelect(doc); docOpen()"
+      [class.item-select]="doc===docSelected">
+      <ion-icon name="document" class="ion-margin-end" [color]="doc.opened?'primary':'dark'"></ion-icon>
+      <ion-label>{{doc.fileName}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="!docList || !docList.length">{{i18n.lang.empty}}</div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-label>{{message}}</ion-label>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="docOpen()" [disabled]="!docSelected">
+        {{i18n.lang.select}}
+      </ion-button>
+      <ion-button (click)=close()>
+        {{i18n.lang.close}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

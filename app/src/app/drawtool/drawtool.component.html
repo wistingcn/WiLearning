@@ -1,0 +1,37 @@
+<div class="container">
+  <ion-item slot="start" color="none">
+    <ion-button color='light' (click)="openDocSelect($event)">
+      <ion-icon name="documents"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item color="none">
+    <ion-button fill="clear" (click)="selectColor($event)">
+      <div [class]="'color_' + drawtool.color"></div>
+    </ion-button>
+    <ion-button fill="clear" (click)="selectLineWeight($event)">
+      <div [class]="'lineweight_' + drawtool.lineWeight"></div>
+    </ion-button>
+  </ion-item>
+  <ion-item color="none">
+    <ion-button (click)="drawtool.setDrawLine()" [color]="drawtoolButton(drawtoolType.line)">
+      <ion-icon name="remove"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawRect()" [color]="drawtoolButton(drawtoolType.rect)">
+      <ion-icon name="tablet-landscape-outline"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawFree()" [color]="drawtoolButton(drawtoolType.free)">
+      <ion-icon name="brush"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawText()" [color]="drawtoolButton(drawtoolType.text)">
+      <ion-icon name="text"></ion-icon>
+    </ion-button>
+    <ion-button (click)="drawtool.setDrawSelect()" [color]="drawtoolButton(drawtoolType.select)">
+      <ion-icon name="hand-left"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item color="none">
+    <ion-button (click)="drawtool.delObject()" color="light">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+  </ion-item>
+</div>

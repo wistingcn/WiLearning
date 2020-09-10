@@ -1,0 +1,29 @@
+<ion-content>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>{{i18n.lang.videoCodec}}:{{stats.videoCodec}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.videoResolution}}:{{stats.videoWidth}}*{{stats.videoHeight}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.videoFrame}}:{{stats.videoFrameRate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.videoRecvRate}}:{{stats.videoKbpsRecv}}kbps</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.videoSendRate}}:{{stats.videoKbpsSent}}kbps</ion-label>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <ion-label>{{i18n.lang.audioCodec}}:{{stats.audioCodec}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.audioRecvRate}}:{{stats.audioKbpsRecv}}kbps</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{i18n.lang.audioSendRate}}:{{stats.audioKbpsSent}}kbps</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
