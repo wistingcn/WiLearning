@@ -104,6 +104,13 @@ export class MainComponent implements OnInit {
         this.ds.lastDocSyncData = event.data;
       }
     });
+
+    this.eventbus.main$.subscribe((event: IEventType) => {
+      if (event.type === EventType.main_switchComponent) {
+        const comp = event.data.component as WlBoardComp;
+        this.profile.switchBoardComponent(comp);
+      }
+    });
   }
 
   initializeApp() {
@@ -173,6 +180,7 @@ export class MainComponent implements OnInit {
 
   sendToChange(ev) {
     this.logger.debug(ev.detail.value);
+    this.chat.toPeer = ev.datail.value;
   }
 
   sendMessage() {

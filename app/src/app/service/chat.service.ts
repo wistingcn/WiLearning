@@ -35,9 +35,12 @@ export class ChatService {
   ) {
     this.eventbus.chat$.subscribe((event: IEventType) => {
       if ( event.type === EventType.chat_message) {
-        const { peerId, chatMessage } = event.data;
-        const peerInfo = this.peer.getPeerInfo(peerId);
+        const { from, chatMessage, to} = event.data;
+        if (to !== 'all' || to !== this.profile.me.id) {
+          return;
+        }
 
+        const peerInfo = this.peer.getPeerInfo(from);
         const claMessage = new WlMessage(
           makeRandomString(8),
           peerInfo,
@@ -66,7 +69,11 @@ send(chatMessage: string) {
 
   this.signaling.sendRequest(
     RequestMethod.chatMessage,
-    {chatMessage}
+    {
+      chatMessage,
+      from: this.profile.me.id,
+      to: this.toPeer,
+    }
   ).then(() => {
       claMessage.sendStatus = 'ok';
   }).catch(() => {

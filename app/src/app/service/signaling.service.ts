@@ -272,6 +272,14 @@ export class SignalingService {
     });
   }
 
+  @Notification()
+  private switchComponent(data) {
+    this.eventbus.main$.next({
+      type: EventType.main_switchComponent,
+      data
+    });
+  }
+
   @Request()
   private newConsumer(data: any, cb: any) {
     this.eventbus.media$.next({
@@ -460,6 +468,15 @@ export class SignalingService {
       RequestMethod.closePeer,
       {
         stopClass
+      }
+    );
+  }
+
+  sendSwitchComponent(component) {
+    return this.sendRequest(
+      RequestMethod.switchComponent,
+      {
+        component
       }
     );
   }

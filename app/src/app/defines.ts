@@ -170,6 +170,8 @@ export enum RequestMethod {
   connectVideo = 'connectVideo',
   connectApproval = 'connectApproval',
   disconnectVideo = 'disconnectVideo',
+
+  switchComponent = 'switchComponent',
 }
 
 export enum WlBoardComp {

@@ -59,6 +59,8 @@ export enum EventType {
   class_announcementTextChange,
 
   draw_action,
+
+  main_switchComponent,
 }
 
 @Injectable({
@@ -73,6 +75,7 @@ export class EventbusService {
   public document$ = new Subject();
   public class$ = new Subject();
   public draw$ = new Subject();
+  public main$ = new Subject();
 
   constructor() { }
 }
