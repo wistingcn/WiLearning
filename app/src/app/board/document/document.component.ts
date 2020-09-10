@@ -114,6 +114,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     if (this.profile.privilege.draw) {
       this.document = this.ds.newWhiteboard(this.fabCanvas);
       this.drawtool.setDocument(this);
+      this.sendSyncDocInfo();
     }
   }
 
