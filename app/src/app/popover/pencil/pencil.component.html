@@ -1,33 +1,33 @@
  <ion-list lines="none">
   <ng-container *ngIf="prop === 'color'">
-    <ion-item button (click)="drawtool.setColor('red')">
+    <ion-item button (click)="setColor('red')">
       <div class="color_red"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setColor('black')">
+    <ion-item button (click)="setColor('black')">
       <div class="color_black"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setColor('green')">
+    <ion-item button (click)="setColor('green')">
       <div class="color_green"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setColor('yellow')">
+    <ion-item button (click)="setColor('yellow')">
       <div class="color_yellow"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setColor('blue')">
+    <ion-item button (click)="setColor('blue')">
       <div class="color_blue"></div>
     </ion-item>
   </ng-container>
 
   <ng-container *ngIf="prop === 'lineweight'">
-    <ion-item button (click)="drawtool.setLineWeight(1)">
+    <ion-item button (click)="setLineWeight(1)">
       <div class="lineweight_1"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setLineWeight(5)">
+    <ion-item button (click)="setLineWeight(5)">
       <div class="lineweight_5"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setLineWeight(10)">
+    <ion-item button (click)="setLineWeight(10)">
       <div class="lineweight_10"></div>
     </ion-item>
-    <ion-item button (click)="drawtool.setLineWeight(20)">
+    <ion-item button (click)="setLineWeight(20)">
       <div class="lineweight_20"></div>
     </ion-item>
   </ng-container>

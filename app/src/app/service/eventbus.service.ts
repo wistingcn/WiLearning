@@ -41,6 +41,7 @@ export enum EventType {
   popover_emojiClosed,
   popover_shareClosed,
   popover_moreClosed,
+  popover_selectPencilClosed,
 
   document_docSelect,
   document_docImport,

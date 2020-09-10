@@ -114,6 +114,7 @@ export class DrawtoolService {
             this.lining.set('y2', loc.y);
             this.lining.setCoords();
             this.fabCanvas.renderAll();
+            this.document.sendSyncDocInfo();
           }
           break;
         case DrawtoolType.rect :
@@ -125,6 +126,7 @@ export class DrawtoolService {
             this.recting.set({width, height});
             this.recting.setCoords();
             this.fabCanvas.renderAll();
+            this.document.sendSyncDocInfo();
           }
           break;
         case DrawtoolType.free :

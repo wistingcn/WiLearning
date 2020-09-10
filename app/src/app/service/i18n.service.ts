@@ -63,48 +63,6 @@ export class I18nService {
     darkTheme: 'Dark Theme',
 
     chinese: 'Chinese',
-
-    setting: 'setting',
-    inpubMessage: 'Input your messages',
-    language: 'Language',
-    whiteBoard: 'White Board',
-    selectPdfDialogTitle: 'Please select your pdf file',
-    select: 'Select',
-    import: 'Import',
-    open: 'Open',
-    addNewFile: 'Add New File',
-    inputNickname: 'Please input your nickname',
-    roleSpeaker: 'Speaker',
-    roleAttendee: 'Attendee',
-    roleAudience: 'Audience',
-    roleAssistant: 'Assistant',
-    addOrOpenDoc: 'add or open document',
-    addNewTab:  'add new tab',
-    started: 'Started',
-    stopped: 'Stopped',
-    waitForStart: 'Waiting for start',
-    startConnectVideo: 'Connect',
-    stopConnectVideo: 'Stop',
-    waitForAccept: 'Waiting for accept',
-    acceptConnectVideo: 'Accept connect video',
-    refuseConnectVideo: 'Refuse connect video',
-    disconnectVideo: 'Disconnect video',
-    closeCamera: 'Close Camera',
-    closeMic: 'Close Microphone',
-    openCamera: 'Open Camera',
-    recordMainCamera: 'Record Main Camera',
-    stopRecording: 'Stop Recording',
-    openMic: 'Open Microphone',
-    toggleVideoNav: 'Toggle on/off video sidenav',
-    openFullscreen: 'Open Fullscreen',
-    exitFullscreen: 'Exit Fullscreen',
-    addMp4File: 'Add Mp4 File',
-    setLogoUrl: 'Set Logo Url(http or https)',
-    mediaSetting: 'Media Setting',
-    roomSetting: 'Room Setting',
-    announcement: 'Announcement',
-    announcementInput: 'Please input announcement',
-    videoFilter: 'Video Filter',
   };
 
   public cn = {
@@ -152,46 +110,6 @@ export class I18nService {
     darkTheme: '黑色主题',
 
     chinese: '中文',
-
-    setting: '设置',
-    language: '语言',
-    whiteBoard: '白板',
-    selectPdfDialogTitle: '请选择Pdf文件',
-    select: '选择',
-    import: '导入',
-    open: '打开',
-    addNewFile: '添加新文件',
-    roleSpeaker: '主讲人',
-    roleAttendee: '参与人',
-    roleAudience: '旁观人',
-    roleAssistant: '助手',
-    addOrOpenDoc: '添加或打开文档',
-    addNewTab:  '添加新的Tab页',
-    started: '已开始',
-    stopped: '已结束',
-    waitForStart: '等待课程开始',
-    startConnectVideo: '连麦',
-    stopConnectVideo: '下麦',
-    waitForAccept: '等待接受连麦请求',
-    acceptConnectVideo: '接受连麦请求',
-    refuseConnectVideo: '拒绝连麦请求',
-    disconnectVideo: '断开连麦',
-    closeCamera: '关闭摄像头',
-    closeMic: '关闭麦克风',
-    openCamera: '开启摄像头',
-    recordMainCamera: '录制主摄像头',
-    stopRecording: '停止录制',
-    openMic: '开启麦克风',
-    toggleVideoNav: '开启或关闭视频侧边栏',
-    openFullscreen: '进入全屏模式',
-    exitFullscreen: '退出全屏模式',
-    addMp4File: '添加MP4文件',
-    setLogoUrl: '设置Logo路径(http或https)',
-    mediaSetting: '媒体设置',
-    roomSetting: '房间设置',
-    announcement: '系统公告',
-    announcementInput: '请输入系统公告',
-    videoFilter: '视频滤镜',
   };
 
   public lang = this.cn;
@@ -205,10 +123,6 @@ export class I18nService {
       this.lang = this.cn;
      } else {
        this.lang = this.en;
-       console.log('set to en');
      }
-
-     console.log(locale);
-     console.log(this.lang);
    }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams } from '@ionic/angular';
 import { LoggerService } from '../../service/logger.service';
 import { DrawtoolService } from '../../service/drawtool.service';
+import { EventbusService, EventType } from '../../service/eventbus.service';
 
 @Component({
   selector: 'app-pencil',
@@ -11,9 +12,10 @@ import { DrawtoolService } from '../../service/drawtool.service';
 export class PencilComponent implements OnInit {
   prop = '';
   constructor(
-    public drawtool: DrawtoolService,
+    private drawtool: DrawtoolService,
     private navparams: NavParams,
     private logger: LoggerService,
+    private eventbus: EventbusService,
   ) {
     this.prop = this.navparams.data.props;
     this.logger.debug(this.prop);
@@ -23,4 +25,17 @@ export class PencilComponent implements OnInit {
     this.logger.debug(this.navparams);
   }
 
+  setColor(color) {
+    this.drawtool.setColor(color);
+    this.eventbus.popover$.next({
+      type: EventType.popover_selectPencilClosed
+    });
+  }
+
+  setLineWeight(weight) {
+    this.drawtool.setLineWeight(weight);
+    this.eventbus.popover$.next({
+      type: EventType.popover_selectPencilClosed
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoggerService } from '../service/logger.service';
 import { PopoverController } from '@ionic/angular';
 import { PencilComponent } from '../popover/pencil/pencil.component';
@@ -11,7 +11,7 @@ import { EventbusService, IEventType, EventType } from '../service/eventbus.serv
   templateUrl: './drawtool.component.html',
   styleUrls: ['./drawtool.component.scss'],
 })
-export class DrawtoolComponent implements OnInit, AfterViewInit {
+export class DrawtoolComponent implements OnInit {
   popoverPencil;
   drawtoolType = DrawtoolType;
   popoverDocselect;
@@ -30,10 +30,14 @@ export class DrawtoolComponent implements OnInit, AfterViewInit {
         this.popoverDocselect.dismiss();
         this.popoverDocselect = null;
       }
-    });
-  }
 
-  ngAfterViewInit() {
+      if (event.type === EventType.popover_selectPencilClosed && this.popoverPencil) {
+        this.popoverPencil.dismiss();
+        this.popoverPencil = null;
+      }
+
+    });
+
   }
 
   async selectColor(ev) {
