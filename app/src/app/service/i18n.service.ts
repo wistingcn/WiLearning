@@ -63,6 +63,11 @@ export class I18nService {
     darkTheme: 'Dark Theme',
 
     chinese: 'Chinese',
+
+    selectFile: 'Select File',
+    addFile: 'Add File',
+    select: 'Select',
+    empty: 'Empty',
   };
 
   public cn = {
@@ -110,6 +115,11 @@ export class I18nService {
     darkTheme: '黑色主题',
 
     chinese: '中文',
+
+    selectFile: '选择文件',
+    addFile: '添加文件',
+    select: '选择',
+    empty: '没有文件',
   };
 
   public lang = this.cn;

@@ -15,6 +15,8 @@
 import { Injectable } from '@angular/core';
 import { fabric } from 'fabric';
 import { LoggerService } from './logger.service';
+import { Observable } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 
 export enum DrawtoolType {
   free = 'free',
@@ -39,13 +41,16 @@ export class DrawtoolService {
   private recting: fabric.Rect;
   private texting: fabric.IText;
   private freeDraw = null;
+  private selecting = null;
   public document;
 
   public selectedTool: DrawtoolType = DrawtoolType.line;
+  syncEvent;
 
   constructor(
     private logger: LoggerService,
-  ) { }
+  ) {
+  }
 
   setDocument(doc) {
     this.fabCanvas = doc.fabCanvas;
@@ -95,46 +100,60 @@ export class DrawtoolService {
         case DrawtoolType.free :
           this.freeDraw = true;
           break;
+        case DrawtoolType.select :
+          this.selecting = true;
+          break;
       }
     });
 
-    this.fabCanvas.on('mouse:move', (e) => {
-      if ( e.target ) {
-        if (this.selectedTool !== 'select' ) {
-          e.target.hoverCursor = this.fabCanvas.defaultCursor;
-        } else {
-          e.target.hoverCursor = this.fabCanvas.hoverCursor;
+    this.syncEvent = new Observable((obs) => {
+      this.fabCanvas.on('mouse:move', (e) => {
+        if ( e.target ) {
+          if (this.selectedTool !== 'select' ) {
+            e.target.hoverCursor = this.fabCanvas.defaultCursor;
+          } else {
+            e.target.hoverCursor = this.fabCanvas.hoverCursor;
+          }
         }
-      }
-      switch (this.selectedTool) {
-        case DrawtoolType.line :
-          if ( this.lining ) {
-            const loc = this.fabCanvas.getPointer(e.e);
-            this.lining.set('x2', loc.x);
-            this.lining.set('y2', loc.y);
-            this.lining.setCoords();
-            this.fabCanvas.renderAll();
-            this.document.sendSyncDocInfo();
-          }
-          break;
-        case DrawtoolType.rect :
-          if ( this.recting ) {
-            const loc = this.fabCanvas.getPointer(e.e);
-            const width = loc.x - this.recting.left;
-            const height = loc.y - this.recting.top;
+        switch (this.selectedTool) {
+          case DrawtoolType.line :
+            if ( this.lining ) {
+              const loc = this.fabCanvas.getPointer(e.e);
+              this.lining.set('x2', loc.x);
+              this.lining.set('y2', loc.y);
+              this.lining.setCoords();
+              this.fabCanvas.renderAll();
+              obs.next();
+            }
+            break;
+          case DrawtoolType.rect :
+            if ( this.recting ) {
+              const loc = this.fabCanvas.getPointer(e.e);
+              const width = loc.x - this.recting.left;
+              const height = loc.y - this.recting.top;
 
-            this.recting.set({width, height});
-            this.recting.setCoords();
-            this.fabCanvas.renderAll();
-            this.document.sendSyncDocInfo();
-          }
-          break;
-        case DrawtoolType.free :
-          if (this.freeDraw) {
-          }
-          break;
-      }
+              this.recting.set({width, height});
+              this.recting.setCoords();
+              this.fabCanvas.renderAll();
+              obs.next();
+            }
+            break;
+          case DrawtoolType.free :
+            if (this.freeDraw) {
+            }
+            break;
+          case DrawtoolType.select :
+            if (e.target && this.selecting) {
+              obs.next();
+            }
+        }
+      });
+    }).pipe(
+      throttleTime(100),
+    ).subscribe(() => {
+      this.document.sendSyncDocInfo();
     });
+
 
     this.fabCanvas.on('mouse:up', (e) => {
       switch (this.selectedTool) {
@@ -153,6 +172,8 @@ export class DrawtoolService {
           this.freeDraw = false;
           this.document.sendSyncDocInfo();
           break;
+        case DrawtoolType.select :
+          this.selecting = false;
       }
     });
 
@@ -173,6 +194,11 @@ export class DrawtoolService {
 
     this.fabCanvas.on('object:added', (e) => {
       this.logger.debug('object added event');
+    });
+
+    this.fabCanvas.on('text:changed', (e) => {
+      this.logger.debug('text changed event');
+      this.document.sendSyncDocInfo();
     });
   }
 
