@@ -1,14 +1,3 @@
-<ion-toolbar>
-    <ion-buttons slot="start" class="ion-padding">
-      <ion-icon size="small" name="volume-high"></ion-icon>
-      <ion-label> XXX</ion-label>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      {{i18n.lang.mutedAll}}
-      <ion-toggle></ion-toggle>
-    </ion-buttons>
-  </ion-toolbar>
-
   <ion-list lines="none">
     <ion-menu-toggle autoHide="false">
       <ng-container *ngFor="let p of peer.peersInfo">

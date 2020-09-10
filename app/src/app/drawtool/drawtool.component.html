@@ -1,10 +1,10 @@
 <div class="container">
-  <ion-item slot="start">
+  <ion-item slot="start" color="none">
     <ion-button color='light' (click)="openDocSelect($event)">
       <ion-icon name="documents"></ion-icon>
     </ion-button>
   </ion-item>
-  <ion-item>
+  <ion-item color="none">
     <ion-button fill="clear" (click)="selectColor($event)">
       <div [class]="'color_' + drawtool.color"></div>
     </ion-button>
@@ -12,7 +12,7 @@
       <div [class]="'lineweight_' + drawtool.lineWeight"></div>
     </ion-button>
   </ion-item>
-  <ion-item>
+  <ion-item color="none">
     <ion-button (click)="drawtool.setDrawLine()" [color]="drawtoolButton(drawtoolType.line)">
       <ion-icon name="remove"></ion-icon>
     </ion-button>
@@ -29,7 +29,7 @@
       <ion-icon name="hand-left"></ion-icon>
     </ion-button>
   </ion-item>
-  <ion-item>
+  <ion-item color="none">
     <ion-button (click)="drawtool.delObject()" color="light">
       <ion-icon name="trash"></ion-icon>
     </ion-button>

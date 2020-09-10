@@ -32,13 +32,14 @@
           </ion-buttons>
         </ion-toolbar>
         <ion-toolbar>
-          <ion-buttons slot="start">
+          <ion-label slot="start">
             {{i18n.lang.sendTo}}:
-          <ion-select [placeholder]="i18n.lang.all" interface="popover" (ionChange)="sendToChange($event)">
+          </ion-label>
+          <ion-select [placeholder]="i18n.lang.all" interface="popover" (ionChange)="sendToChange($event)" slot="start">
             <ion-select-option value="all">{{i18n.lang.all}}</ion-select-option>
             <ion-select-option [value]="p.id" *ngFor="let p of peer.peersInfo">{{p.displayName}}</ion-select-option>
           </ion-select>
-          </ion-buttons>
+
           <ion-buttons slot="end">
             <ion-button (click)="openEmoji($event)">
               <ion-icon slot="icon-only" name="happy"></ion-icon>
