@@ -1,6 +1,6 @@
 <div class="container">
   <ion-grid *ngIf="peer.cameraStreams.length">
-    <ion-row *ngFor="let row of peer.cameraStreams" class="ion-align-self-center">
+    <ion-row *ngFor="let row of peer.cameraStreams" class="ion-align-items-center">
       <ion-col [size]="stream.size" *ngFor="let stream of row">
         <app-videoplayer [stream]="stream" [toolbar]="true"></app-videoplayer>
       </ion-col>

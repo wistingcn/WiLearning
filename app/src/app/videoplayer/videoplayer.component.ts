@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { WlMedia } from '../defines';
 import { PeerService } from '../service/peer.service';
 
@@ -10,17 +10,16 @@ import { PeerService } from '../service/peer.service';
 export class VideoplayerComponent implements OnInit {
   @Input() stream: WlMedia;
   @Input() toolbar = true;
+  @Input() fullscreen = false;
+  @ViewChild('videoplayer', {static: true}) videoplayer: ElementRef;
 
   constructor(
     public peer: PeerService,
   ) { }
 
-  ngOnInit() {}
-
-  click(ev: Event) {
-    console.log('click video');
-    ev.preventDefault();
-
-    this.stream.toggleSide = !this.stream.toggleSide;
+  ngOnInit() {
+    if (this.fullscreen) {
+      (this.videoplayer.nativeElement as HTMLVideoElement).style.maxHeight = '100%';
+    }
   }
 }

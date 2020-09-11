@@ -1,10 +1,10 @@
 <ion-content>
   <input type="file" #input accept='video/mp4, audio/mp3' (change)="sharemedia.fileChange($event)" hidden/>
-  <div id="sharemedia"></div>
-
-  <ng-container *ngFor="let stream of peer.mediaStreams">
-    <app-videoplayer [stream]="stream"></app-videoplayer>
-  </ng-container>
+  <div id="sharemedia">
+    <ng-container *ngFor="let stream of peer.mediaStreams">
+      <video [srcObject]="stream" autoplay playsinline></video>
+    </ng-container>
+  </div>
 
   <ng-container *ngIf="profile.privilege.shareMedia && !peer.mediaStreams.length">
     <ion-fab vertical="center" horizontal="center" slot="fixed" *ngIf="!sharemedia.videoElement">

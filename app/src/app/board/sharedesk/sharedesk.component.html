@@ -3,7 +3,7 @@
   <ion-grid *ngIf="peer.screenStreams?.length">
     <ion-row *ngFor="let stream of peer.screenStreams">
       <ion-col>
-        <app-videoplayer [stream]="stream" [toolbar]="false"></app-videoplayer>
+        <app-videoplayer [stream]="stream" [toolbar]="false" [fullscreen]="true"></app-videoplayer>
       </ion-col>
     </ion-row>
   </ion-grid>
