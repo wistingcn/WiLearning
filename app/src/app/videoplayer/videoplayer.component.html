@@ -1,15 +1,17 @@
 <div class="container">
-  <video [srcObject]="stream" autoplay playsinline muted (dblclick)="click($event)"></video>
   <audio [srcObject]="stream" autoplay></audio>
-  <div class="controlbar" *ngIf="toolbar">
-    <ion-buttons>
-      <ion-label>{{stream.peer.displayName}}</ion-label>
-      <ion-button *ngIf="peer.isEnableMic(stream.peer)">
-        <ion-icon name="mic"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="!peer.isEnableMic(stream.peer)">
-        <ion-icon name="mic-off"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+  <div>
+    <video [srcObject]="stream" autoplay playsinline muted (dblclick)="click($event)" #videoplayer></video>
+    <div class="controlbar" *ngIf="toolbar">
+      <ion-buttons>
+        <ion-label>{{stream.peer.displayName}}</ion-label>
+        <ion-button *ngIf="peer.isEnableMic(stream.peer)">
+          <ion-icon name="mic"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!peer.isEnableMic(stream.peer)">
+          <ion-icon name="mic-off"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
   </div>
 </div>

@@ -45,6 +45,7 @@ export class SharemediaService {
     const shareObjSrc = URL.createObjectURL(file);
     this.videoElement = document.createElement('video');
     this.videoElement.src = shareObjSrc;
+    this.videoElement.loop = true;
     this.videoElement.load();
 
     this.videoElement.addEventListener('loadeddata', () => {
