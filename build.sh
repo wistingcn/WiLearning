@@ -13,6 +13,7 @@ if [  $? != 0 ];then
 fi
 
 mkdir dist
+mkdir -p /var/run/wilearning/public/
 
 # build server
 build_server() {

@@ -106,7 +106,7 @@ async function run() {
 	try {
 		await createConnection({
 			type: 'sqlite',
-			"database": "database.sqlite",
+			"database": lConfig.databaseFile,
 			"synchronize": true,
 			entities:[
 				ClaDocPages,
@@ -118,7 +118,7 @@ async function run() {
 		logger.error(error);
 	}
 
-	// Log rooms status every 300 seconds.
+	// Log rooms status
 	setInterval(() => {
 		let all = 0;
 		let closed = 0;
@@ -128,20 +128,17 @@ async function run() {
 			if ( room.closed ) {
 				closed++;
 			}
+
+			room.checkDeserted();
 			logger.debug(JSON.stringify(room.statusReport()));
 		});
 
 		logger.info('room total: %s, closed: %s', all, closed);
-	}, 300000);
-
-	// check for deserted rooms
-	setInterval(() => {
-		rooms.forEach(room => room.checkDeserted());
-	}, 10000);
+	}, lConfig.roomStatusInterval * 1000);
 }
 
 const runHttpsServer = async () => {
-	app.use('/public', express.static('public', {
+	app.use('/public', express.static(lConfig.publicDirectory, {
 		maxAge: '30d'
 	}));
 

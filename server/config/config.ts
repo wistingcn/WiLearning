@@ -13,5 +13,9 @@ export const lConfig =
 		listenIps : [],
 		maxIncomingBitrate              : 350000,
 		initialAvailableOutgoingBitrate : 200000
-	}
+	},
+
+	databaseFile : '/var/run/wilearning/database',
+	roomStatusInterval: 300, // seconds
+	publicDirectory : '/var/run/wilearning/public/'
 };
