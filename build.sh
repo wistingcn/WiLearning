@@ -12,8 +12,11 @@ if [  $? != 0 ];then
 	exit -1;
 fi
 
+mkdir dist
+
 # build server
 build_server() {
+	cd server
 	if [ ! -d "node_modules" ];then
 		npm_command i
 	fi
@@ -23,6 +26,10 @@ build_server() {
 	if [  $? != 0 ];then
     exit -1;
 	fi
+
+	cp -a dist ../dist/
+	cp -a node_modules ../dist/
+	cd ..
 }
 
 
@@ -39,6 +46,22 @@ build_web() {
 	fi
 
 	cp -a dist ../dist/web
+	cd ..
+}
+
+# build web client
+build_app() {
+	cd app 
+	if [ ! -d "node_modules" ];then
+		npm_command i
+	fi
+
+	npm run build
+	if [  $? != 0 ];then
+    exit -1;
+	fi
+
+	cp -a www ../dist/app
 	cd ..
 }
 
@@ -64,6 +87,7 @@ case "$1" in
 		build_server
 		build_web
 		build_admin
+		build_app
 	;;
 	server)
 		build_server
@@ -71,6 +95,10 @@ case "$1" in
 	admin)
 		rm -rf dist/admin
 		build_admin
+	;;
+	app)
+		rm -rf dist/app
+		build_app
 	;;
 	web)
 		rm -rf dist/web
