@@ -22,11 +22,4 @@ export class VideoplayerComponent implements OnInit {
       (this.videoplayer.nativeElement as HTMLVideoElement).style.maxHeight = '100%';
     }
   }
-
-  click(ev: Event) {
-    console.log('click video');
-    ev.preventDefault();
-
-    this.stream.toggleSide = !this.stream.toggleSide;
-  }
 }
