@@ -3,7 +3,7 @@ import { EventbusService, EventType, IEventType } from '../../service/eventbus.s
 import { LoggerService } from '../../service/logger.service';
 import { DocumentService } from '../../service/document.service';
 import { ProfileService } from '../../service/profile.service';
-import { ClahttpService } from '../../service/clahttp.service';
+import { WlhttpService } from '../../service/wlhttp.service';
 import { DocImagesUrl } from '../../config';
 import { WlDocument } from '../../defines';
 import { I18nService } from '../../service/i18n.service';
@@ -29,7 +29,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     private logger: LoggerService,
     private ds: DocumentService,
     private profile: ProfileService,
-    private clahttp: ClahttpService,
+    private http: WlhttpService,
   ) { }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
 
     const docUrl = DocImagesUrl + '/' + this.profile.roomId;
 
-    this.clahttp.http.get(docUrl).subscribe(res => {
+    this.http.http.get(docUrl).subscribe(res => {
       const docs = res as WlDocument[];
       this.logger.debug(res);
 

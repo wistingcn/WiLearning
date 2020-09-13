@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { DocumentService, ClaDocPages } from '../service/document.service';
+import { DocumentService, WlDocPages } from '../service/document.service';
 import { LoggerService } from '../service/logger.service';
 import {fabric} from 'fabric';
 import { getImageMeta } from '../defines';
@@ -14,7 +14,7 @@ export class ThumbnailComponent implements OnInit, AfterViewInit {
 
   fabCanvas: fabric.Canvas;
   image: fabric.Image;
-  @Input() page: ClaDocPages;
+  @Input() page: WlDocPages;
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
 
   width = 200;

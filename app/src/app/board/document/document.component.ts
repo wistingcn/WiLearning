@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { PeerService } from '../../service/peer.service';
-import { DocumentService, ClaDocPages, ClaDocs } from '../../service/document.service';
+import { DocumentService, WlDocPages, WlDocs } from '../../service/document.service';
 import { LoggerService } from '../../service/logger.service';
 import { DrawtoolService } from '../../service/drawtool.service';
 import { EventbusService, IEventType, EventType } from '../../service/eventbus.service';
@@ -17,7 +17,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
   @ViewChild('canvascontainer', {static: false}) container: ElementRef;
 
   fabCanvas: fabric.Canvas;
-  document: ClaDocs = null;
+  document: WlDocs = null;
   containerCheckIntervel = null;
   isCanvasInited = false;
 

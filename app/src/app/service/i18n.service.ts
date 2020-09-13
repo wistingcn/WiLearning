@@ -68,6 +68,12 @@ export class I18nService {
     addFile: 'Add File',
     select: 'Select',
     empty: 'Empty',
+
+    loginErrorRoomNotExist: 'Room do not existed!',
+    loginErrorPassword: 'Password error!',
+    alert: 'Alert!',
+    ok: 'OK',
+    unKnownError: 'Unknown Error!',
   };
 
   public cn = {
@@ -120,6 +126,12 @@ export class I18nService {
     addFile: '添加文件',
     select: '选择',
     empty: '没有文件',
+
+    loginErrorRoomNotExist: '房间不存在,请先创建房间。',
+    loginErrorPassword: '登录密码错误！',
+    alert: '警告！',
+    ok: '确定',
+    unKnownError: '未知错误！',
   };
 
   public lang = this.cn;

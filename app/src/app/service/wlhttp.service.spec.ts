@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ClahttpService } from './clahttp.service';
+import { WlhttpService } from './wlhttp.service';
 
-describe('ClahttpService', () => {
+describe('WlhttpService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ClahttpService = TestBed.get(ClahttpService);
+    const service: WlhttpService = TestBed.get(WlhttpService);
     expect(service).toBeTruthy();
   });
 });

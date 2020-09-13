@@ -16,6 +16,7 @@ import { Injectable } from '@angular/core';
 import { makeRandomString, WlPeer, WlColor } from '../defines';
 import { LoggerService } from './logger.service';
 import {ROLE, WlRoom, RoomStatus, WlBoardComp } from '../defines';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,7 @@ export class ProfileService {
 
   constructor(
     private logger: LoggerService,
+    private storage: Storage,
   ) {
     this.me.id = this.genPeerId();
     this.me.displayName = this.me.id;
@@ -96,14 +98,11 @@ export class ProfileService {
   }
 
   genPeerId() {
-    /*
     let peerId = sessionStorage.getItem('WiLearning.peerId');
     if ( !peerId ) {
       peerId = makeRandomString(8);
       sessionStorage.setItem('WiLearning.peerId', peerId);
     }
-    */
-    const peerId = makeRandomString(8);
 
     return peerId;
   }

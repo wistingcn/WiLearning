@@ -6,6 +6,10 @@ import { LoggerService } from '../../service/logger.service';
 import { ROLE } from '../../defines';
 import { ProfileService } from '../../service/profile.service';
 import { I18nService } from '../../service/i18n.service';
+import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { WlhttpService } from '../../service/wlhttp.service';
+import { AdminServer } from '../../config';
 
 @Component({
   selector: 'page-login',
@@ -31,6 +35,9 @@ export class LoginPage {
     private auth: AuthService,
     private logger: LoggerService,
     private profile: ProfileService,
+    private toastController: ToastController,
+    private alert: AlertController,
+    private http: WlhttpService,
   ) {
     if ( this.auth.redirectUrl ) {
       const index = this.auth.redirectUrl.indexOf('?');
@@ -48,26 +55,57 @@ export class LoginPage {
 
       this.logger.debug('url: %s, role: %s, room: %s, user: %s', this.auth.redirectUrl,
         this.roler, this.room, this.username);
+
+      if (this.room ) {
+        this.getRoomInfo(this.room);
+      }
     }
   }
 
-  async onLogin(form: NgForm) {
+  onLogin(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      const logres = await this.auth.login({
-        username: this.username,
-        password: this.password,
+      this.auth.login({
+        username: this.username.trim(),
+        password: this.password.trim(),
         roler: this.roler + '',
-        roomId: this.room,
-      });
-
-      if (logres) {
+        roomId: this.room.trim(),
+      }).then((res) => {
+        this.logger.debug(res);
         this.profile.me.displayName = this.username;
         this.profile.me.roler = +this.roler;
         this.profile.roomId = this.room;
 
         this.router.navigateByUrl(this.auth.redirectUrl);
-      }
+      }).catch((err) => {
+          this.logger.error(err);
+          this.loginError(err);
+      });
     }
+  }
+
+  async loginError(error) {
+    let errorMessage = this.i18n.lang.unKnownError;
+    if (error.error && error.error.code === 40411) {
+        errorMessage = this.i18n.lang.loginErrorRoomNotExist;
+    }
+
+    if (error.error && error.error.code === 40412 ) {
+        errorMessage = this.i18n.lang.loginErrorPassword;
+    }
+
+    const alertDialog = await this.alert.create({
+        header: this.i18n.lang.alert,
+        message: errorMessage,
+        buttons: [this.i18n.lang.ok]
+      });
+    await alertDialog.present();
+  }
+
+  getRoomInfo(roomid) {
+    const roomDetailUrl = `https://${AdminServer.address}/room/detail/${roomid}`;
+    this.http.http.get(roomDetailUrl).toPromise().then(roomInfo => {
+        this.logger.debug('room info: ', roomInfo);
+    });
   }
 }

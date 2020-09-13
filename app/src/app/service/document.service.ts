@@ -19,7 +19,7 @@ import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { WlFile, WlDocument, getImageMeta } from '../defines';
 import { DocImagesUrl } from '../config';
-import { ClahttpService } from './clahttp.service';
+import { WlhttpService } from './wlhttp.service';
 import { ProfileService } from './profile.service';
 import { SignalingService } from './signaling.service';
 import {fabric} from 'fabric';
@@ -30,17 +30,17 @@ export interface IImageData {
   image: string;
 }
 
-export class ClaDocPages {
+export class WlDocPages {
   id: string;
   page: number;
   path: string;
 }
 
-export class ClaDocs extends WlDocument {
+export class WlDocs extends WlDocument {
   public numPages: number;
   public id: number;
   public serialMap = new Map<number, string>();
-  public pages: ClaDocPages[] = [];
+  public pages: WlDocPages[] = [];
   public uploadTime: string;
   public fabCanvas: fabric.Canvas = null;
   public url: URL;
@@ -213,14 +213,14 @@ export class ClaDocs extends WlDocument {
   providedIn: 'root'
 })
 export class DocumentService {
-  public docsMap = new Map<string, ClaDocs>();
-  public selectedDoc: ClaDocs = null;
+  public docsMap = new Map<string, WlDocs>();
+  public selectedDoc: WlDocs = null;
   public lastDocSyncData = null;
 
   constructor(
     private logger: LoggerService,
     private eventbus: EventbusService,
-    private claHttp: ClahttpService,
+    private http: WlhttpService,
     private profile: ProfileService,
     private signaling: SignalingService,
   ) {
@@ -273,13 +273,13 @@ export class DocumentService {
     const pageName = fileName + '-' + pageNum.toString();
     const file = new WlFile(pageName, blob.size, blob);
 
-    return this.claHttp
+    return this.http
       .uploadFiles(file, DocImagesUrl + '/' + this.profile.roomId)
       .toPromise();
   }
 
   async docSelect(doc: WlDocument) {
-    let docInfo: ClaDocs = null;
+    let docInfo: WlDocs = null;
     this.docsMap.forEach((value, key) => {
       if (value.id === doc.id) {
         docInfo = value;
@@ -293,10 +293,10 @@ export class DocumentService {
     }
 
     const docUrl = new URL(DocImagesUrl + '/' + this.profile.roomId + '/' + doc.id, window.location.origin);
-    const selectedPages = await this.claHttp.http.get(docUrl.href).toPromise() as ClaDocPages[];
+    const selectedPages = await this.http.http.get(docUrl.href).toPromise() as WlDocPages[];
     this.logger.debug('docSelect pages %s', JSON.stringify(selectedPages));
 
-    docInfo = new ClaDocs(doc.fileName);
+    docInfo = new WlDocs(doc.fileName);
     docInfo.id = doc.id;
     docInfo.uploadTime = doc.uploadTime;
     docInfo.numPages = selectedPages.length;
@@ -313,7 +313,7 @@ export class DocumentService {
   }
 
   newWhiteboard(fabCanvas: fabric.Canvas) {
-    let whiteboard: ClaDocs = null;
+    let whiteboard: WlDocs = null;
     this.docsMap.forEach((value, key) => {
       if (value.type === 'whiteboard') {
         whiteboard = value;
@@ -322,12 +322,12 @@ export class DocumentService {
 
     if (whiteboard) {
       whiteboard.numPages++;
-      const page = new ClaDocPages();
+      const page = new WlDocPages();
       page.page = 2;
       whiteboard.pages.push(page);
     } else {
       const filename = '白板';
-      whiteboard = new ClaDocs(filename);
+      whiteboard = new WlDocs(filename);
       whiteboard.uploadTime = Date.now().toString();
       whiteboard.numPages = 1;
       whiteboard.id = 0xfff;
@@ -337,7 +337,7 @@ export class DocumentService {
       whiteboard.fabCanvas = fabCanvas;
       whiteboard.eventbus = this.eventbus;
 
-      const page = new ClaDocPages();
+      const page = new WlDocPages();
       page.page = 1;
       whiteboard.pages.push(page);
 

@@ -22,7 +22,7 @@ import { WlFile } from '../defines';
 @Injectable({
   providedIn: 'root'
 })
-export class ClahttpService {
+export class WlhttpService {
 
   constructor(
     private logger: LoggerService,
