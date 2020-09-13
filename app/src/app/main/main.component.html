@@ -58,6 +58,9 @@
           <ion-title slot="start">{{profile.room.name}}</ion-title>
           <ion-title>{{classroom.timeElapsed}}</ion-title>
           <ion-buttons slot="end">
+            <ion-button (click)="logout()">
+              <ion-icon slot="icon-only" name ="log-out-outline"></ion-icon>
+            </ion-button>
             <ion-button slot="end" (click)="netstatPopover($event)">
               <ion-icon slot="icon-only" name="barcode-outline"></ion-icon>
             </ion-button>

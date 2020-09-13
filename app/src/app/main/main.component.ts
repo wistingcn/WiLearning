@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MenuController, Platform, ToastController, PopoverController, ModalController } from '@ionic/angular';
+import { MenuController, Platform, ToastController, PopoverController, ModalController, AlertController } from '@ionic/angular';
 
 import { SharepopoverComponent } from '../popover/sharepopover/sharepopover.component';
 import { NetstatComponent } from '../popover/netstat/netstat.component';
@@ -65,8 +65,13 @@ export class MainComponent implements OnInit {
     private popoverController: PopoverController,
     private modalController: ModalController,
     private ds: DocumentService,
+    private alert: AlertController,
   ) {
     this.initializeApp();
+
+    window.onunload = async (e) => {
+      await this.signaling.sendClosePeer(this.profile.bClassStarter);
+    };
   }
 
   async ngOnInit() {
@@ -201,5 +206,32 @@ export class MainComponent implements OnInit {
 
     this.popoverEmoji = popover;
     return popover.present();
+  }
+
+  async logout() {
+    const alert = await this.alert.create({
+      header: this.i18n.lang.confirm,
+      message: this.i18n.lang.exitConfirm,
+
+      buttons: [
+        {
+          text: this.i18n.lang.cancel,
+          role: 'cancel',
+          handler: (blah) => {
+            this.logger.debug('Cancel');
+          }
+        },
+        {
+          text: this.i18n.lang.ok,
+          handler: async () => {
+            await this.signaling.sendClosePeer(this.profile.bClassStarter);
+            location.reload();
+            this.logger.debug('Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

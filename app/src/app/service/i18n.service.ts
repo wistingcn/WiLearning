@@ -74,6 +74,10 @@ export class I18nService {
     alert: 'Alert!',
     ok: 'OK',
     unKnownError: 'Unknown Error!',
+
+    confirm: 'Confirm!',
+    cancel: 'Cancel',
+    exitConfirm: 'Are you sure you want to exit?',
   };
 
   public cn = {
@@ -132,6 +136,10 @@ export class I18nService {
     alert: '警告！',
     ok: '确定',
     unKnownError: '未知错误！',
+
+    confirm: '请确认',
+    cancel: '取消',
+    exitConfirm: '你确定退出吗？',
   };
 
   public lang = this.cn;
