@@ -23,13 +23,7 @@ export class InformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.auth.redirectUrl && this.auth.redirectUrl.match('room')) {
-      this.url = this.auth.redirectUrl;
-    } else {
-      this.url = `${location.origin}/app?room=${this.profile.roomId}`;
-    }
-    this.logger.debug(this.url);
-
+    this.url = `${location.origin}/app?room=${this.profile.roomId}`;
     document.getElementById('classInfo').innerHTML = this.profile.roomInfo.description;
   }
 

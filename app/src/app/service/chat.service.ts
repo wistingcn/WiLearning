@@ -19,6 +19,7 @@ import { SignalingService } from './signaling.service';
 import { RequestMethod } from '../defines';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { ProfileService } from './profile.service';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,12 @@ export class ChatService {
     private signaling: SignalingService,
     private eventbus: EventbusService,
     private profile: ProfileService,
+    private logger: LoggerService,
   ) {
     this.eventbus.chat$.subscribe((event: IEventType) => {
       if ( event.type === EventType.chat_message) {
         const { from, chatMessage, to} = event.data;
-        if (to !== 'all' || to !== this.profile.me.id) {
+        if (to !== 'all' && to !== this.profile.me.id) {
           return;
         }
 

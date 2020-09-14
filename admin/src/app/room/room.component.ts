@@ -43,7 +43,7 @@ export class RoomComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'id', 'createTime', 'lastActiveTime', 'operation'];
 
   rooms: RoomElement[];
-  dataSource = new MatTableDataSource<RoomElement>(this.rooms);
+  dataSource;
 
   selection = new SelectionModel<RoomElement>(true, []);
 
@@ -63,6 +63,7 @@ export class RoomComponent implements OnInit {
         this.roomList();
       }
     });
+    this.dataSource = new MatTableDataSource<RoomElement>(this.rooms);
   }
 
   ngOnInit(): void {
