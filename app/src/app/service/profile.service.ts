@@ -15,7 +15,7 @@
 import { Injectable } from '@angular/core';
 import { makeRandomString, WlPeer, WlColor } from '../defines';
 import { LoggerService } from './logger.service';
-import {ROLE, WlRoom, RoomStatus, WlBoardComp } from '../defines';
+import {ROLE, WlClassroom, RoomStatus, WlBoardComp, WlRoomInfo } from '../defines';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
@@ -39,7 +39,8 @@ export class ProfileService {
   public themeDark = false;
   public boardComponent = WlBoardComp.video;
 
-  public room = new WlRoom();
+  public classroom = new WlClassroom();
+  public roomInfo: WlRoomInfo;
 
   public mainVideoDeviceId;
   public mainAudioDeviceId;

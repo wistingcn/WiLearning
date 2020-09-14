@@ -24,121 +24,134 @@ import * as CryptoJs from 'crypto-js';
 export const roomRouter = express.Router();
 
 roomRouter.post('/createRoom', async (req: any, res) => {
-    logger.debug('createRoom: ' + JSON.stringify(req.body));
+  logger.debug('createRoom: ' + JSON.stringify(req.body));
 
-    const { roomId, roomName, speakerPassword, attendeePassword, roomDesc } = req.body;
+  const { roomId, roomName, speakerPassword, attendeePassword, roomDesc } = req.body;
 
-    let dbRoom = await ClaRoom.findOne({id: roomId});
-    if (!dbRoom) {
-        dbRoom =  new ClaRoom();
-        dbRoom.id = roomId;
-        dbRoom.name = roomName;
-        dbRoom.speakerPassword = speakerPassword || '';
-        dbRoom.attendeePassword = attendeePassword || '';
-        dbRoom.description = roomDesc || '';
-        dbRoom.createTime = Date.now().toString();
-        dbRoom.lastActiveTime = Date.now().toString();
-        await dbRoom.save();
-    }
+  let dbRoom = await ClaRoom.findOne({ id: roomId });
+  if (!dbRoom) {
+    dbRoom = new ClaRoom();
+    dbRoom.id = roomId;
+    dbRoom.name = roomName;
+    dbRoom.speakerPassword = speakerPassword || '';
+    dbRoom.attendeePassword = attendeePassword || '';
+    dbRoom.description = roomDesc || '';
+    dbRoom.createTime = Date.now().toString();
+    dbRoom.lastActiveTime = Date.now().toString();
+    await dbRoom.save();
+  }
 
-    res.status(200).send({result: 'OK'});
+  res.status(200).send({ result: 'OK' });
 });
 
 roomRouter.post('/updateRoom', async (req: any, res) => {
-    logger.debug('updateRoom: ' + JSON.stringify(req.body));
+  logger.debug('updateRoom: ' + JSON.stringify(req.body));
 
-    const { roomId, roomName, speakerPassword, attendeePassword, roomDesc } = req.body;
+  const { roomId, roomName, speakerPassword, attendeePassword, roomDesc } = req.body;
 
-    let dbRoom = await ClaRoom.findOne({id: roomId});
-    if (dbRoom) {
-        dbRoom.name = roomName;
-        dbRoom.speakerPassword = speakerPassword || '';
-        dbRoom.attendeePassword = attendeePassword || '';
-        dbRoom.description = roomDesc || '';
-        await dbRoom.save();
-    }
+  let dbRoom = await ClaRoom.findOne({ id: roomId });
+  if (dbRoom) {
+    dbRoom.name = roomName;
+    dbRoom.speakerPassword = speakerPassword || '';
+    dbRoom.attendeePassword = attendeePassword || '';
+    dbRoom.description = roomDesc || '';
+    await dbRoom.save();
+  }
 
-    res.status(200).send({result: 'OK'});
+  res.status(200).send({ result: 'OK' });
 });
 
 roomRouter.get('/list', async (req, res) => {
-    const rooms = await ClaRoom.find();
-    res.status(200).send(rooms);
+  const rooms = await ClaRoom.find();
+  res.status(200).send(rooms);
 });
 
-roomRouter.get('/delete/:id', async(req, res) => {
-    const roomId = req.params.id;
-    await ClaRoom.delete({id: roomId});
-    res.status(200).send({result: 'OK'});
+roomRouter.get('/delete/:id', async (req, res) => {
+  const roomId = req.params.id;
+  await ClaRoom.delete({ id: roomId });
+  res.status(200).send({ result: 'OK' });
 });
 
 roomRouter.get('/detail/:id', async (req, res) => {
-    const roomId = req.params.id;
-    let dbRoom = await ClaRoom.findOne({id: roomId});
+  const roomId = req.params.id;
+  let dbRoom = await ClaRoom.findOne({ id: roomId });
 
-    if ( dbRoom ) {
-        res.status(200).send(dbRoom);
-    } else {
-        res.status(404).send(`room ${roomId} do not existed!`);
-    }
+  if (dbRoom) {
+    res.status(200).send(dbRoom);
+  } else {
+    res.status(404).send(`room ${roomId} do not existed!`);
+  }
 
+});
+
+roomRouter.get('/info/:id', async (req, res) => {
+  const roomId = req.params.id;
+  let dbRoom = await ClaRoom.findOne({ id: roomId });
+
+  if (dbRoom) {
+    dbRoom.attendeePassword = '';
+    dbRoom.speakerPassword = '';
+    res.status(200).send(dbRoom);
+  } else {
+    res.status(404).send(`room ${roomId} do not existed!`);
+  }
 });
 
 roomRouter.get('/active', (req, res) => {
-    const rooms = req.app.locals.rooms as Map<string, Room>;
-    const roomReport = new Array<any>();
+  const rooms = req.app.locals.rooms as Map<string, Room>;
+  const roomReport = new Array<any>();
 
-    rooms.forEach(room => {
-        roomReport.push(room.statusReport());
-    });
+  rooms.forEach(room => {
+    roomReport.push(room.statusReport());
+  });
 
-    res.status(200).send(roomReport);
+  res.status(200).send(roomReport);
 });
 
 roomRouter.get('/activeDetail/:id', (req, res) => {
-    const roomId = req.params.id;
-    const rooms = req.app.locals.rooms as Map<string, Room>;
-    const room = rooms.get(roomId);
-    const peerReport = new Array<any>();
+  const roomId = req.params.id;
+  const rooms = req.app.locals.rooms as Map<string, Room>;
+  const room = rooms.get(roomId);
+  const peerReport = new Array<any>();
 
-    if ( room ) {
-        const peers = room.peers;
-        peers.forEach(peer => {
-            peerReport.push(peer.statusReport());
-        });
-    }
+  if (room) {
+    const peers = room.peers;
+    peers.forEach(peer => {
+      peerReport.push(peer.statusReport());
+    });
+  }
 
-    res.status(200).send(peerReport);
+  res.status(200).send(peerReport);
 })
 
 roomRouter.get('/login/:roomId/:roler/:user/:passwd', async (req, res) => {
-    const roomId = req.params.roomId;
-    const roler = req.params.roler;
-    const user	= req.params.user;
-    const passwd = req.params.passwd;
+  const roomId = req.params.roomId;
+  const roler = req.params.roler;
+  const user = req.params.user;
+  const passwd = req.params.passwd;
 
-    logger.debug('%s,%s,%s,%s', roomId, roler, user, passwd);
+  logger.debug('%s,%s,%s,%s', roomId, roler, user, passwd);
 
-    const dbRoom = await ClaRoom.findOne({id: roomId});
-    if ( !dbRoom ) {
-        res.status(404).send({code: 40411, res: 'room id do not existed!'});
-        return;
-    }
+  const dbRoom = await ClaRoom.findOne({ id: roomId });
+  if (!dbRoom) {
+    res.status(404).send({ code: 40411, res: 'room id do not existed!' });
+    return;
+  }
 
-    let dbPasswd = '';
-    if (+roler === 1 ) {    //Speaker
-        dbPasswd = dbRoom.speakerPassword;
-    } else if (+roler === 2) { // Attendee
-        dbPasswd = dbRoom.attendeePassword;
-    }
+  let dbPasswd = '';
+  if (+roler === 1) {    //Speaker
+    dbPasswd = dbRoom.speakerPassword;
+  } else if (+roler === 2) { // Attendee
+    dbPasswd = dbRoom.attendeePassword;
+  }
 
-    const cryptoPasswd = CryptoJs.MD5(dbPasswd).toString().toUpperCase();
-    logger.debug('cryptoPasswd : %s', cryptoPasswd);
+  const cryptoPasswd = CryptoJs.MD5(dbPasswd).toString().toUpperCase();
+  logger.debug('cryptoPasswd : %s', cryptoPasswd);
 
-    if (passwd !== cryptoPasswd ) {
-        res.status(404).send({code: 40412, res: 'passwd error!'});
-        return;
-    }
+  if (passwd !== cryptoPasswd) {
+    res.status(404).send({ code: 40412, res: 'passwd error!' });
+    return;
+  }
 
-    res.status(200).send({code: 200, res: 'ok'});
+  res.status(200).send({ code: 200, res: 'ok' });
 });

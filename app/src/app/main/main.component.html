@@ -55,8 +55,12 @@
     <div class="ion-page" id="main-content">
       <ion-header>
         <ion-toolbar [color]="profile.color">
-          <ion-title slot="start">{{profile.room.name}}</ion-title>
-          <ion-title>{{classroom.timeElapsed}}</ion-title>
+          <ion-buttons slot="start" (click)="information()">
+            <ion-button>
+              <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-title>{{classroom.timeElapsed}}</ion-title>
+          </ion-buttons>
           <ion-buttons slot="end">
             <ion-button (click)="logout()">
               <ion-icon slot="icon-only" name ="log-out-outline"></ion-icon>

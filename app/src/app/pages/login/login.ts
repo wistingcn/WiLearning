@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { LoggerService } from '../../service/logger.service';
-import { ROLE } from '../../defines';
+import { ROLE, WlRoomInfo } from '../../defines';
 import { ProfileService } from '../../service/profile.service';
 import { I18nService } from '../../service/i18n.service';
 import { ToastController } from '@ionic/angular';
@@ -55,10 +55,6 @@ export class LoginPage {
 
       this.logger.debug('url: %s, role: %s, room: %s, user: %s', this.auth.redirectUrl,
         this.roler, this.room, this.username);
-
-      if (this.room ) {
-        this.getRoomInfo(this.room);
-      }
     }
   }
 
@@ -70,13 +66,13 @@ export class LoginPage {
         password: this.password.trim(),
         roler: this.roler + '',
         roomId: this.room.trim(),
-      }).then((res) => {
+      }).then(async (res) => {
         this.logger.debug(res);
         this.profile.me.displayName = this.username;
         this.profile.me.roler = +this.roler;
         this.profile.roomId = this.room;
 
-        this.router.navigateByUrl(this.auth.redirectUrl);
+        this.getRoomInfo(this.room);
       }).catch((err) => {
           this.logger.error(err);
           this.loginError(err);
@@ -103,9 +99,13 @@ export class LoginPage {
   }
 
   getRoomInfo(roomid) {
-    const roomDetailUrl = `https://${AdminServer.address}/room/detail/${roomid}`;
+    const roomDetailUrl = `https://${AdminServer.address}/room/info/${roomid}`;
     this.http.http.get(roomDetailUrl).toPromise().then(roomInfo => {
         this.logger.debug('room info: ', roomInfo);
+        this.profile.roomInfo = roomInfo as WlRoomInfo;
+        this.router.navigateByUrl(this.auth.redirectUrl);
+    }).catch(error => {
+      this.logger.error(error.error);
     });
   }
 }

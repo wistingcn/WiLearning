@@ -18,7 +18,7 @@ import { MediaServer, RequestTimeout } from '../config';
 import { ProfileService } from './profile.service';
 import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
-import { RequestMethod, WlRoom } from '../defines';
+import { RequestMethod, WlClassroom } from '../defines';
 import { types as mediaTypes } from 'mediasoup-client';
 
 const pRequestMap = new Map<string, string>();
@@ -220,7 +220,7 @@ export class SignalingService {
 
   @Notification()
   private async classStart(data) {
-    this.profile.room = await this.getRoomInfo() as WlRoom;
+    this.profile.classroom = await this.getClassroomInfo() as WlClassroom;
     this.eventbus.class$.next({
       type: EventType.class_start
     });
@@ -251,17 +251,17 @@ export class SignalingService {
 
   @Notification()
   private announcementText(data) {
-    this.profile.room.announcementText = data.text;
+    this.profile.classroom.announcementText = data.text;
   }
 
   @Notification()
   private videoFilter(data) {
-    this.profile.room.videoFilter = data.filter;
+    this.profile.classroom.videoFilter = data.filter;
   }
 
   @Notification()
   private changeLogo(data) {
-    this.profile.room.logoUrl = data.url;
+    this.profile.classroom.logoUrl = data.url;
   }
 
   @Notification()
@@ -394,7 +394,7 @@ export class SignalingService {
     return this.sendRequest(
       RequestMethod.changeLogo,
       {
-        url: this.profile.room.logoUrl,
+        url: this.profile.classroom.logoUrl,
       }
     );
   }
@@ -403,7 +403,7 @@ export class SignalingService {
     return this.sendRequest(
       RequestMethod.announcementText,
       {
-        text: this.profile.room.announcementText,
+        text: this.profile.classroom.announcementText,
       }
     );
   }
@@ -412,7 +412,7 @@ export class SignalingService {
     return this.sendRequest(
       RequestMethod.videoFilter,
       {
-        filter: this.profile.room.videoFilter,
+        filter: this.profile.classroom.videoFilter,
       }
     );
   }
@@ -426,7 +426,7 @@ export class SignalingService {
     );
   }
 
-  getRoomInfo() {
+  getClassroomInfo() {
     return this.sendRequest(
       RequestMethod.roomInfo,
       {

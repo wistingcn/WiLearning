@@ -78,6 +78,8 @@ export class I18nService {
     confirm: 'Confirm!',
     cancel: 'Cancel',
     exitConfirm: 'Are you sure you want to exit?',
+
+    copy: 'Copy',
   };
 
   public cn = {
@@ -140,6 +142,8 @@ export class I18nService {
     confirm: '请确认',
     cancel: '取消',
     exitConfirm: '你确定退出吗？',
+
+    copy: '复制',
   };
 
   public lang = this.cn;

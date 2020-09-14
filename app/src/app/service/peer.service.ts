@@ -19,7 +19,7 @@ import { LoggerService } from './logger.service';
 import { EventbusService, IEventType, EventType } from './eventbus.service';
 import { ProfileService } from './profile.service';
 import { WlMedia, WlPeer, RequestMethod, ROLE, CONNECT_VIDEO_STATUS, makeRandomString } from '../defines';
-import { WlRoom, RoomStatus, WlMediaSource, WlBoardComp } from '../defines';
+import { WlClassroom, RoomStatus, WlMediaSource, WlBoardComp } from '../defines';
 import { SIMULCASTENCODING, SCREENSHARE_CONSTRAINTS, VIDEORESOLUTION} from '../defines';
 import { types as mediaTypes } from 'mediasoup-client';
 import * as hark from 'hark';
@@ -818,9 +818,9 @@ export class PeerService {
   }
 
   async roomUpdate() {
-      const roomInfo = await this.signaling.getRoomInfo() as WlRoom;
-      this.profile.room = roomInfo;
-      this.logger.debug('roomInfo : %s', JSON.stringify(roomInfo));
+      const roomInfo = await this.signaling.getClassroomInfo() as WlClassroom;
+      this.profile.classroom = roomInfo;
+      this.logger.debug('classroom info : %s', JSON.stringify(roomInfo));
 
       switch (roomInfo.status ) {
         case RoomStatus.started:

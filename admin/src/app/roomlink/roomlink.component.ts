@@ -36,8 +36,8 @@ export class RoomlinkComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.room = data.room;
-    this.speakerUrl = `${location.origin}/web/?roler=1&room=${this.room.id}`;
-    this.attendeeUrl = `${location.origin}/web/?roler=2&room=${this.room.id}`;
+    this.speakerUrl = `${location.origin}/app/?room=${this.room.id}`;
+    this.attendeeUrl = `${location.origin}/app/?roler=2&room=${this.room.id}`;
   }
 
   ngOnInit(): void {

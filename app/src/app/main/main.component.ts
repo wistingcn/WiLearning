@@ -19,6 +19,7 @@ import { WlBoardComp } from '../defines';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
 import { DocumentService } from '../service/document.service';
 import { I18nService } from '../service/i18n.service';
+import { InformationComponent } from '../popover/information/information.component';
 
 @Component({
   selector: 'app-main',
@@ -49,6 +50,7 @@ export class MainComponent implements OnInit {
   popoverSetting = null;
   popoverShare = null;
   popoverMore = null;
+  popoverInformation = null;
 
   constructor(
     public profile: ProfileService,
@@ -100,6 +102,11 @@ export class MainComponent implements OnInit {
       if (event.type === EventType.popover_moreClosed && this.popoverMore) {
         this.popoverMore.dismiss();
         this.popoverMore = null;
+      }
+
+      if (event.type === EventType.popover_informationClosed && this.popoverInformation) {
+        this.popoverInformation.dismiss();
+        this.popoverInformation = null;
       }
     });
 
@@ -233,5 +240,14 @@ export class MainComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async information() {
+    const popover = await this.modalController.create({
+      component: InformationComponent
+    });
+
+    await popover.present();
+    this.popoverInformation = popover;
   }
 }

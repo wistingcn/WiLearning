@@ -82,7 +82,7 @@ export enum RoomStatus {
   stopped = 'stopped',
 }
 
-export class WlRoom {
+export class WlClassroom {
   id: string;
   name: string;
   password: string;
@@ -96,6 +96,18 @@ export class WlRoom {
   constructor() {
 
   }
+}
+
+export class WlRoomInfo {
+  id: string;
+  name: string;
+  description;
+  createTime;
+  lastActiveTime;
+  attendeePassword;
+  speakerPassword;
+
+  constructor() {}
 }
 
 

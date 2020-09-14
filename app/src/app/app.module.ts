@@ -31,6 +31,7 @@ import { DrawtoolComponent } from './drawtool/drawtool.component';
 import { PencilComponent } from './popover/pencil/pencil.component';
 import { PagetoolComponent } from './pagetool/pagetool.component';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
+import { InformationComponent } from './popover/information/information.component';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { ThumbnailComponent } from './thumbnail/thumbnail.component';
     EmojiComponent,
     DocselectComponent,
     PencilComponent,
+    InformationComponent,
 
     VideoplayerComponent,
     DrawtoolComponent,
@@ -77,6 +79,7 @@ import { ThumbnailComponent } from './thumbnail/thumbnail.component';
     EmojiComponent,
     DocselectComponent,
     PencilComponent,
+    InformationComponent,
   ],
   providers: [InAppBrowser, SplashScreen, StatusBar],
   bootstrap: [AppComponent]
