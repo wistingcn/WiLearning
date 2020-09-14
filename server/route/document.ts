@@ -21,11 +21,12 @@ const logger = getLogger('route/document');
 import fs from 'fs';
 import { ClaDocPages, ClaRoom, ClaDocs } from '../model/model';
 import crypto from 'crypto';
+import { lConfig } from '../config/config';
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const roomId = req.params.id;
-        const dir = 'public/images/' + roomId + '/';
+        const dir = `${lConfig.publicDirectory}images/${roomId}/`;
         logger.debug('dir : ', dir);
         fs.mkdir(dir, { recursive: true} , (err) => {
             if ( err ) {

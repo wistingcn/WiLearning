@@ -123,7 +123,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     const { peerId, info } = data;
 
     if ( this.profile.me.id === peerId) {
-      this.logger.error('speaker should not received doc info!');
+      this.logger.error('speaker should not receive doc info!');
       return;
     }
 
@@ -164,11 +164,16 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
     await new Promise(resolve => this.fabCanvas.loadFromJSON(serialObj, resolve));
     await new Promise(resolve => this.fabCanvas.setBackgroundImage(image, resolve));
+    this.fabCanvas.renderAll();
 
     // without this, peer can move/modify cavans object
-    this.fabCanvas.forEachObject((element) => element.selectable = false );
+    this.fabCanvas.forEachObject((element) => {
+      element.selectable = false;
+      element.evented = false;
+      this.logger.debug('element: ', element);
+    });
 
-    this.fabCanvas.renderAll();
+    this.fabCanvas.selection = false;
   }
 
   setCanvasZoom(width, height) {
