@@ -128,7 +128,7 @@ export class RoomComponent implements OnInit {
   }
 
   roomUrl(room) {
-    return location.origin + '/web/?room=' + room.id;
+    return location.origin + '/app/?room=' + room.id;
   }
 
   copyLink(room) {
