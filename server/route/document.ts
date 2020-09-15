@@ -72,7 +72,11 @@ docRouter.post('/images/:id', upload.single('file'), async (req: any, res) => {
 
     const docPage = new ClaDocPages();
     docPage.page = +pageNum;
-    docPage.path = req.file.path;
+
+    const fullPath = req.file.path as string;
+    const pathIndex = fullPath.lastIndexOf('/');
+    docPage.path = `public/images/${roomId}/${fullPath.slice(pathIndex)}`;
+
     docPage.doc = doc;
     await docPage.save();
 

@@ -138,7 +138,7 @@ async function run() {
 }
 
 const runHttpsServer = async () => {
-	app.use('/public', express.static(lConfig.publicDirectory, {
+	app.use('/public', express.static(path.resolve(lConfig.publicDirectory), {
 		maxAge: '30d'
 	}));
 

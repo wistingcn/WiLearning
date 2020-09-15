@@ -22,13 +22,14 @@ build_server() {
 		npm_command i
 	fi
 
+	rm -rf dist
 	npm run build
 
 	if [  $? != 0 ];then
     exit -1;
 	fi
 
-	cp -a dist ../dist/
+	cp -a dist/* ../dist/
 	cp -a node_modules ../dist/
 	cd ..
 }
