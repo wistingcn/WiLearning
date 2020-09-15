@@ -2,12 +2,13 @@
 
 [Demo](https://rtc.liweix.com/admin)
 # WiLearning
-WiLearning is an open source, free e-learning and conferencing system. WiLearning uses WebRTC technology, The server side uses Typescript + Nodejs + MediaSoup and web side uses Angular + Angular Material, WiLearning has the following functions:
+WiLearning is an open source, free e-learning and conferencing system. WiLearning uses WebRTC technology, The server side uses Typescript + Nodejs + MediaSoup and client side uses Angular + Ionic, WiLearning has the following functions:
 * Multi-person video conference,or text interaction
 * Share desktop
-* Share local media * Share pdf files, pdf files are automatically transcoded in the web
+* Share local media 
+* Share pdf files, pdf files are automatically transcoded in the web
 * Realtime brush-courseware annotation, add content, and share to other participants
-* Add video filter,logo setting, announcement and other functions
+* Document preview , display annotation in preview
 * Support multiple rooms at the same time, the number of participants in one room is not limited, depends on the hardware conditions
 * Support Chinese and English
 * Automatic recovery when switching network
@@ -24,7 +25,7 @@ npm install -g cnpm
 ./build.sh all
 
 # build subsystem
-./build.sh [server/web/admin]
+./build.sh [server/app/admin]
 
 # build result locate in 'dist' directory
 ```
@@ -71,13 +72,4 @@ https://[your public ip]/admin/
 # Support WiLearning
 * Use it, and report Bug!
 * Tell me you feeling and your want.
-* Recommend it to your boss.
 * Give it a STAR
-
-# Roadmap
-the vision of WiLearning is to be a future-oriented private cloud system for e-learning and video conference. It should have the following characteristics:
-* Easy to deploy and use
-* High-quality audio and video calls, compatible with multiple networks
-* Provide a set of collaboration tools suitable for remote office
-* Integrate VR/AR in real-time communication
-

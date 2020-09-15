@@ -1,7 +1,7 @@
 {
   "name": "wilearning",
   "version": "2.0.0",
-  "description": "WiLearning WebClient",
+  "description": "WiLearning Client",
   "author": "liwei <linewei@gmail.com>",
   "license": "AGPL",
   "scripts": {

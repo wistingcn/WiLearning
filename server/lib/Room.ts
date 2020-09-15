@@ -557,6 +557,7 @@ export class Room extends EventEmitter {
         peer.roler = roler;
 
         this._notification(peer.socket, RequestMethod.changeRoler, request.data, true);
+        cb();
         break;
       }
 

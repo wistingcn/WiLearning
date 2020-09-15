@@ -30,28 +30,11 @@ build_server() {
 	fi
 
 	cp -a dist/* ../dist/
-	cp -a node_modules ../dist/
+	ln -s `pwd`/node_modules ../dist/
 	cd ..
 }
 
-
-# build web client
-build_web() {
-	cd web
-	if [ ! -d "node_modules" ];then
-		npm_command i
-	fi
-
-	npm run build
-	if [  $? != 0 ];then
-    exit -1;
-	fi
-
-	cp -a dist ../dist/web
-	cd ..
-}
-
-# build web client
+# build app client
 build_app() {
 	cd app 
 	if [ ! -d "node_modules" ];then
@@ -86,8 +69,8 @@ build_admin() {
 case "$1" in
 	all)
 		rm -rf dist/
+		mkdir dist
 		build_server
-		build_web
 		build_admin
 		build_app
 	;;
@@ -101,10 +84,6 @@ case "$1" in
 	app)
 		rm -rf dist/app
 		build_app
-	;;
-	web)
-		rm -rf dist/web
-		build_web
 	;;
 	*)
 	echo

@@ -1,6 +1,6 @@
 {
-  "name": "WiLearning",
-  "version": "1.0.0",
+  "name": "wilearning",
+  "version": "2.0.0",
   "scripts": {
     "start": "ts-node server.ts --cert ./certs/rtc.liweix.com.pem --key ./certs/rtc.liweix.com.key",
     "build": "tsc; cp -a start.sh package.json log4js.json certs dist/",
