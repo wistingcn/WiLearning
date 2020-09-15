@@ -191,8 +191,8 @@ export class MainComponent implements OnInit {
   }
 
   sendToChange(ev) {
-    this.logger.debug(ev.detail.value);
-    this.chat.toPeer = ev.datail.value;
+    this.logger.debug('sendToChange:', ev.detail.value);
+    this.chat.toPeer = ev.detail.value;
   }
 
   sendMessage() {

@@ -266,7 +266,7 @@ export class SignalingService {
 
   @Notification()
   private changeRoler(data) {
-    this.eventbus.class$.next({
+    this.eventbus.peer$.next({
       type: EventType.peer_changeRoler,
       data
     });

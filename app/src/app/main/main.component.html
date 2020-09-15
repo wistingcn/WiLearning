@@ -37,7 +37,9 @@
           </ion-label>
           <ion-select [placeholder]="i18n.lang.all" interface="popover" (ionChange)="sendToChange($event)" slot="start">
             <ion-select-option value="all">{{i18n.lang.all}}</ion-select-option>
-            <ion-select-option [value]="p.id" *ngFor="let p of peer.peersInfo">{{p.displayName}}</ion-select-option>
+            <ng-container *ngFor="let p of peer.peersInfo">
+              <ion-select-option [value]="p.id" *ngIf="p.id !== profile.me.id">{{p.displayName}}</ion-select-option>
+            </ng-container>
           </ion-select>
 
           <ion-buttons slot="end">

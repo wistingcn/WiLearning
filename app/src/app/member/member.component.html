@@ -9,6 +9,9 @@
         <ion-item *ngIf="peer.isEnableCamera(p) && !p.camStream.toggleSide">
           <ion-label>{{p.displayName}}</ion-label>
           <ion-buttons>
+            <ion-button *ngIf="p.roler === 1">
+              <ion-icon name="person"></ion-icon>
+            </ion-button>
             <ion-button>
               <ion-icon name="videocam"></ion-icon>
             </ion-button>
@@ -26,6 +29,9 @@
           <audio [srcObject]="p.camStream" autoplay></audio>
           <ion-label>{{p.displayName}}</ion-label>
           <ion-buttons>
+            <ion-button *ngIf="p.roler === 1">
+              <ion-icon name="person"></ion-icon>
+            </ion-button>
             <ion-button>
               <ion-icon src="assets/img/videocam-off.svg"></ion-icon>
             </ion-button>
@@ -39,6 +45,9 @@
         <ion-item *ngIf="!peer.isEnableMic(p) && !peer.isEnableCamera(p)">
           <ion-label>{{p.displayName}}</ion-label>
           <ion-buttons>
+            <ion-button *ngIf="p.roler === 1">
+              <ion-icon name="person"></ion-icon>
+            </ion-button>
             <ion-button>
               <ion-icon src="assets/img/videocam-off.svg"></ion-icon>
             </ion-button>
