@@ -59,6 +59,8 @@ export enum EventType {
   class_disconnectVideo,
   class_announcementTextChange,
 
+  peer_changeRoler,
+
   draw_action,
 
   main_switchComponent,
@@ -77,6 +79,7 @@ export class EventbusService {
   public class$ = new Subject();
   public draw$ = new Subject();
   public main$ = new Subject();
+  public peer$ = new Subject();
 
   constructor() { }
 }

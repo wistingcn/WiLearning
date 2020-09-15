@@ -16,7 +16,7 @@ import { EventEmitter } from 'events';
 import {Peer} from './Peer';
 import {lConfig} from '../config/config'
 import {types as mediasoupTypes, getSupportedRtpCapabilities } from 'mediasoup';
-import { RoomStatus } from './defines';
+import { RoomStatus, RequestMethod } from './defines';
 
 import { getLogger } from 'log4js';
 const logger = getLogger('Room');
@@ -163,21 +163,21 @@ export class Room extends EventEmitter {
 		this.classRoom.stopTime = Date.now();
 		this.classRoom.status = RoomStatus.stopped;
 
-		this._notification(peer.socket, 'classStop', {
+		this._notification(peer.socket, RequestMethod.classStop, {
 			roomId : this.id
 		}, true);
 	}
 
 	private async _handleSocketRequest(peer: Peer, request, cb) {
 		switch (request.method) {
-			case 'getRouterRtpCapabilities':
+      case RequestMethod.getRouterRtpCapabilities:
 			{
 				cb(null, this.mediasoupRouter.rtpCapabilities);
 
 				break;
 			}
 
-			case 'join':
+      case RequestMethod.join:
 			{
 				const {
 					roler,
@@ -225,7 +225,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'createWebRtcTransport':
+      case RequestMethod.createWebRtcTransport:
 			{
 				const { forceTcp, producing, consuming } = request.data;
 				const {
@@ -262,7 +262,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'connectWebRtcTransport':
+      case RequestMethod.connectWebRtcTransport:
 			{
 				const { transportId, dtlsParameters } = request.data;
 				const transport = peer.getTransport(transportId);
@@ -277,7 +277,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'restartIce':
+      case RequestMethod.restartIce:
 			{
 				const { transportId } = request.data;
 				const transport = peer.getTransport(transportId);
@@ -293,7 +293,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'produce':
+      case RequestMethod.produce:
 			{
 				const { transportId, kind, rtpParameters } = request.data;
 				let { appData } = request.data;
@@ -326,7 +326,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'closeProducer':
+      case RequestMethod.closeProducer:
 			{
 				const { producerId } = request.data;
 				const producer = peer.getProducer(producerId);
@@ -345,7 +345,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'pauseProducer':
+      case RequestMethod.pauseProducer:
 			{
 				const { producerId } = request.data;
 				const producer = peer.getProducer(producerId);
@@ -359,7 +359,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'resumeProducer':
+      case RequestMethod.resumeProducer:
 			{
 				const { producerId } = request.data;
 				const producer = peer.getProducer(producerId);
@@ -374,7 +374,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'pauseConsumer':
+      case RequestMethod.pauseConsumer:
 			{
 				const { consumerId } = request.data;
 				const consumer = peer.getConsumer(consumerId);
@@ -389,7 +389,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'resumeConsumer':
+      case RequestMethod.resumeConsumer:
 			{
 				const { consumerId } = request.data;
 				const consumer = peer.getConsumer(consumerId);
@@ -404,7 +404,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'requestConsumerKeyFrame':
+      case RequestMethod.requestConsumerKeyFrame:
 			{
 				const { consumerId } = request.data;
 				const consumer = peer.getConsumer(consumerId);
@@ -419,7 +419,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'getProducerStats':
+      case RequestMethod.getProducerStats:
 			{
 				const { producerId } = request.data;
 				const producer = peer.getProducer(producerId);
@@ -435,7 +435,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'getTransportStats':
+      case RequestMethod.getTransportStats:
 			{
 				const { transportId } = request.data;
 				const transport = peer.getTransport(transportId);
@@ -451,7 +451,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'getConsumerStats':
+      case RequestMethod.getConsumerStats:
 			{
 				const { consumerId } = request.data;
 				const consumer = peer.getConsumer(consumerId);
@@ -467,7 +467,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'closePeer' :
+      case RequestMethod.closePeer:
 			{
 				const { stopClass } = request.data;
 				logger.info('closePeer, peer: %s, stopClass: %s', peer.id, stopClass);
@@ -482,18 +482,26 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'chatMessage':
+      case RequestMethod.chatMessage:
 			{
-				this._notification(peer.socket, 'chatMessage', request.data, true);
+        const { to } = request.data;
+        if (to === 'all') {
+				  this._notification(peer.socket, RequestMethod.chatMessage, request.data, true);
+        } else {
+          const toPeer = this.getPeer(to);
+          if (toPeer) {
+            this._notification(toPeer.socket, RequestMethod.chatMessage, request.data, false);
+          }
+        }
 				cb();
 
 				break;
 			}
 
-			case 'syncDocInfo' :
+      case RequestMethod.syncDocInfo:
 			{
 				const { info } = request.data;	
-				this._notification(peer.socket, 'syncDocInfo',{
+				this._notification(peer.socket, RequestMethod.syncDocInfo,{
 					peerId	: peer.id,
 					info
 				}, true);
@@ -502,13 +510,13 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'classStart' :
+      case RequestMethod.classStart:
 			{
 				const { roomId } = request.data;
 				this.classRoom.startTime = Date.now();
 				this.classRoom.status = RoomStatus.started;
 
-				this._notification(peer.socket, 'classStart', {
+				this._notification(peer.socket, RequestMethod.classStart, {
 					roomId
 				}, true);
 
@@ -516,8 +524,7 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			// just close class , not producer & consumer
-			case 'classStop' :
+      case RequestMethod.classStop:
 			{
 				this.stopClass(peer);
 
@@ -525,31 +532,40 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'roomInfo' :
+      case RequestMethod.roomInfo:
 			{
 				cb(null, this.classRoom);
 				break;
 			}
 
-			case 'changeLogo' :
+      case RequestMethod.changeLogo:
 			{
 				const { url } = request.data;
 				this.classRoom.logoUrl = url;
 
-				this._notification(peer.socket, 'changLogo', {
+				this._notification(peer.socket, RequestMethod.changeLogo, {
 					url	
 				}, true);
 
 				cb();
 				break;
-			}
+      }
+      
+      case  RequestMethod.changeRoler:
+      {
+        const { roler } = request.data;
+        peer.roler = roler;
 
-			case 'announcementText' :
+        this._notification(peer.socket, RequestMethod.changeRoler, request.data, true);
+        break;
+      }
+
+      case RequestMethod.announcementText:
 			{
 				const { text } = request.data;
 				this.classRoom.announcementText= text;
 
-				this._notification(peer.socket, 'announcementText', {
+				this._notification(peer.socket, RequestMethod.announcementText, {
 					text
 				}, true);
 
@@ -557,12 +573,12 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'videoFilter' :
+      case RequestMethod.videoFilter:
 			{
 				const { filter } = request.data;
 				this.classRoom.videoFilter = filter ;
 
-				this._notification(peer.socket, 'videoFilter', {
+				this._notification(peer.socket, RequestMethod.videoFilter, {
 					filter
 				}, true);
 
@@ -570,9 +586,9 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'connectVideo' :
+      case RequestMethod.connectVideo:
 			{
-				this._notification(peer.socket, 'connectVideo', {
+				this._notification(peer.socket, RequestMethod.connectVideo, {
 					peerId: peer.id
 				}, true);
 
@@ -580,11 +596,11 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'disconnectVideo' :
+      case RequestMethod.disconnectVideo:
 			{
 				const { toPeer } = request.data;
 
-				this._notification(peer.socket, 'disconnectVideo', {
+				this._notification(peer.socket, RequestMethod.disconnectVideo, {
 					toPeer
 				}, true);
 
@@ -592,12 +608,11 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-
-			case 'connectApproval' :
+      case RequestMethod.connectApproval:
 			{
 				const { toPeer, approval } = request.data;
 
-				this._notification(peer.socket, 'connectApproval', {
+				this._notification(peer.socket, RequestMethod.connectApproval, {
 					peerId: peer.id,
 					toPeer,
 					approval,
@@ -607,9 +622,9 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-			case 'switchComponent' :
+      case RequestMethod.switchComponent:
 			{
-				this._notification(peer.socket, 'switchComponent', request.data, true);
+				this._notification(peer.socket, RequestMethod.switchComponent, request.data, true);
 				cb();
 				break;
 			}

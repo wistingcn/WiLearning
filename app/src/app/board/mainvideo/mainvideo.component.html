@@ -10,5 +10,13 @@
     <h1>
       {{i18n.lang.welcome}}！{{profile.me.displayName}}~
     </h1>
+    <div *ngIf="profile.me.roler !== 1">
+      <div>
+        {{i18n.lang.welcomePrompt}}
+      </div>
+      <div>
+        <ion-button (click)="setAsPrompt()">{{i18n.lang.setAsPresenter}}</ion-button>
+      </div>
+    </div>
   </div>
 </div>

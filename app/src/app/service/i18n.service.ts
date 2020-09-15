@@ -27,8 +27,10 @@ export class I18nService {
     inputUsername: 'Please input your username',
     inputRoom: 'Please input room id',
     inputPassword: 'Please input your password(3-10)',
+    inputPresenterPassword: 'Please input presenter password.',
 
     welcome: 'Welcome',
+    welcomePrompt: 'Presenter has more privileges.',
 
     chat: 'Chat',
     member: 'Member',
@@ -91,8 +93,10 @@ export class I18nService {
     inputUsername: '请输入用户名',
     inputRoom: '请输入房间Id',
     inputPassword: '请输入密码(3-10)',
+    inputPresenterPassword: '请输入主持人密码',
 
     welcome: '欢迎',
+    welcomePrompt: '升级为主持人可以享有更多课堂控制权限。',
 
     chat: '聊天',
     member: '成员',
@@ -144,6 +148,7 @@ export class I18nService {
     exitConfirm: '你确定退出吗？',
 
     copy: '复制',
+
   };
 
   public lang = this.cn;

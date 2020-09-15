@@ -7,7 +7,7 @@
     {{i18n.lang.darkTheme}}
     <ion-toggle [(ngModel)]="profile.themeDark"></ion-toggle>
   </ion-item>
-  <ion-item button (click)="setAsMaster()" *ngIf="profile.me.roler !== 0">
+  <ion-item button (click)="setAsPrompt()" *ngIf="profile.me.roler !== 0">
     <ion-label>{{i18n.lang.setAsPresenter}}</ion-label>
   </ion-item>
 </ion-list>

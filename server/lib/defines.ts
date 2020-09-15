@@ -24,3 +24,42 @@ export enum ROLE {
     paused = 'paused',
     stopped = 'stopped',
   }
+
+  export enum RequestMethod {
+    getRouterRtpCapabilities =  'getRouterRtpCapabilities' ,
+    join = 'join',
+    createWebRtcTransport = 'createWebRtcTransport',
+    connectWebRtcTransport = 'connectWebRtcTransport',
+    restartIce = 'restartIce',
+    produce = 'produce',
+    closeProducer = 'closeProducer',
+    pauseProducer = 'pauseProducer',
+    resumeProducer = 'resumeProducer',
+    pauseConsumer = 'pauseConsumer',
+    resumeConsumer = 'resumeConsumer',
+    requestConsumerKeyFrame = 'requestConsumerKeyFrame',
+    getProducerStats = 'getProducerStats',
+    getConsumerStats = 'getConsumerStats',
+    getTransportStats = 'getTransportStats',
+    changeDisplayName = 'changeDisplayName',
+    changePicture = 'changePicture',
+    changeRoler = 'changeRoler',
+    chatMessage = 'chatMessage',
+    closePeer = 'closePeer',
+  
+    syncDocInfo = 'syncDocInfo',
+  
+    classStart = 'classStart',
+    classStop = 'classStop',
+  
+    roomInfo = 'roomInfo',
+    changeLogo = 'changeLogo',
+    announcementText = 'announcementText',
+    videoFilter = 'videoFilter',
+  
+    connectVideo = 'connectVideo',
+    connectApproval = 'connectApproval',
+    disconnectVideo = 'disconnectVideo',
+  
+    switchComponent = 'switchComponent',
+  }

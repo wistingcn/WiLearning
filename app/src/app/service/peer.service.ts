@@ -99,6 +99,17 @@ export class PeerService {
         }
       }
     });
+
+    this.eventbus.peer$.subscribe((event: IEventType) => {
+      if (event.type === EventType.peer_changeRoler) {
+        const { peerId , roler } = event.data;
+        this.peersInfo.forEach(peer => {
+          if (peer.id === peerId ) {
+            peer.roler = roler;
+          }
+        });
+      }
+    });
    }
 
   private async iceRestart() {
@@ -834,5 +845,10 @@ export class PeerService {
         default:
           break;
       }
+  }
+
+  async setAsPresenter() {
+    await this.signaling.sendChangeRoler(ROLE.MASTER);
+    this.profile.setRoler(ROLE.MASTER);
   }
 }

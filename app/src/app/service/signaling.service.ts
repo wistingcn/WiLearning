@@ -265,6 +265,15 @@ export class SignalingService {
   }
 
   @Notification()
+  private changeRoler(data) {
+    this.eventbus.class$.next({
+      type: EventType.peer_changeRoler,
+      data
+    });
+
+  }
+
+  @Notification()
   private disconnectVideo(data) {
     this.eventbus.class$.next({
       type: EventType.class_disconnectVideo,
@@ -395,6 +404,16 @@ export class SignalingService {
       RequestMethod.changeLogo,
       {
         url: this.profile.classroom.logoUrl,
+      }
+    );
+  }
+
+  sendChangeRoler(roler) {
+    return this.sendRequest(
+      RequestMethod.changeRoler,
+      {
+        peerId: this.profile.me.id,
+        roler
       }
     );
   }

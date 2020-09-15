@@ -166,6 +166,7 @@ export enum RequestMethod {
   getTransportStats = 'getTransportStats',
   changeDisplayName = 'changeDisplayName',
   changePicture = 'changePicture',
+  changeRoler = 'changeRoler',
   chatMessage = 'chatMessage',
   closePeer = 'closePeer',
 
