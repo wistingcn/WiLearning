@@ -89,8 +89,8 @@ roomRouter.get('/info/:id', async (req, res) => {
   let dbRoom = await ClaRoom.findOne({ id: roomId });
 
   if (dbRoom) {
-    dbRoom.attendeePassword = '';
-    dbRoom.speakerPassword = '';
+    dbRoom.attendeePassword = '***';
+    dbRoom.speakerPassword = '***';
     res.status(200).send(dbRoom);
   } else {
     res.status(404).send(`room ${roomId} do not existed!`);

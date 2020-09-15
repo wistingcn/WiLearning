@@ -180,7 +180,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.fabCanvas.setZoom(1);
     if (this.width > width) {
       this.fabCanvas.setWidth(width).setHeight(height);
-      (this.container.nativeElement as HTMLDivElement).style.height = height + 'px';
+     // (this.container.nativeElement as HTMLDivElement).style.height = height + 'px';
       return;
     }
 
@@ -189,7 +189,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.logger.debug('canvas width: %s, native width: %s, zoom: %s',
       width, this.width, zoom);
     this.fabCanvas.setHeight(height * zoom);
-    (this.container.nativeElement as HTMLDivElement).style.height = height * zoom + 'px';
+    // (this.container.nativeElement as HTMLDivElement).style.height = height * zoom + 'px';
     this.fabCanvas.setZoom(zoom);
   }
 

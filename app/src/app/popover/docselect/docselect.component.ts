@@ -56,6 +56,7 @@ export class DocselectComponent implements OnInit, AfterViewInit {
   }
 
   loadDocs() {
+    this.docList = [];
     this.ds.docsMap.forEach(value => {
       this.docList.push(value);
     });
