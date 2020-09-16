@@ -39,8 +39,8 @@ export class I18nService {
     search: 'Search',
     speaker: 'Speaker',
     attendee: 'Attendee',
-    copy: 'Copy',
-    open: 'Open',
+    copy: 'CopyLink',
+    open: 'OpenRoom',
     password: 'Password',
     userLogin: 'User Login',
     roomMonitor: 'Room Monitor',
@@ -49,6 +49,9 @@ export class I18nService {
     lastActionTime: 'Last Active(min)',
     classStatus: 'Class Status',
     peersNumber: 'Peers Number',
+
+    success: 'Successed!',
+    fail: 'Failed!',
 
     close: 'Close',
     save: 'Save',
@@ -81,8 +84,8 @@ export class I18nService {
     search: '搜索',
     speaker: '讲师',
     attendee: '参与人',
-    copy: '复制',
-    open: '打开',
+    copy: '复制链接',
+    open: '打开房间',
     password: '密码',
     userLogin: '用户登录',
     roomMonitor: '房间监控',
@@ -91,6 +94,9 @@ export class I18nService {
     lastActionTime: '上次活动（分）',
     classStatus: '课堂状态',
     peersNumber: '参与人数',
+
+    success: '成功!',
+    fail: '失败!',
 
     close: '关闭',
     save: '保存',

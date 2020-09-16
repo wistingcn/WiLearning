@@ -104,6 +104,9 @@ export class AddroomComponent implements OnInit, AfterViewInit {
       this.eventbus.room$.next({
         type: EventType.room_created
       });
+
+      const action = this.optUpdate ? this.i18n.lang.update : this.i18n.lang.create;
+      this.snackbar.open(`${action} ${roomName} ${this.i18n.lang.success}, ID: ${roomId}`, 'close', {duration: 5000});
     }, error => {
       this.snackbar.open(`${error.name}: ${error.message}`, 'close', {duration: 5000});
     });
