@@ -6,6 +6,7 @@ import { I18nService } from '../../service/i18n.service';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../service/auth.service';
 import { PeerService } from '../../service/peer.service';
+import { ClassroomService } from '../../service/classroom.service';
 
 @Component({
   selector: 'app-more',
@@ -23,9 +24,14 @@ export class MoreComponent implements OnInit {
     private alert: AlertController,
     private auth: AuthService,
     private peer: PeerService,
+    private classroom: ClassroomService,
   ) {
     if (i18n.lang === i18n.cn) {
       this.chinese = true;
+    }
+
+    if (classroom.mutedAudio && classroom.mutedVideo ) {
+      this.mutedAll = true;
     }
   }
 
@@ -47,7 +53,9 @@ export class MoreComponent implements OnInit {
 
   mutedAllToggle() {
     if (this.mutedAll) {
-
+      this.classroom.mutedAll();
+    } else {
+      this.classroom.unmutedAll();
     }
   }
 

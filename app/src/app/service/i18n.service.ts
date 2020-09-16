@@ -76,6 +76,7 @@ export class I18nService {
     alert: 'Alert!',
     ok: 'OK',
     unKnownError: 'Unknown Error!',
+    mutedPrompt: 'The room is set to muted!',
 
     confirm: 'Confirm!',
     cancel: 'Cancel',
@@ -142,6 +143,7 @@ export class I18nService {
     alert: '警告！',
     ok: '确定',
     unKnownError: '未知错误！',
+    mutedPrompt: '主持人设置了禁言！',
 
     confirm: '请确认',
     cancel: '取消',

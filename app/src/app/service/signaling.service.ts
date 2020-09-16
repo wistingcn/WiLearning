@@ -289,6 +289,22 @@ export class SignalingService {
     });
   }
 
+  @Notification()
+  private muted(data) {
+    this.eventbus.class$.next({
+      type: EventType.class_muted,
+      data
+    });
+  }
+
+  @Notification()
+  private unmuted(data) {
+    this.eventbus.class$.next({
+      type: EventType.class_unmuted,
+      data
+    });
+  }
+
   @Request()
   private newConsumer(data: any, cb: any) {
     this.eventbus.media$.next({
@@ -498,5 +514,13 @@ export class SignalingService {
         component
       }
     );
+  }
+
+  sendMuted(to, kind) {
+    return this.sendRequest(RequestMethod.muted, { to, kind });
+  }
+
+  sendUnmuted(to, kind) {
+    return this.sendRequest(RequestMethod.unmuted, { to, kind });
   }
 }

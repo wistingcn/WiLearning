@@ -15,7 +15,7 @@ import { ChatService } from '../service/chat.service';
 import { EmojiComponent } from '../popover/emoji/emoji.component';
 import { EventbusService, IEventType, EventType } from '../service/eventbus.service';
 import { ClassroomService } from '../service/classroom.service';
-import { WlBoardComp } from '../defines';
+import { ROLE, WlBoardComp } from '../defines';
 import { DocselectComponent } from '../popover/docselect/docselect.component';
 import { DocumentService } from '../service/document.service';
 import { I18nService } from '../service/i18n.service';
@@ -135,6 +135,9 @@ export class MainComponent implements OnInit {
     });
 
     (window as any).peer = this.peer;
+    (window as any).classroom = this.classroom;
+    (window as any).profile = this.profile;
+    (window as any).ds = this.ds;
 
   }
 
@@ -249,5 +252,41 @@ export class MainComponent implements OnInit {
 
     await popover.present();
     this.popoverInformation = popover;
+  }
+
+  async produceLocalCamera() {
+    if (this.classroom.mutedVideo && this.profile.me.roler !== ROLE.MASTER) {
+      const alert = await this.alert.create({
+        message: this.i18n.lang.mutedPrompt,
+        buttons: [
+          {
+            text: this.i18n.lang.ok,
+            role: 'cancel',
+          }
+        ]
+      });
+
+      await alert.present();
+    } else {
+      this.peer.produceLocalCamera();
+    }
+  }
+
+  async produceLocalMic() {
+    if (this.classroom.mutedAudio && this.profile.me.roler !== ROLE.MASTER) {
+      const alert = await this.alert.create({
+        message: this.i18n.lang.mutedPrompt,
+        buttons: [
+          {
+            text: this.i18n.lang.ok,
+            role: 'cancel',
+          }
+        ]
+      });
+
+      await alert.present();
+    } else {
+      this.peer.produceLocalMic();
+    }
   }
 }

@@ -58,6 +58,8 @@ export enum EventType {
   class_connectApproval,
   class_disconnectVideo,
   class_announcementTextChange,
+  class_muted,
+  class_unmuted,
 
   peer_changeRoler,
 

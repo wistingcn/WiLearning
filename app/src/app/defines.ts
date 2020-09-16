@@ -187,6 +187,7 @@ export enum RequestMethod {
   switchComponent = 'switchComponent',
 
   muted = 'muted',
+  unmuted = 'unmuted',
 }
 
 export enum WlBoardComp {

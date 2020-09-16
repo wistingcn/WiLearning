@@ -14,6 +14,9 @@ export class ClassroomService {
   timeElapsedInterval;
   connectTimeInterval;
 
+  public mutedAudio = false;
+  public mutedVideo = false;
+
   constructor(
     private eventbus: EventbusService,
     private profile: ProfileService,
@@ -52,6 +55,28 @@ export class ClassroomService {
 
         if ( toPeer === this.profile.me.id ) {
           this.stopConnectVideo();
+        }
+      }
+
+      if (event.type === EventType.class_muted ) {
+        const { to , kind } = event.data;
+        if (to === 'all' || to === this.profile.me.id ) {
+          if (kind === 'audio' ) {
+            this.mutedAudio = true;
+          } else {
+            this.mutedVideo = true;
+          }
+        }
+      }
+
+      if (event.type === EventType.class_unmuted ) {
+        const { to , kind } = event.data;
+        if (to === 'all' || to === this.profile.me.id ) {
+          if (kind === 'audio' ) {
+            this.mutedAudio = false;
+          } else {
+            this.mutedVideo = false;
+          }
         }
       }
     });
@@ -102,11 +127,6 @@ export class ClassroomService {
     this.logger.debug('class start at: %s', this.profile.startTime);
 
     await this.signaling.sendClassStart();
-    /*
-    await this.peer.produceLocalCamera();
-    await this.peer.produceLocalMic();
-    this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Connected;
-    */
     this.profile.bClassStarter = true;
   }
 
@@ -123,6 +143,20 @@ export class ClassroomService {
 
     this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
     this.profile.bClassStarter = false;
+  }
+
+  async mutedAll() {
+    await this.signaling.sendMuted('all', 'video');
+    await this.signaling.sendMuted('all', 'audio');
+    this.mutedAudio = true;
+    this.mutedVideo = true;
+  }
+
+  async unmutedAll() {
+    await this.signaling.sendUnmuted('all', 'video');
+    await this.signaling.sendUnmuted('all', 'audio');
+    this.mutedAudio = false;
+    this.mutedVideo = false;
   }
 
 }
