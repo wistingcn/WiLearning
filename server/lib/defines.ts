@@ -25,6 +25,18 @@ export enum ROLE {
     stopped = 'stopped',
   }
 
+  export class WlClassroom {
+    status: RoomStatus;
+    startTime: number;
+    stopTime: number;
+    mutedAudio = false;
+    mutedVideo = false;
+  
+    constructor() {
+  
+    }
+  }
+
   export enum RequestMethod {
     getRouterRtpCapabilities =  'getRouterRtpCapabilities' ,
     join = 'join',

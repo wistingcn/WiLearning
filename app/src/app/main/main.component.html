@@ -126,11 +126,11 @@
 
             <ion-button color="primary" 
               (click)="classroom.startClass()" 
-              *ngIf="!profile.started && profile.privilege.classControl">
+              *ngIf="!classroom.started && profile.privilege.classControl">
               {{i18n.lang.start}}
             </ion-button>
 
-            <ion-button color="primary" (click)="classroom.stopClass()" *ngIf="profile.started && profile.privilege.classControl">
+            <ion-button color="primary" (click)="classroom.stopClass()" *ngIf="classroom.started && profile.privilege.classControl">
               {{i18n.lang.stop}}
             </ion-button>
           </ion-buttons>

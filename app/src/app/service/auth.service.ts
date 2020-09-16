@@ -31,7 +31,7 @@ export class AuthService {
     private http: WlhttpService,
   ) {
   }
-  login(userInfo: {username: string, password: string, roomId: string, roler: string}) {
+  login(userInfo: {username: string, password: string, roomId: string, roler}) {
     this.isLoggedIn = true;
     const cryptoPasswd = CryptoJs.MD5(userInfo.password).toString().toUpperCase();
     const loginUrl = `https://${AdminServer.address}/room/login/${userInfo.roomId}/${userInfo.roler}/${userInfo.username}/${cryptoPasswd}`;

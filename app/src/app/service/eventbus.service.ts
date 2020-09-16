@@ -60,6 +60,7 @@ export enum EventType {
   class_announcementTextChange,
   class_muted,
   class_unmuted,
+  class_roomUpdate,
 
   peer_changeRoler,
 

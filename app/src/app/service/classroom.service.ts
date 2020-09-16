@@ -5,17 +5,16 @@ import { LoggerService } from './logger.service';
 import { CONNECT_VIDEO_STATUS } from '../defines';
 import { PeerService } from './peer.service';
 import { SignalingService } from './signaling.service';
+import { WlClassroom, RoomStatus } from '../defines';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClassroomService {
+export class ClassroomService extends WlClassroom {
   timeElapsed: string;
   timeElapsedInterval;
   connectTimeInterval;
-
-  public mutedAudio = false;
-  public mutedVideo = false;
+  bClassStarter = false;
 
   constructor(
     private eventbus: EventbusService,
@@ -24,15 +23,18 @@ export class ClassroomService {
     private peer: PeerService,
     private signaling: SignalingService,
   ) {
+    super();
+
     this.eventbus.class$.subscribe((event: IEventType) => {
       if ( event.type === EventType.class_start ) {
-        this.profile.started = true;
-        this.profile.startTime = Date.now();
+        this.status = RoomStatus.started;
+        this.startTime = Date.now();
       }
 
       if ( event.type === EventType.class_stop ) {
-        this.profile.started = false;
-        this.profile.stopTime = Date.now();
+        this.status = RoomStatus.stopped;
+        this.stopTime = Date.now();
+        this.timeElapsed = '';
       }
 
       if ( event.type === EventType.class_connectApproval) {
@@ -79,6 +81,17 @@ export class ClassroomService {
           }
         }
       }
+
+      if (event.type === EventType.class_roomUpdate ) {
+        const roomInfo = event.data;
+        this.logger.debug('classroom info : %s', JSON.stringify(roomInfo));
+
+        this.status = roomInfo.status;
+        this.startTime = roomInfo.startTime;
+        this.stopTime = roomInfo.stopTime;
+        this.mutedAudio = roomInfo.mutedAudio;
+        this.mutedVideo = roomInfo.mutedVideo;
+      }
     });
 
     this.checkClassInterval();
@@ -98,14 +111,14 @@ export class ClassroomService {
 
   checkClassInterval() {
     this.timeElapsedInterval = setInterval(() => {
-      if ( !this.profile.started ) {
+      if ( !this.started ) {
         return;
       }
 
-      this.profile.startTimeElapsed = (Date.now() - this.profile.startTime) / 1000;
+      const startTimeElapsed = (Date.now() - this.startTime) / 1000;
 
-      const mins = Math.floor(this.profile.startTimeElapsed / 60);
-      const seconds = Math.floor(this.profile.startTimeElapsed - mins * 60);
+      const mins = Math.floor(startTimeElapsed / 60);
+      const seconds = Math.floor(startTimeElapsed - mins * 60);
 
       const minsString = mins < 10 ? '0' + mins : mins;
       const secondString = seconds < 10 ? '0' + seconds : seconds;
@@ -115,34 +128,32 @@ export class ClassroomService {
   }
 
   async startClass() {
-    if ( this.profile.started ) {
+    if ( this.started ) {
       this.logger.error('Class has been started! Please Stop it first!');
       return;
     }
 
-    this.profile.started = true;
-    this.profile.startTime = Date.now();
-    this.profile.startTimeElapsed = 0;
+    this.status = RoomStatus.started;
+    this.startTime = Date.now();
 
-    this.logger.debug('class start at: %s', this.profile.startTime);
+    this.logger.debug('class start at: %s', this.startTime);
 
     await this.signaling.sendClassStart();
-    this.profile.bClassStarter = true;
+    this.bClassStarter = true;
   }
 
   async stopClass() {
-    this.profile.stopTime = Date.now();
-    this.logger.debug('class stop at: %s', this.profile.stopTime);
+    this.stopTime = Date.now();
+    this.logger.debug('class stop at: %s', this.stopTime);
 
-    this.profile.started = false;
+    this.status = RoomStatus.stopped;
     this.timeElapsed = '';
 
     await this.peer.stopLocalCamera();
     await this.peer.stopLocalMic();
     await this.signaling.sendClassStop();
 
-    this.profile.me.connectVideoStatus = CONNECT_VIDEO_STATUS.Null;
-    this.profile.bClassStarter = false;
+    this.bClassStarter = false;
   }
 
   async mutedAll() {
@@ -159,4 +170,7 @@ export class ClassroomService {
     this.mutedVideo = false;
   }
 
+  get started() {
+    return this.status === RoomStatus.started;
+  }
 }

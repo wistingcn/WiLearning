@@ -60,19 +60,20 @@ export class LoginPage {
 
   onLogin(form: NgForm) {
     this.submitted = true;
-    if (form.valid) {
-      this.auth.login({
-        username: this.username.trim(),
-        password: this.password.trim(),
-        roler: this.roler + '',
-        roomId: this.room.trim(),
-      }).then(async (res) => {
-        this.logger.debug(res);
-        this.profile.me.displayName = this.username;
-        this.profile.me.roler = +this.roler;
-        this.profile.roomId = this.room;
 
-        this.getRoomInfo(this.room);
+    if (form.valid) {
+      const username = this.username.trim();
+      const password = this.password.trim();
+      const roler = this.roler;
+      const roomId = this.room.trim();
+
+      this.auth.login({ username, password, roler, roomId }).then(async (res) => {
+        this.logger.debug(res);
+        this.profile.me.displayName = username;
+        this.profile.me.roler = roler;
+        this.profile.roomId = roomId;
+
+        this.getRoomInfo(roomId);
       }).catch((err) => {
           this.logger.error(err);
           this.loginError(err);

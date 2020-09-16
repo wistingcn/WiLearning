@@ -83,15 +83,11 @@ export enum RoomStatus {
 }
 
 export class WlClassroom {
-  id: string;
-  name: string;
-  password: string;
   status: RoomStatus;
   startTime: number;
   stopTime: number;
-  logoUrl: string;
-  announcementText: string;
-  videoFilter: boolean;
+  mutedAudio = false;
+  mutedVideo = false;
 
   constructor() {
 

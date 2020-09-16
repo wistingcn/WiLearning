@@ -220,7 +220,6 @@ export class SignalingService {
 
   @Notification()
   private async classStart(data) {
-    this.profile.classroom = await this.getClassroomInfo() as WlClassroom;
     this.eventbus.class$.next({
       type: EventType.class_start
     });
@@ -247,21 +246,6 @@ export class SignalingService {
       type: EventType.class_connectApproval,
       data
     });
-  }
-
-  @Notification()
-  private announcementText(data) {
-    this.profile.classroom.announcementText = data.text;
-  }
-
-  @Notification()
-  private videoFilter(data) {
-    this.profile.classroom.videoFilter = data.filter;
-  }
-
-  @Notification()
-  private changeLogo(data) {
-    this.profile.classroom.logoUrl = data.url;
   }
 
   @Notification()
@@ -415,39 +399,12 @@ export class SignalingService {
     );
   }
 
-  sendChangeLogo() {
-    return this.sendRequest(
-      RequestMethod.changeLogo,
-      {
-        url: this.profile.classroom.logoUrl,
-      }
-    );
-  }
-
   sendChangeRoler(roler) {
     return this.sendRequest(
       RequestMethod.changeRoler,
       {
         peerId: this.profile.me.id,
         roler
-      }
-    );
-  }
-
-  sendAnnouncementText() {
-    return this.sendRequest(
-      RequestMethod.announcementText,
-      {
-        text: this.profile.classroom.announcementText,
-      }
-    );
-  }
-
-  sendVideoFilter() {
-    return this.sendRequest(
-      RequestMethod.videoFilter,
-      {
-        filter: this.profile.classroom.videoFilter,
       }
     );
   }

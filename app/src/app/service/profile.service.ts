@@ -15,8 +15,7 @@
 import { Injectable } from '@angular/core';
 import { makeRandomString, WlPeer, WlColor } from '../defines';
 import { LoggerService } from './logger.service';
-import {ROLE, WlClassroom, RoomStatus, WlBoardComp, WlRoomInfo } from '../defines';
-import { Storage } from '@ionic/storage';
+import { WlBoardComp, WlRoomInfo } from '../defines';
 
 @Injectable({
   providedIn: 'root'
@@ -29,24 +28,15 @@ export class ProfileService {
 
   public color = WlColor.medium;
 
-  public started = false; // Classroom status
-  public startTime: number;
-  public stopTime: number;
-
-  public startTimeElapsed: number;
-  public bClassStarter = false;
-
   public bLogin = false;
   public themeDark = false;
   public boardComponent = WlBoardComp.video;
 
-  public classroom = new WlClassroom();
-  public roomInfo: WlRoomInfo;
+  public roomInfo: WlRoomInfo; // not classroom
 
   public mainVideoDeviceId;
   public mainAudioDeviceId;
   public mainVideoResolution = 0;
-
   public me = new WlPeer();
   public language = 'zh-CN';
 
@@ -78,7 +68,6 @@ export class ProfileService {
 
   constructor(
     private logger: LoggerService,
-    private storage: Storage,
   ) {
     this.me.id = this.genPeerId();
     this.me.displayName = this.me.id;

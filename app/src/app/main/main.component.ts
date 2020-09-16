@@ -72,7 +72,7 @@ export class MainComponent implements OnInit {
     this.initializeApp();
 
     window.onunload = async (e) => {
-      await this.signaling.sendClosePeer(this.profile.bClassStarter);
+      await this.signaling.sendClosePeer(this.classroom.bClassStarter);
     };
   }
 
@@ -234,7 +234,7 @@ export class MainComponent implements OnInit {
         {
           text: this.i18n.lang.ok,
           handler: async () => {
-            await this.signaling.sendClosePeer(this.profile.bClassStarter);
+            await this.signaling.sendClosePeer(this.classroom.bClassStarter);
             location.reload();
             this.logger.debug('Okay');
           }

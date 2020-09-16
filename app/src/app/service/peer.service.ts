@@ -61,7 +61,7 @@ export class PeerService {
           await this.init();
           await this.roomUpdate();
           await this.connectMediaServer();
-        } else if (profile.started) {
+        } else {
           await this.connectMediaServer(true);
           await this.iceRestart();
         }
@@ -85,18 +85,6 @@ export class PeerService {
 
       if ( type === EventType.media_newConsumer ) {
         this.newConsumer(event.data);
-      }
-
-      if (event.type === EventType.media_consumerScore ) {
-        const {consumerId, score } = event.data;
-        const stream = this.peerStreams.find(ss => ss.videoConsumer && ss.videoConsumer.id === consumerId);
-
-        if ( stream ) {
-          stream.producerScore = [...stream.producerScore, score.producerScore];
-          stream.consumerScore = [...stream.consumerScore, score.score];
-          const mins = (this.profile.startTimeElapsed / 60).toFixed(1);
-          stream.scoreIndex = [...stream.scoreIndex, mins];
-        }
       }
     });
 
@@ -830,21 +818,11 @@ export class PeerService {
 
   async roomUpdate() {
       const roomInfo = await this.signaling.getClassroomInfo() as WlClassroom;
-      this.profile.classroom = roomInfo;
-      this.logger.debug('classroom info : %s', JSON.stringify(roomInfo));
 
-      switch (roomInfo.status ) {
-        case RoomStatus.started:
-          this.profile.started = true;
-          this.profile.startTime = roomInfo.startTime;
-          break;
-        case RoomStatus.stopped:
-          this.profile.started = false;
-          this.profile.stopTime = roomInfo.stopTime;
-          break;
-        default:
-          break;
-      }
+      this.eventbus.class$.next({
+        type: EventType.class_roomUpdate,
+        data: roomInfo
+      });
   }
 
   async setAsPresenter() {

@@ -16,7 +16,7 @@ import { EventEmitter } from 'events';
 import {Peer} from './Peer';
 import {lConfig} from '../config/config'
 import {types as mediasoupTypes, getSupportedRtpCapabilities } from 'mediasoup';
-import { RoomStatus, RequestMethod } from './defines';
+import { RoomStatus, RequestMethod, WlClassroom } from './defines';
 
 import { getLogger } from 'log4js';
 const logger = getLogger('Room');
@@ -44,13 +44,7 @@ export class Room extends EventEmitter {
 	public closed = false;
 	private bornTime = Date.now();
 	private activeTime = Date.now();
-	private classRoom = {
-		startTime: 0,
-		stopTime: 0,
-    status: RoomStatus.stopped,
-    mutedAudio: false,
-    mutedVideo: false,
-	};
+	private classroom = new WlClassroom();
 
 	constructor(
 		public id: string, 
@@ -131,7 +125,7 @@ export class Room extends EventEmitter {
 			peers: [...this.peers.keys()],
 			duration: dura,
       lastActive,
-      ...this.classRoom,
+      ...this.classroom,
 		};
 	}
 
@@ -158,8 +152,8 @@ export class Room extends EventEmitter {
 	}
 
 	private stopClass(peer: Peer) {
-		this.classRoom.stopTime = Date.now();
-		this.classRoom.status = RoomStatus.stopped;
+		this.classroom.stopTime = Date.now();
+		this.classroom.status = RoomStatus.stopped;
 
 		this._notification(peer.socket, RequestMethod.classStop, {
 			roomId : this.id
@@ -511,8 +505,8 @@ export class Room extends EventEmitter {
       case RequestMethod.classStart:
 			{
 				const { roomId } = request.data;
-				this.classRoom.startTime = Date.now();
-				this.classRoom.status = RoomStatus.started;
+				this.classroom.startTime = Date.now();
+				this.classroom.status = RoomStatus.started;
 
 				this._notification(peer.socket, RequestMethod.classStart, {
 					roomId
@@ -532,7 +526,7 @@ export class Room extends EventEmitter {
 
       case RequestMethod.roomInfo:
 			{
-				cb(null, this.classRoom);
+				cb(null, this.classroom);
 				break;
 			}
 
@@ -594,9 +588,9 @@ export class Room extends EventEmitter {
         const { to, kind } = request.data;
         if (to === 'all') {
           if (kind === 'audio') {
-            this.classRoom.mutedAudio = true;
+            this.classroom.mutedAudio = true;
           } else {
-            this.classRoom.mutedVideo = true;
+            this.classroom.mutedVideo = true;
           }
 
 				  this._notification(peer.socket, RequestMethod.muted, request.data, true);
@@ -615,9 +609,9 @@ export class Room extends EventEmitter {
         const { to, kind } = request.data;
         if (to === 'all') {
           if (kind === 'audio') {
-            this.classRoom.mutedAudio = false;
+            this.classroom.mutedAudio = false;
           } else {
-            this.classRoom.mutedVideo = false;
+            this.classroom.mutedVideo = false;
           }
 
 				  this._notification(peer.socket, RequestMethod.unmuted, request.data, true);
