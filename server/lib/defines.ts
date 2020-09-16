@@ -62,4 +62,6 @@ export enum ROLE {
     disconnectVideo = 'disconnectVideo',
   
     switchComponent = 'switchComponent',
+
+    muted = 'muted',
   }

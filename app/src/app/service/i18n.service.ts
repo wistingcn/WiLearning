@@ -148,7 +148,6 @@ export class I18nService {
     exitConfirm: '你确定退出吗？',
 
     copy: '复制',
-
   };
 
   public lang = this.cn;

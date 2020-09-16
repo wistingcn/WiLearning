@@ -185,6 +185,8 @@ export enum RequestMethod {
   disconnectVideo = 'disconnectVideo',
 
   switchComponent = 'switchComponent',
+
+  muted = 'muted',
 }
 
 export enum WlBoardComp {

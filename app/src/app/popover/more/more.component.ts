@@ -15,6 +15,7 @@ import { PeerService } from '../../service/peer.service';
 export class MoreComponent implements OnInit {
 
   chinese;
+  mutedAll = false;
   constructor(
     public profile: ProfileService,
     public i18n: I18nService,
@@ -41,6 +42,12 @@ export class MoreComponent implements OnInit {
       this.i18n.setLocale('zh-cn');
     } else {
       this.i18n.setLocale('en');
+    }
+  }
+
+  mutedAllToggle() {
+    if (this.mutedAll) {
+
     }
   }
 

@@ -7,6 +7,10 @@
     {{i18n.lang.darkTheme}}
     <ion-toggle [(ngModel)]="profile.themeDark"></ion-toggle>
   </ion-item>
+  <ion-item>
+    {{i18n.lang.mutedAll}}
+    <ion-toggle [(ngModel)]="mutedAll" (ionChange)="mutedAllToggle()"></ion-toggle>
+  </ion-item>
   <ion-item button (click)="setAsPrompt()" *ngIf="profile.me.roler !== 1">
     <ion-label>{{i18n.lang.setAsPresenter}}</ion-label>
   </ion-item>

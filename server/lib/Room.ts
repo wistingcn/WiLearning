@@ -47,10 +47,8 @@ export class Room extends EventEmitter {
 	private classRoom = {
 		startTime: 0,
 		stopTime: 0,
-		status: RoomStatus.stopped,
-		logoUrl: '',
-		announcementText: '',
-		videoFilter: false,
+    status: RoomStatus.stopped,
+    muted: false,
 	};
 
 	constructor(
@@ -131,9 +129,8 @@ export class Room extends EventEmitter {
 			id: this.id,
 			peers: [...this.peers.keys()],
 			duration: dura,
-			lastActive,
-			status: this.classRoom.status,
-			closed: this.closed
+      lastActive,
+      ...this.classRoom,
 		};
 	}
 
@@ -538,19 +535,6 @@ export class Room extends EventEmitter {
 				break;
 			}
 
-      case RequestMethod.changeLogo:
-			{
-				const { url } = request.data;
-				this.classRoom.logoUrl = url;
-
-				this._notification(peer.socket, RequestMethod.changeLogo, {
-					url	
-				}, true);
-
-				cb();
-				break;
-      }
-      
       case  RequestMethod.changeRoler:
       {
         const { roler } = request.data;
@@ -560,32 +544,6 @@ export class Room extends EventEmitter {
         cb();
         break;
       }
-
-      case RequestMethod.announcementText:
-			{
-				const { text } = request.data;
-				this.classRoom.announcementText= text;
-
-				this._notification(peer.socket, RequestMethod.announcementText, {
-					text
-				}, true);
-
-				cb();
-				break;
-			}
-
-      case RequestMethod.videoFilter:
-			{
-				const { filter } = request.data;
-				this.classRoom.videoFilter = filter ;
-
-				this._notification(peer.socket, RequestMethod.videoFilter, {
-					filter
-				}, true);
-
-				cb();
-				break;
-			}
 
       case RequestMethod.connectVideo:
 			{
@@ -628,7 +586,23 @@ export class Room extends EventEmitter {
 				this._notification(peer.socket, RequestMethod.switchComponent, request.data, true);
 				cb();
 				break;
-			}
+      }
+      
+      case RequestMethod.muted: 
+      {
+        const { to } = request.data;
+        if (to === 'all') {
+          this.classRoom.muted = true;
+				  this._notification(peer.socket, RequestMethod.muted, request.data, true);
+        } else {
+          const toPeer = this.getPeer(to);
+          if (toPeer) {
+            this._notification(toPeer.socket, RequestMethod.muted, request.data, false);
+          }
+        }
+        cb();
+        break;
+      }
 
 			default: 
 			{

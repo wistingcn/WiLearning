@@ -31,8 +31,9 @@ export class ProfileService {
 
   public started = false; // Classroom status
   public startTime: number;
-  public startTimeElapsed: number;
   public stopTime: number;
+
+  public startTimeElapsed: number;
   public bClassStarter = false;
 
   public bLogin = false;
