@@ -18,6 +18,9 @@
       <ion-content>
         <app-member *ngIf="menuPage==='member'"></app-member>
         <app-chat *ngIf="menuPage==='chat'"></app-chat>
+        <ng-container *ngFor="let p of peer.peersInfo">
+          <audio [srcObject]="p.camStream" autoplay *ngIf="peer.isEnableMic(p)"></audio>
+        </ng-container>
       </ion-content>
 
       <ion-footer *ngIf="menuPage==='chat'">
