@@ -6,6 +6,7 @@ import { DrawtoolService } from '../../service/drawtool.service';
 import { EventbusService, IEventType, EventType } from '../../service/eventbus.service';
 import { fabric } from 'fabric';
 import { ProfileService } from '../../service/profile.service';
+import { ClassroomService } from '../../service/classroom.service';
 
 @Component({
   selector: 'app-document',
@@ -36,6 +37,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     private drawtool: DrawtoolService,
     private eventbus: EventbusService,
     private profile: ProfileService,
+    private classroom: ClassroomService,
   ) {
   }
 
@@ -74,7 +76,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
     this.eventbus.media$.subscribe((event: IEventType) => {
       const { type } = event;
       if ( type === EventType.media_newPeer ) {
-        if ( this.profile.bClassStarter && document ) {
+        if ( this.classroom.bClassStarter && document ) {
           this.document.sendSyncDocInfo();
         }
       }
