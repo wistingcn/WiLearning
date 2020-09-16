@@ -48,7 +48,8 @@ export class Room extends EventEmitter {
 		startTime: 0,
 		stopTime: 0,
     status: RoomStatus.stopped,
-    muted: false,
+    mutedAudio: false,
+    mutedVideo: false,
 	};
 
 	constructor(
@@ -590,9 +591,14 @@ export class Room extends EventEmitter {
       
       case RequestMethod.muted: 
       {
-        const { to } = request.data;
+        const { to, kind } = request.data;
         if (to === 'all') {
-          this.classRoom.muted = true;
+          if (kind === 'audio') {
+            this.classRoom.mutedAudio = true;
+          } else {
+            this.classRoom.mutedVideo = true;
+          }
+
 				  this._notification(peer.socket, RequestMethod.muted, request.data, true);
         } else {
           const toPeer = this.getPeer(to);
@@ -600,6 +606,28 @@ export class Room extends EventEmitter {
             this._notification(toPeer.socket, RequestMethod.muted, request.data, false);
           }
         }
+        cb();
+        break;
+      }
+
+      case RequestMethod.unmuted: 
+      {
+        const { to, kind } = request.data;
+        if (to === 'all') {
+          if (kind === 'audio') {
+            this.classRoom.mutedAudio = false;
+          } else {
+            this.classRoom.mutedVideo = false;
+          }
+
+				  this._notification(peer.socket, RequestMethod.unmuted, request.data, true);
+        } else {
+          const toPeer = this.getPeer(to);
+          if (toPeer) {
+            this._notification(toPeer.socket, RequestMethod.unmuted, request.data, false);
+          }
+        }
+
         cb();
         break;
       }

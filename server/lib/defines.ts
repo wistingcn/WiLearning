@@ -64,4 +64,5 @@ export enum ROLE {
     switchComponent = 'switchComponent',
 
     muted = 'muted',
+    unmuted = 'unmuted',
   }
