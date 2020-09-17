@@ -20,6 +20,7 @@ import { DocselectComponent } from '../popover/docselect/docselect.component';
 import { DocumentService } from '../service/document.service';
 import { I18nService } from '../service/i18n.service';
 import { InformationComponent } from '../popover/information/information.component';
+import { MediaService } from '../service/media.service';
 
 @Component({
   selector: 'app-main',
@@ -68,6 +69,7 @@ export class MainComponent implements OnInit {
     private modalController: ModalController,
     private ds: DocumentService,
     private alert: AlertController,
+    private media: MediaService,
   ) {
     this.initializeApp();
 
@@ -138,6 +140,7 @@ export class MainComponent implements OnInit {
     (window as any).classroom = this.classroom;
     (window as any).profile = this.profile;
     (window as any).ds = this.ds;
+    (window as any).media = this.media;
 
   }
 
