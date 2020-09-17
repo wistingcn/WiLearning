@@ -83,6 +83,8 @@ export class I18nService {
     exitConfirm: 'Are you sure you want to exit?',
 
     copy: 'Copy',
+    getCameraFailed: 'Get camera failed!',
+    getMicFailed: 'Get mic failed!',
   };
 
   public cn = {
@@ -150,6 +152,9 @@ export class I18nService {
     exitConfirm: '你确定退出吗？',
 
     copy: '复制',
+
+    getCameraFailed: '获取摄像头失败，请检查设备！',
+    getMicFailed: '获取麦克风失败，请检查设备！',
   };
 
   public lang = this.cn;

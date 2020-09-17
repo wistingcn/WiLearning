@@ -21,9 +21,10 @@ export class SettingComponent implements OnInit, OnDestroy {
   localMic: MediaStream;
   volumeArray = new Array<number>(20);
   currentVolume = 0;
-  selectedVideoDevice = this.profile.mainVideoDeviceId;
-  selectedAudioDevice = this.profile.mainAudioDeviceId;
+
   selectedVideoResolution = this.profile.mainVideoResolution;
+  selectedAudioDevice = this.profile.mainAudioDeviceId;
+  selectedVideoDevice = this.profile.mainVideoDeviceId;
 
   constructor(
     public peer: PeerService,
@@ -33,9 +34,20 @@ export class SettingComponent implements OnInit, OnDestroy {
     private logger: LoggerService,
     private toastController: ToastController,
     private eventbus: EventbusService,
-  ) {}
+  ) {
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.media.enumerateDevies();
+    if (!this.profile.mainAudioDeviceId) {
+      this.profile.mainAudioDeviceId = this.media.audioDevices[0].deviceId;
+      this.selectedAudioDevice = this.profile.mainAudioDeviceId;
+    }
+    if (!this.profile.mainVideoDeviceId) {
+      this.profile.mainVideoDeviceId = this.media.videoDevices[0].deviceId;
+      this.selectedVideoDevice = this.profile.mainVideoDeviceId;
+    }
+
     this.selectAudio();
     this.selectVideo();
   }
@@ -83,7 +95,7 @@ export class SettingComponent implements OnInit, OnDestroy {
     }).catch(reason => {
       this.localCam = null;
       this.logger.error('Do not support the resolution: %s', reason.name + ':' + reason.message);
-      this.toastController.create({message: '获取摄像头失败！请检查设备。', duration: 6000});
+      this.toastController.create({message: this.i18n.lang.getCameraFailed, duration: 6000});
     });
   }
 
@@ -105,7 +117,7 @@ export class SettingComponent implements OnInit, OnDestroy {
     }).catch(reason => {
       this.localMic = null;
       this.logger.error(reason);
-      this.toastController.create({message: '获取麦克风失败！请检查设备。', duration: 6000});
+      this.toastController.create({message: this.i18n.lang.getMicFailed, duration: 6000});
     });
 
   }

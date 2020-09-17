@@ -34,8 +34,8 @@ export class ProfileService {
 
   public roomInfo: WlRoomInfo; // not classroom
 
-  public mainVideoDeviceId;
-  public mainAudioDeviceId;
+  public mainVideoDeviceId = '';
+  public mainAudioDeviceId = '';
   public mainVideoResolution = 0;
   public me = new WlPeer();
   public language = 'zh-CN';

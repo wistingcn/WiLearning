@@ -83,6 +83,8 @@ export class MediaService {
     this.audioDevices = [];
 
     const devices = await navigator.mediaDevices.enumerateDevices();
+    this.logger.debug('enumerateDevices: ', devices);
+
     devices.forEach((device, index) => {
       if ( device.kind === 'videoinput') {
         this.videoDevices.push(device);
@@ -92,9 +94,6 @@ export class MediaService {
         }
       }
     });
-
-    this.logger.debug('video device: ', this.videoDevices);
-    this.logger.debug('audio device: ', this.audioDevices);
   }
 
   checkRecorderType() {
