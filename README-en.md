@@ -1,5 +1,3 @@
-[中文版本](README-cn.md)
-
 [Demo](https://rtc.liweix.com/admin)
 # WiLearning
 WiLearning is an open source, free e-learning and conferencing system. WiLearning uses WebRTC technology, The server side uses Typescript + Nodejs + MediaSoup and client side uses Angular + Ionic, WiLearning has the following functions:
@@ -66,8 +64,6 @@ https://[your public ip]/admin/
 * Create room in Admin, open the 'Link' of room
 * Now it has two roler, 'Speaker' and 'Attendee','Speaker' act as the adminstrator of room.
 * Login the same room , choose your roler, begin your conference, enjoy!
-![Admin screenshot](res/admin.png?raw=true)
-![Web screenshot](res/web.png?raw=true)
 
 # Support WiLearning
 * Use it, and report Bug!
