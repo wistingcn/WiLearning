@@ -17,6 +17,7 @@ import {Peer} from './Peer';
 import {lConfig} from '../config/config'
 import {types as mediasoupTypes, getSupportedRtpCapabilities } from 'mediasoup';
 import { RoomStatus, RequestMethod, WlClassroom } from './defines';
+import { ClaRoom } from '../model/model';
 
 import { getLogger } from 'log4js';
 const logger = getLogger('Room');
@@ -41,7 +42,8 @@ export class Room extends EventEmitter {
 	}
 
 	public peers = new Map<string,Peer>();
-	public closed = false;
+  public closed = false;
+  public roomdb: ClaRoom|undefined;
 	private bornTime = Date.now();
 	private activeTime = Date.now();
 	private classroom = new WlClassroom();
@@ -53,7 +55,15 @@ export class Room extends EventEmitter {
 		super();
 		
 		logger.info('constructor() [roomId:"%s"]', id);
-		this.setMaxListeners(Infinity);
+    this.setMaxListeners(Infinity);
+
+    ClaRoom.findOne({id}).then(async (roomdb) => {
+      this.roomdb = roomdb;
+      if (this.roomdb) {
+        this.roomdb.lastActiveTime = Date.now().toString();
+        await this.roomdb.save();
+      }
+    })
 	}
 
 	public close() {
