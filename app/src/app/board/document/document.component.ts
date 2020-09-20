@@ -64,7 +64,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
         this.document = await this.ds.docSelect(event.data.doc);
         this.document.setFabCanvas(this.fabCanvas);
         this.document.setZoom(this.document.zoom);
-        this.document.goPage(this.document.pageNum);
+        await this.document.goPage(this.document.pageNum);
       }
 
       // recv from speaker
@@ -105,7 +105,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       if (!this.isCanvasInited) {
         this.drawtool.setDocument(this);
       }
-      return this.document.goPage(this.document.pageNum);
+      return await this.document.goPage(this.document.pageNum);
     }
 
     if (this.ds.lastDocSyncData) {
