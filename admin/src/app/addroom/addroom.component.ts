@@ -40,6 +40,14 @@ export class AddroomComponent implements OnInit, AfterViewInit {
   optUpdate = false;
   dataRoom;
 
+  modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],        // toggled buttons
+      [{ list: 'ordered'}, { list: 'bullet' }],
+      [{ color: [] }],
+    ]
+  };
+
   constructor(
     public dialogRef: MatDialogRef<AddroomComponent>,
     public i18n: I18nService,
@@ -58,6 +66,7 @@ export class AddroomComponent implements OnInit, AfterViewInit {
       this.attendeePassword = data.room.attendeePassword;
       this.description = data.room.description;
     }
+
   }
 
   ngOnInit(): void {

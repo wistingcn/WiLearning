@@ -26,7 +26,7 @@ export enum ROLE {
   }
 
   export class WlClassroom {
-    status: RoomStatus;
+    status: RoomStatus = RoomStatus.stopped;
     startTime: number;
     stopTime: number;
     mutedAudio = false;

@@ -26,6 +26,7 @@ import { EventbusService, IEventType , EventType } from '../service/eventbus.ser
 import { I18nService } from '../service/i18n.service';
 import { RoomlinkComponent } from '../roomlink/roomlink.component';
 import { getHost } from '../define';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 export interface RoomElement {
   name: string;
@@ -40,7 +41,6 @@ export interface RoomElement {
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'name', 'id', 'createTime', 'lastActiveTime', 'operation'];
 
   rooms: RoomElement[];
   dataSource;
@@ -50,6 +50,9 @@ export class RoomComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  isSmallScreen = false;
+  displayedColumns: string[] = ['select', 'name', 'id', 'createTime', 'lastActiveTime', 'operation'];
+
   constructor(
     public i18n: I18nService,
     private logger: LoggerService,
@@ -57,6 +60,7 @@ export class RoomComponent implements OnInit {
     private http: HttpClient,
     private snackbar: MatSnackBar,
     private eventbus: EventbusService,
+    private breakpointObserver: BreakpointObserver,
   ) {
     this.eventbus.room$.subscribe((event: IEventType) => {
       if ( event.type === EventType.room_created ) {
@@ -64,6 +68,10 @@ export class RoomComponent implements OnInit {
       }
     });
     this.dataSource = new MatTableDataSource<RoomElement>(this.rooms);
+    this.isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
+    if (this.isSmallScreen) {
+      this.displayedColumns = ['select', 'name', 'id', 'operation'];
+    }
   }
 
   ngOnInit(): void {
@@ -72,8 +80,6 @@ export class RoomComponent implements OnInit {
 
   addRoom() {
     const dialogRef = this.dialog.open(AddroomComponent, {
-      width: '60vw',
-      height: '80vh',
       disableClose: true,
     });
 
@@ -121,8 +127,6 @@ export class RoomComponent implements OnInit {
   editRoom(room) {
     this.logger.debug('editRoom: %s, %s', room.id, room.description);
     this.dialog.open(AddroomComponent, {
-      width: '60vw',
-      height: '80vh',
       disableClose: true,
       data: {room}
     });

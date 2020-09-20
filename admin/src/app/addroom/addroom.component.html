@@ -13,17 +13,19 @@
             </mat-form-field>
         
             <mat-form-field class="display-block">
+            <input type="text" [placeholder]="i18n.lang.attendeePasswordInput" formControlName="attendeePassword" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="display-block">
                 <input type="text" [placeholder]="i18n.lang.speakerPasswordInput" formControlName="speakerPassword" matInput>
             </mat-form-field>
         
-            <mat-form-field class="display-block">
-            <input type="text" [placeholder]="i18n.lang.attendeePasswordInput" formControlName="attendeePassword" matInput>
-            </mat-form-field>
             <button #formButton type="submit" style="display: none"></button>
     </form>
     <div style="margin-top:20px;">
         {{i18n.lang.roomDesc}} :
         <quill-editor
+            [modules]="modules"
             [(ngModel)]="description"
             [placeholder]="i18n.lang.roomDesc"
             ></quill-editor>
