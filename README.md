@@ -19,12 +19,19 @@ WiLearning 是一个开源、免费的在线课堂及视频会议系统，具备
 WiLearning使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaSoup开发,App端使用Angular + Ionic.
 
 # 安装
-* 服务器及客户端代码支持部署在Linux/Mac操作系统,要求Nodejs版本大于V12.
+* 服务器及客户端代码支持部署在Linux/Mac操作系统,要求Nodejs版本大于v12
 * 支持在Windows/Linux/Mac等操作系统使用Chrome/FireFox/Safari等浏览器打开Web客户端
-## 安装依赖包
+
+#  代码
 ```
+git clone https://github.com/wistingcn/WiLearning
+```
+* 注意：客户端连接服务器地址定义在 app/src/app/config.ts ，编译代码前请先修改服务器地址，连接到默认地址将会出现“房间不存在”的错误！
+
+## 安装cnpm
+```
+node -v #版本需要大于v12
 npm install -g cnpm
-cnpm i
 ```
 
 ## 构建所有

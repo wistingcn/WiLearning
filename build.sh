@@ -12,6 +12,13 @@ if [  $? != 0 ];then
 	exit -1;
 fi
 
+node_version=$(node -v)
+echo "Node version: " $node_version
+if [ "$node_version" \< "v12" ]; then
+	echo "Please update nodejs, nodejs > v12 is required!"
+	exit -1;
+fi
+
 mkdir dist
 mkdir -p /var/run/wilearning/public/
 
