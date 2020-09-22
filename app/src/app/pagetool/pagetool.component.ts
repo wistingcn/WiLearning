@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DrawtoolService } from '../service/drawtool.service';
+import { DrawtoolService, DrawtoolType } from '../service/drawtool.service';
 import { LoggerService } from '../service/logger.service';
 import { DocumentService } from '../service/document.service';
 import { ProfileService } from '../service/profile.service';
@@ -33,4 +33,13 @@ export class PagetoolComponent implements OnInit {
     this.dc.selectedDoc.setZoom(zoom);
   }
 
+  async nextPage() {
+    await this.dc.selectedDoc.nextPage();
+    this.drawtool.setupTool();
+  }
+
+  async prevPage() {
+    await this.dc.selectedDoc.prevPage();
+    this.drawtool.setupTool();
+  }
 }

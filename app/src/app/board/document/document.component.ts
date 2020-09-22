@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { PeerService } from '../../service/peer.service';
 import { DocumentService, WlDocPages, WlDocs } from '../../service/document.service';
 import { LoggerService } from '../../service/logger.service';
@@ -7,13 +7,14 @@ import { EventbusService, IEventType, EventType } from '../../service/eventbus.s
 import { fabric } from 'fabric';
 import { ProfileService } from '../../service/profile.service';
 import { ClassroomService } from '../../service/classroom.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss'],
 })
-export class DocumentComponent implements OnInit, AfterViewInit {
+export class DocumentComponent implements OnInit, OnDestroy {
   @ViewChild('can', {static: false}) canvasEle: ElementRef;
   @ViewChild('canvascontainer', {static: false}) container: ElementRef;
 
@@ -29,6 +30,9 @@ export class DocumentComponent implements OnInit, AfterViewInit {
 
   width;
   height;
+
+  documentEvent: Subscription;
+  mediaEvent: Subscription;
 
   constructor(
     public peer: PeerService,
@@ -55,12 +59,15 @@ export class DocumentComponent implements OnInit, AfterViewInit {
         this.containerCheckIntervel = null;
       }
     }, 100);
+
+    this.initEvent();
   }
 
-  ngAfterViewInit() {
-    this.eventbus.document$.subscribe(async (event: IEventType) => {
+  initEvent() {
+    this.logger.debug('Document component init event.');
+
+    this.documentEvent = this.eventbus.document$.subscribe(async (event: IEventType) => {
       if ( event.type === EventType.document_docSelect) {
-        this.sendSyncDocInfo();
         this.document = await this.ds.docSelect(event.data.doc);
         this.document.setFabCanvas(this.fabCanvas);
         this.document.setZoom(this.document.zoom);
@@ -73,7 +80,7 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.eventbus.media$.subscribe((event: IEventType) => {
+    this.mediaEvent = this.eventbus.media$.subscribe((event: IEventType) => {
       const { type } = event;
       if ( type === EventType.media_newPeer ) {
         if ( this.classroom.bClassStarter && document ) {
@@ -82,6 +89,12 @@ export class DocumentComponent implements OnInit, AfterViewInit {
       }
     });
 
+  }
+
+  ngOnDestroy() {
+    this.logger.debug('Document component ngOnDestory');
+    this.documentEvent.unsubscribe();
+    this.mediaEvent.unsubscribe();
   }
 
   async claInit() {

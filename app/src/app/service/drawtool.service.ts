@@ -62,7 +62,7 @@ export class DrawtoolService {
     this.setupTool();
   }
 
-  private setupTool() {
+  setupTool() {
     switch (this.selectedTool) {
       case DrawtoolType.text :
         this.setDrawText();

@@ -1,11 +1,11 @@
 <div class="container" *ngIf="profile.privilege.classControl">
   <ion-item color="none">
-    <ion-button fill="clear" (click)="dc.selectedDoc.prevPage()" 
+    <ion-button fill="clear" (click)="prevPage()" 
       [disabled]="dc.selectedDoc?.disable || dc.selectedDoc?.pageNum === 1">
       <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
     </ion-button>
     <ion-label>{{dc.selectedDoc?.pageNum}} / {{dc.selectedDoc?.numPages}}</ion-label>
-    <ion-button fill="clear" (click)="dc.selectedDoc.nextPage()" 
+    <ion-button fill="clear" (click)="nextPage()" 
       [disabled]="dc.selectedDoc?.disable || dc.selectedDoc?.pageNum === dc.selectedDoc?.numPages">
       <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
     </ion-button>
