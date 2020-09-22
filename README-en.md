@@ -7,6 +7,7 @@ WiLearning is an open source, free e-learning and conferencing system. WiLearnin
 * WhiteBoard & files, files are automatically transcoded in the web
 * Realtime brush-courseware annotation, add content, and share to other participants
 * Document preview , display annotation in preview
+* Export document, export document to pdf include brush & annotation
 * Support multiple rooms at the same time, the number of participants in one room is not limited, depends on the hardware conditions
 * Support Chinese and English
 * Automatic recovery when switching network
