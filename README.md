@@ -13,16 +13,15 @@ WiLearning 是一个开源、免费的在线课堂及视频会议系统，具备
 * 课堂信息、网络信息等提示
 * 同时支持多个房间 - 可支持任意多个房间，每个房间参与人数不限定，最终取决于硬件条件
 * 中英文切换 - 根据浏览器设置自动选择语言，也可以手动切换
-* 全终端支持 - 支持PC/Android/IOS平台，自动适配终端环境
+* 全终端支持 - 支持Windows/Mac/Android/IOS平台，支持Chrome/Firfox/Safari浏览器，自动适配终端环境
 * 支持在微信中使用（Android）
 
 WiLearning使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaSoup开发,App端使用Angular + Ionic.
 
 # 安装
 * 服务器及客户端代码支持部署在Linux/Mac操作系统,要求Nodejs版本大于v12
-* 支持在Windows/Linux/Mac等操作系统使用Chrome/FireFox/Safari等浏览器打开Web客户端
 
-#  代码
+# 代码
 ```
 git clone https://github.com/wistingcn/WiLearning
 ```
