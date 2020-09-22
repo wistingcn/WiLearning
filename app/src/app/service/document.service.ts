@@ -278,7 +278,7 @@ export class DocumentService {
       .toPromise();
   }
 
-  async docSelect(doc: WlDocument) {
+  docFindOpened(doc: WlDocument): WlDocs | null {
     let docInfo: WlDocs = null;
     this.docsMap.forEach((value, key) => {
       if (value.id === doc.id) {
@@ -286,6 +286,11 @@ export class DocumentService {
       }
     });
 
+    return docInfo;
+  }
+
+  async docSelect(doc: WlDocument) {
+    let docInfo = this.docFindOpened(doc);
     if (docInfo) {
       this.logger.debug('found docInfo: ', docInfo);
       this.selectedDoc = docInfo;

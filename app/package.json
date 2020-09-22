@@ -46,6 +46,7 @@
     "debug": "^4.1.1",
     "fabric": "^3.6.3",
     "hark": "^1.2.3",
+    "jspdf": "^2.1.1",
     "mediasoup-client": "^3.6.12",
     "pdfjs-dist": "^2.4.456",
     "rxjs": "^6.5.4",

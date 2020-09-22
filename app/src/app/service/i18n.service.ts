@@ -70,6 +70,7 @@ export class I18nService {
     addFile: 'Add File',
     select: 'Select',
     empty: 'Empty',
+    export: 'Export',
 
     loginErrorRoomNotExist: 'Room do not existed!',
     loginErrorPassword: 'Password error!',
@@ -139,6 +140,7 @@ export class I18nService {
     addFile: '添加文件',
     select: '选择',
     empty: '没有文件',
+    export: '导出',
 
     loginErrorRoomNotExist: '房间不存在,请先创建房间。',
     loginErrorPassword: '登录密码错误！',

@@ -5,8 +5,10 @@ import { DocumentService } from '../../service/document.service';
 import { ProfileService } from '../../service/profile.service';
 import { WlhttpService } from '../../service/wlhttp.service';
 import { DocImagesUrl } from '../../config';
-import { WlDocument } from '../../defines';
+import { WlDocument, getImageMeta } from '../../defines';
 import { I18nService } from '../../service/i18n.service';
+import {fabric} from 'fabric';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-docselect',
@@ -120,5 +122,79 @@ export class DocselectComponent implements OnInit, AfterViewInit {
     });
 
     this.close();
+  }
+
+  async docExport() {
+    const docOpened = this.ds.docFindOpened(this.docSelected);
+    if (!docOpened) {
+      return;
+    }
+
+    const canvas = document.createElement('canvas');
+    const archor = document.createElement('a');
+    const fabCanvas = new fabric.Canvas(canvas);
+    const pdfdoc = new jsPDF();
+
+    let pageNum = 1;
+    do {
+      fabCanvas.clear();
+
+      const serial = docOpened.getSerialMap(pageNum);
+      if (serial) {
+        const serialObj = JSON.parse(serial);
+
+        let image = null;
+        if (serialObj.fabric.backgroundImage && serialObj.fabric.backgroundImage.src) {
+          const src = serialObj.fabric.backgroundImage.src;
+          image = await new Promise(resolve => fabric.Image.fromURL(src, resolve, {crossOrigin: 'anonymous'})) as fabric.Image;
+          delete serialObj.fabric.backgroundImage;
+        }
+
+        console.log('serial data: %s', JSON.stringify(serialObj));
+
+        await new Promise(resolve => fabCanvas.loadFromJSON(serialObj.fabric, resolve));
+        if (image) {
+          await new Promise(resolve => fabCanvas.setBackgroundImage(image, resolve));
+        }
+        fabCanvas.setHeight(serialObj.canvas.height).setWidth(serialObj.canvas.width);
+      } else {
+        const path = docOpened.getPagePath(pageNum);
+        if (path) {
+          const image = await getImageMeta(path);
+          fabCanvas.setWidth(image.width).setHeight(image.height);
+          await new Promise(resolve => fabCanvas.setBackgroundImage(path, resolve, {crossOrigin: 'anonymous'}));
+        }
+      }
+
+      fabCanvas.renderAll();
+      const img = fabCanvas.toDataURL({
+        format: 'png',
+        width: fabCanvas.width,
+        height: fabCanvas.height,
+      });
+
+      this.logger.debug(`canvas : ${fabCanvas.width} * ${fabCanvas.height}, pdf: ${pdfdoc.internal.pageSize.getWidth()} * ${pdfdoc.internal.pageSize.getHeight()}`);
+      const height = fabCanvas.height / fabCanvas.width  * pdfdoc.internal.pageSize.getWidth();
+
+      pdfdoc.addImage({
+        imageData: img,
+        x: 0,
+        y: 0,
+        width: pdfdoc.internal.pageSize.getWidth(),
+        height,
+      });
+
+      this.message = `${this.i18n.lang.export} ${pageNum}/${docOpened.numPages}`;
+      pageNum++;
+      if (pageNum > docOpened.numPages) {
+        this.logger.debug(`finish export: ${docOpened.fileName}`);
+        this.message = '';
+        const filename = docOpened.fileName.slice(0, docOpened.fileName.lastIndexOf('.')) + '-' + Date.now() + '.pdf';
+        pdfdoc.save(filename);
+        break;
+      } else {
+        pdfdoc.addPage();
+      }
+    } while (true);
   }
 }

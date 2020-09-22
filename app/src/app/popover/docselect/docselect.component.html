@@ -27,6 +27,9 @@
       <ion-label>{{message}}</ion-label>
     </ion-buttons>
     <ion-buttons slot="end">
+      <ion-button (click)="docExport()" [disabled]="!docSelected || !docSelected?.opened">
+        {{i18n.lang.export}}
+      </ion-button>
       <ion-button (click)="docOpen()" [disabled]="!docSelected">
         {{i18n.lang.select}}
       </ion-button>
