@@ -1,4 +1,7 @@
+![Wi2_Whiteboard](res/wi2.gif)
+----
 [Demo](https://rtc.liweix.com/admin)
+
 # WiLearning
 WiLearning is an open source, free e-learning and conferencing system. WiLearning uses WebRTC technology, The server side uses Typescript + Nodejs + MediaSoup and client side uses Angular + Ionic, WiLearning has the following features:
 * Multi-person video conference,or text interaction
