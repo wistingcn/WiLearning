@@ -1,5 +1,6 @@
+![Wi2_Whiteboard](res/wi2.gif)
+----
 [English](README-en.md)
-
 [演示系统](https://rtc.liweix.com/admin)
 # WiLearning
 WiLearning 是一个开源、免费的在线课堂及视频会议系统，具备以下功能：
