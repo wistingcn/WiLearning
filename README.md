@@ -23,6 +23,7 @@ WiLearning使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaS
 
 # 安装
 * 服务器及客户端代码支持部署在Linux/Mac操作系统,要求Nodejs版本大于v12
+* 服务器主机有公网IP + 域名 + SSL证书
 
 # 代码
 ```
@@ -65,12 +66,6 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ## 方法二： 直接运行start.sh(使用默认证书)
 ```
 ./start.sh
-```
-
-# 开启BBR拥塞控制
-服务器端执行(linux kernel > 4.9):
-```
-wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 ```
 
 # 浏览器访问

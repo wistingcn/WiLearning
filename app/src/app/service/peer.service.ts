@@ -288,13 +288,12 @@ export class PeerService {
       tmpStreams[0].size = 12;
       this.cameraStreams.push(tmpStreams);
     } else {
-      const rowNumber = Math.floor(tmpStreams.length / 2);
-      for (let i = 0; i < rowNumber; i++) {
-        this.cameraStreams.push([tmpStreams[i], tmpStreams[i + 1]]);
-      }
-
-      if (tmpStreams.length > rowNumber * 2 ) {
-        this.cameraStreams.push([tmpStreams[tmpStreams.length - 1]]);
+      for (let i = 0 ; i < tmpStreams.length ; i++ ) {
+        if ( i % 2 === 0 ) {
+          this.cameraStreams.push([tmpStreams[i]]);
+        } else {
+          this.cameraStreams[this.cameraStreams.length - 1].push(tmpStreams[i]);
+        }
       }
     }
 
