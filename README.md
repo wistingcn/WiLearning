@@ -68,6 +68,12 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ./start.sh
 ```
 
+## 后台运行
+使用pm2后台运行：
+```
+npx pm2 start start.sh
+```
+
 # 浏览器访问
 WiLearning 支持Chrome、FireFox、Safari浏览器，推荐使用最新版本的Chrome浏览器。
 * 在浏览器中打开admin地址

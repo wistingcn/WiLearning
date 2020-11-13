@@ -50,6 +50,11 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ./start.sh
 ```
 
+* run with pm2
+```
+npx pm2 start start.sh
+```
+
 # enable google bbr 
 run the follow command line in server console(linux kernel > 4.9):
 ```
