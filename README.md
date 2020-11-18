@@ -93,3 +93,4 @@ https://[你的公网IP地址]/admin/
 
 # WiLearning 交流及技术支持
 * 加微信：bjliwei，备注：进群，我拉你入微信群
+* 加QQ群：1043056267
