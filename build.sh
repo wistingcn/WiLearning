@@ -1,8 +1,8 @@
 #! /bin/sh
 
-if command -v cnpm &> /dev/null; then
+if command -v cnpm > /dev/null 2>&1; then
 	alias npm_command='cnpm'
-elif command -v npm &> /dev/null; then
+elif command -v npm > /dev/null 2>&1; then
 	alias npm_command='npm'
 fi
 
@@ -19,8 +19,8 @@ if [ "$node_version" \< "v12" ]; then
 	exit -1;
 fi
 
-mkdir dist
-mkdir -p /var/run/wilearning/public/
+mkdir -p dist
+#mkdir -p /var/run/wilearning/public/
 
 # build server
 build_server() {
@@ -37,7 +37,7 @@ build_server() {
 	fi
 
 	cp -a dist/* ../dist/
-	ln -s `pwd`/node_modules ../dist/
+	ln -s $PWD/node_modules ../dist/
 	cd ..
 }
 
@@ -76,7 +76,7 @@ build_admin() {
 case "$1" in
 	all)
 		rm -rf dist/
-		mkdir dist
+		mkdir -p dist
 		build_server
 		build_admin
 		build_app
