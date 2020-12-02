@@ -63,6 +63,9 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 
 # 如果获取公网IP地址失败,则可以使用--publicIp 手动提供公网IP地址
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --publicIp x.x.x.x
+
+# 默认使用网卡名称 eth0 ，如果你的网卡名不同，须用 --eth 指定
+node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --eth <ifname>
 ```
 
 ## 方法二： 直接运行start.sh(使用默认证书)
