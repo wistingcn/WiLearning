@@ -39,11 +39,11 @@ export class SettingComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.media.enumerateDevies();
-    if (!this.profile.mainAudioDeviceId) {
+    if (!this.profile.mainAudioDeviceId && typeof this.media.audioDevices[0] !== 'undefined') {
       this.profile.mainAudioDeviceId = this.media.audioDevices[0].deviceId;
       this.selectedAudioDevice = this.profile.mainAudioDeviceId;
     }
-    if (!this.profile.mainVideoDeviceId) {
+    if (!this.profile.mainVideoDeviceId && typeof this.media.videoDevices[0] !== 'undefined') {
       this.profile.mainVideoDeviceId = this.media.videoDevices[0].deviceId;
       this.selectedVideoDevice = this.profile.mainVideoDeviceId;
     }
