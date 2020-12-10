@@ -26,12 +26,13 @@ WiLearning使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaS
 * 要求Nodejs版本大于v12
 * 理论上支持部署在Linux/Mac操作系统
 * 服务器主机有公网IP + 域名 + SSL证书
+* 客户端连接服务器地址定义在 app/src/app/config.ts ，编译代码前请先修改服务器地址，连接到默认地址将会出现“房间不存在”的错误！
+* 服务器配置文件地址定义在 server/config/config.ts, 里面包含了端口设置等服务器相关的配置
 
 # 代码
 ```
 git clone https://github.com/wistingcn/WiLearning
 ```
-* 注意：客户端连接服务器地址定义在 app/src/app/config.ts ，编译代码前请先修改服务器地址，连接到默认地址将会出现“房间不存在”的错误！
 
 ## 安装cnpm
 ```
