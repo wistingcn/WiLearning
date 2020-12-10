@@ -45,6 +45,10 @@ node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.
 ```
 node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --publicIp x.x.x.x
 ```
+* ```eth0``` is used as default interface name. If you have a different interface name, you must specify it using ```--eth```
+```
+node server.js --cert ../certs/rtc.liweix.com.pem --key ../certs/rtc.liweix.com.key --eth <ifname>
+```
 * Or you can run start.sh with default SSL certificate
 ```
 ./start.sh
