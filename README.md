@@ -29,6 +29,10 @@ WiLearning使用了WebRTC技术，服务器端使用Typescript + Nodejs + MediaS
 * 客户端连接服务器地址定义在 app/src/app/config.ts ，编译代码前请先修改服务器地址，连接到默认地址将会出现“房间不存在”的错误！
 * 服务器配置文件地址定义在 server/config/config.ts, 里面包含了端口设置等服务器相关的配置
 
+# 常见问题
+* "房间不存在" --- 在app/src/app/config.ts修改服务器地址，重新编译app
+* "不显示视频" --- 网络配置错误，修改start.sh文件，将默认使用的eth0改成可用的网卡名
+
 # 代码
 ```
 git clone https://github.com/wistingcn/WiLearning
