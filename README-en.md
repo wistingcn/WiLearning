@@ -78,3 +78,5 @@ https://[your public ip]/admin/
 * Use it, and report Bug!
 * Tell me you feeling and your want.
 * Give it a STAR
+
+![Give me a cup of coffee](res/appreciate.png)
