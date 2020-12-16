@@ -1,5 +1,3 @@
-![Wi2_Whiteboard](res/wi2.gif)
-----
 [Demo](https://rtc.liweix.com/admin)
 
 # WiLearning

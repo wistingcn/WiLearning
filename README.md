@@ -1,5 +1,3 @@
-![Wi2_Whiteboard](res/wi2.gif)
-----
 [English](README-en.md)
 
 [演示系统](https://rtc.liweix.com/admin)
