@@ -6,7 +6,7 @@ elif command -v npm > /dev/null 2>&1; then
 	alias npm_command='npm'
 fi
 
-npm_command -v &> /dev/null
+npm_command -v > /dev/null
 if [  $? != 0 ];then
 	echo "Please install nodejs first!"
 	exit -1;
@@ -14,10 +14,13 @@ fi
 
 node_version=$(node -v)
 echo "Node version: " $node_version
-if [ "$node_version" \< "v12" ]; then
+greater=$(echo "$node_version v12"|tr " " "\n"|sort -r|head -n 1)
+
+if [ $greater = "v12" ];then
 	echo "Please update nodejs, nodejs > v12 is required!"
-	exit -1;
+	exit;
 fi
+
 
 mkdir -p dist
 #mkdir -p /var/run/wilearning/public/

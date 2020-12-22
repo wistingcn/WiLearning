@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Wisting Team. <linewei@gmail.com>
+ * Copyright (c) 2020 liwei<linewei@gmail.com>
  *
  * This program is free software: you can use, redistribute, and/or modify
  * it under the terms of the GNU Affero General Public License, version 3
@@ -12,6 +12,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 export const emoji = [
       {
         name: 'face-positive',

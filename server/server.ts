@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Wisting Team. <linewei@gmail.com>
+ * Copyright (c) 2020 liwei<linewei@gmail.com>
  *
  * This program is free software: you can use, redistribute, and/or modify
  * it under the terms of the GNU Affero General Public License, version 3
@@ -46,7 +46,7 @@ const compression = require('compression');
 const morgan = require('morgan');
 
 yargs.usage('Usage: $0 --cert [file] --key [file] --eth [ethname] --publicIp [ipAdress]')
-.version('Wisting-meeting v1.0')
+.version('wilearning v2.0')
 .demandOption(['cert', 'key'])
 .option('cert', {describe : 'ssl certificate file'})
 .option('key', {describe: 'ssl certificate key file'})
