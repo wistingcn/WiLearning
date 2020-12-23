@@ -479,8 +479,10 @@ export class PeerService {
 
     if ( !this.profile.mainAudioDeviceId || !this.profile.mainAudioDeviceId) {
       await this.media.enumerateDevies();
-      this.profile.mainVideoDeviceId = this.media.videoDevices[0].deviceId;
-      this.profile.mainAudioDeviceId = this.media.audioDevices[0].deviceId;
+      if (typeof this.media.videoDevices[0] !== 'undefined')
+          this.profile.mainVideoDeviceId = this.media.videoDevices[0].deviceId;
+      if (typeof this.media.audioDevices[0] !== 'undefined')
+          this.profile.mainAudioDeviceId = this.media.audioDevices[0].deviceId;
     }
 
     this.hasInit = true;

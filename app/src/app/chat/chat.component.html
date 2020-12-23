@@ -1,4 +1,4 @@
-<ion-list>
+<div class="chat-list" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     <ng-container *ngFor="let msg of chat.messages">
         <ion-item *ngIf="msg.who==='me'" lines="none">
             <div slot="end" class="messageMeStyle">
@@ -20,4 +20,4 @@
 
         </ion-item>
     </ng-container>
-</ion-list>
+</div>
