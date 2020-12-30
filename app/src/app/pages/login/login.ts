@@ -52,9 +52,14 @@ export class LoginPage {
 
       this.roomInit = this.room = url.get('room');
       this.usernameInit = this.username = url.get('user');
+      this.password = url.get('password');
 
-      this.logger.debug('url: %s, role: %s, room: %s, user: %s', this.auth.redirectUrl,
-        this.roler, this.room, this.username);
+      this.logger.debug('url: %s, role: %s, room: %s, user: %s, password: %s', this.auth.redirectUrl,
+        this.roler, this.room, this.username, this.password);
+
+     if(this.room && this.username && this.password) {
+        this.login();
+     } 
     }
   }
 
@@ -62,6 +67,11 @@ export class LoginPage {
     this.submitted = true;
 
     if (form.valid) {
+      this.login();
+    }
+  }
+
+  login() {
       const username = this.username.trim();
       const password = this.password.trim();
       const roler = this.roler;
@@ -78,7 +88,6 @@ export class LoginPage {
           this.logger.error(err);
           this.loginError(err);
       });
-    }
   }
 
   async loginError(error) {
