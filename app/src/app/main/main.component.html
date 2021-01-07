@@ -91,17 +91,17 @@
       <ion-footer class="ion-no-border">
         <ion-toolbar>
           <ion-buttons class="ion-justify-content-around">
-            <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="produceLocalCamera()">
+            <ion-button *ngIf="!peer.isEnableCamera(profile.me)" (click)="produceLocalCamera();videoBtn.disabled=true" #videoBtn>
               <ion-icon slot="icon-only" src="assets/img/videocam-off.svg"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera()" >
+            <ion-button *ngIf="peer.isEnableCamera(profile.me)" (click)="peer.stopLocalCamera();videoBtn.disabled=false" >
               <ion-icon slot="icon-only" name="videocam"></ion-icon>
             </ion-button>
 
-            <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="produceLocalMic()">
+            <ion-button *ngIf="!peer.isEnableMic(profile.me)" (click)="produceLocalMic();micBtn.disabled = true" #micBtn>
               <ion-icon slot="icon-only" name="mic-off"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic()">
+            <ion-button *ngIf="peer.isEnableMic(profile.me)" (click)="peer.stopLocalMic();micBtn.disabled=fasle">
               <ion-icon slot="icon-only" name="mic"></ion-icon>
             </ion-button>
 
