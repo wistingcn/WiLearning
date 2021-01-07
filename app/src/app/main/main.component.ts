@@ -53,6 +53,8 @@ export class MainComponent implements OnInit {
   popoverMore = null;
   popoverInformation = null;
 
+  buttonLock = false;
+
   constructor(
     public profile: ProfileService,
     public peer: PeerService,
@@ -258,6 +260,8 @@ export class MainComponent implements OnInit {
   }
 
   async produceLocalCamera() {
+    this.buttonLock = true;
+
     if (this.classroom.mutedVideo && this.profile.me.roler !== ROLE.MASTER) {
       const alert = await this.alert.create({
         message: this.i18n.lang.mutedPrompt,
@@ -271,11 +275,15 @@ export class MainComponent implements OnInit {
 
       await alert.present();
     } else {
-      this.peer.produceLocalCamera();
+      await this.peer.produceLocalCamera();
     }
+
+    this.buttonLock = false;
   }
 
   async produceLocalMic() {
+    this.buttonLock = true;
+
     if (this.classroom.mutedAudio && this.profile.me.roler !== ROLE.MASTER) {
       const alert = await this.alert.create({
         message: this.i18n.lang.mutedPrompt,
@@ -289,7 +297,9 @@ export class MainComponent implements OnInit {
 
       await alert.present();
     } else {
-      this.peer.produceLocalMic();
+      await this.peer.produceLocalMic();
     }
+
+    this.buttonLock = false;
   }
 }
