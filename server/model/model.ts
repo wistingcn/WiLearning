@@ -28,7 +28,7 @@ export class ClaRoom extends BaseEntity{
     @Column()
     attendeePassword: string;
 
-    @Column()
+    @Column("text")
     description: string;
 
     @Column()
